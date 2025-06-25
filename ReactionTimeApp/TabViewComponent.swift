@@ -8,23 +8,27 @@
 import SwiftUI
 
 struct TabViewComponent: View {
+    var tabSelectionColor: Color = .blue
+    @State var tabSelection: Int = 1
     var body: some View {
-        TabView {
-            Tab("Calender", systemImage: "calendar") {
+
+        TabView(selection: $tabSelection) {
+            Tab("Calender", systemImage: "calendar", value: 0) {
                 testView1
             }
-            Tab("Test", systemImage: "bolt") {
+            Tab("Test", systemImage: "bolt", value: 1) {
 
             }
-            Tab("Graph", systemImage: "chart.bar.xaxis") {
+            Tab("Graph", systemImage: "chart.bar.xaxis", value: 2) {
 
             }
-            Tab("Profile", systemImage: "person.crop.circle") {
+            Tab("Profile", systemImage: "person.crop.circle", value: 3) {
 
             }
-        }
+        }.tint(tabSelectionColor)
 
     }
+
 
     var testView1: some View {
         Text("TestView1")
