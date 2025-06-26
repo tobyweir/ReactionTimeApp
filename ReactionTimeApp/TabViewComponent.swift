@@ -14,10 +14,10 @@ struct TabViewComponent: View {
 
         TabView(selection: $tabSelection) {
             Tab("Calender", systemImage: "calendar", value: 0) {
-                testView1
+                CalendarTotalView()
             }
             Tab("Test", systemImage: "bolt", value: 1) {
-
+                testView1
             }
             Tab("Graph", systemImage: "chart.bar.xaxis", value: 2) {
 
