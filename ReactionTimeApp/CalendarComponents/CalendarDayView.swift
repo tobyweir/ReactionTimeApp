@@ -9,8 +9,39 @@ import SwiftUI
 
 struct CalendarDayView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .aspectRatio(1/2, contentMode: .fit)
+        ZStack {
+            dayViewBackground()
+            dayViewDate()
+
+        }
+        .aspectRatio(1 , contentMode: .fit)
+
+        }
+
+}
+
+struct dayViewBackground: View {
+    var body: some View {
+        Rectangle()
+            .foregroundStyle(.white)
+            .padding(10)
+            .background(alignment: .center) {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(.blue)
+
+            }
+    }
+}
+
+struct dayViewDate: View {
+    var body: some View {
+        Text("tempDate")
+    }
+}
+
+struct dayViewResults: View {
+    var body: some View {
+        Text("tempContents")
     }
 }
 
