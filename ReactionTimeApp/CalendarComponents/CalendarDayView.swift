@@ -8,23 +8,26 @@
 import SwiftUI
 
 struct CalendarDayView: View {
+    var dayType: dayType
     var body: some View {
         ZStack {
             dayViewBackground()
-            dayViewDate()
-
+            HStack {
+                dayViewDate()
+                //dayViewResults()
+            }
         }
-        .aspectRatio(1 , contentMode: .fit)
+        .aspectRatio(1/3 , contentMode: .fit)
 
         }
 
 }
 
-struct dayViewBackground: View {
+private struct dayViewBackground: View {
     var body: some View {
         Rectangle()
             .foregroundStyle(.white)
-            .padding(10)
+            .padding(7)
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundStyle(.blue)
@@ -33,18 +36,18 @@ struct dayViewBackground: View {
     }
 }
 
-struct dayViewDate: View {
+private struct dayViewDate: View {
     var body: some View {
-        Text("tempDate")
+        Text("8")
     }
 }
 
-struct dayViewResults: View {
+private struct dayViewResults: View {
     var body: some View {
         Text("tempContents")
     }
 }
 
 #Preview {
-    CalendarDayView()
+    CalendarDayView(dayType: .weekday)
 }
