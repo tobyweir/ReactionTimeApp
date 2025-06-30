@@ -9,7 +9,7 @@ import Foundation
 
 struct TestLogic {
     var recentResult: Float? = nil
-    let timer: Timer = Timer()
+    let timer: TestTimer = TestTimer()
 
 
     //will handle the logic of what state the timer is in when the user presses the button
