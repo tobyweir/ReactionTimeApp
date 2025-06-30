@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TimerView: View {
-    let timer = TestTimer()
+    @ObservedObject var timer = TestTimer()
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
         Text("state -> \(timer.testState)")
