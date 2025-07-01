@@ -7,8 +7,8 @@
 
 import Foundation
 
-class TestTimer: ObservableObject {
-    @Published var testState: TestState = .dormant
+@Observable class TestTimer {
+    var testState: TestState = .dormant
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
     var recentReaction: TimeInterval? = nil

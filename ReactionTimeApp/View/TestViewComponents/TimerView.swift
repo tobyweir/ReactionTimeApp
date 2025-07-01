@@ -8,26 +8,18 @@
 import SwiftUI
 
 struct TimerView: View {
-    @StateObject var timer = TestTimer()
+    @State var model: Controller = Controller()
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        Text("\(String(describing: timer.recentReaction))")
-        Text("state -> \(timer.testState)")
+        Text("\(String(describing: model.recentResult))")
+        Text("state -> \(model.testState)")
         timerButton
     }
 
+
     var timerButton: some View {
         Button {
-            if (timer.testState == .dormant) {
-                timer.waitRandomTime()
-            }
-            else if (timer.testState == .waitingForUser) {
-                timer.recordUserReaction()
-            }
-            else if (timer.testState == .waitingRandomTime) {
-                timer.testState = .falseStart
-            }
-
+            model.pressTimerButton()
         } label: {
             Text("Press here to wait random time")
         }

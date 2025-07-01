@@ -8,10 +8,15 @@
 import Foundation
 
 struct TestLogic {
-    var recentResult: Float? = nil
     var timer: TestTimer = TestTimer()
 
+    var recentResult: TimeInterval? {
+        timer.recentReaction
+    }
 
+    var testState: TestState {
+        timer.testState
+    }
     //will handle the logic of what state the timer is in when the user presses the button
     //and how to handle that input
     //if the test is inactive then we want to display to the user to press and start a test, and a tapGesture would start the test
@@ -22,9 +27,18 @@ struct TestLogic {
     //if the test is falseStart then we want to tell the user they pressed too soon, pressing again will start a new test
     //
     //if the test is ended we want to display the result, pressing again will start a new test
+    
     mutating func pressTimerButton () {
-
+        if (timer.testState == .dormant || timer.testState == .falseStart) {
+            timer.waitRandomTime()
+        }
+        else if (timer.testState == .waitingForUser) {
+            timer.recordUserReaction()
+        }
+        else if (timer.testState == .waitingRandomTime) {
+            timer = TestTimer()
+            timer.testState = .falseStart
+        }
     }
-
 
 }

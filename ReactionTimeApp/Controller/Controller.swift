@@ -7,10 +7,21 @@
 
 import Foundation
 
-class Controller: Observable {
-    @Published var testModel: TestLogic = TestLogic()
+@Observable class Controller {
+    var testModel: TestLogic = TestLogic()
+
+    var testState: TestState {
+        testModel.testState
+    }
+
+    var recentResult: TimeInterval? {
+        testModel.recentResult
+    } //We will use a didSet here to send new results to the ResultStore, if the result is nil we will not send it
+
+
 
     func pressTimerButton () {
-        
+        testModel.pressTimerButton()
     }
+
 }
