@@ -10,17 +10,20 @@ import Foundation
 class TestTimer: ObservableObject {
     @Published var testState: TestState = .dormant
     var randomTimeInterval: Double = 0
-    var testStartTime = 0
-    var testEndTime = 0
-    var recentReaction = 0
+    var testStartTime: Date = Date.now
+    var recentReaction: TimeInterval? = nil
+    var minRandomWaitTime: Double
+    var maxRandomWaitTime: Double
 
     init() {
         self.testState = .dormant
+        self.minRandomWaitTime = 0.3
+        self.maxRandomWaitTime = 7.0
     }
 
 
     func resetRandomTimeInterval () {
-        randomTimeInterval = Double.random(in: 0.3..<7)
+        randomTimeInterval = Double.random(in: minRandomWaitTime..<maxRandomWaitTime)
     }
 
     func waitRandomTime () {
@@ -28,11 +31,14 @@ class TestTimer: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + randomTimeInterval) {
             if (self.testState == .waitingRandomTime) {
                 print("Timer fired!")
-                self.testStartTime = 1
+                self.testStartTime = Date.now
                 self.testState = .waitingForUser
             } else {
                 print("user must have false started")
-                self.testState = .dormant
+                //Option 1 -> have the loop check every half a second if there is a false start and cancel the timer
+                //Option 2 -> abandon this timer and create a new one, this would be done in TestLogic
+//                self.recentReaction = nil
+//                self.testState = .dormant
             }
         }
         resetRandomTimeInterval()
@@ -41,8 +47,7 @@ class TestTimer: ObservableObject {
     func recordUserReaction () {
         print("recording user reaction")
         if (testState == .waitingForUser) {
-            testEndTime = 1
-            recentReaction = testEndTime - testStartTime
+            recentReaction = Date().timeIntervalSince(testStartTime)
         }
         testState = .dormant
     }

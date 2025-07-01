@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct TimerView: View {
-    @ObservedObject var timer = TestTimer()
+    @StateObject var timer = TestTimer()
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("\(String(describing: timer.recentReaction))")
         Text("state -> \(timer.testState)")
         timerButton
     }

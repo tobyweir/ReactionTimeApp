@@ -9,7 +9,7 @@ import Foundation
 
 struct TestLogic {
     var recentResult: Float? = nil
-    let timer: TestTimer = TestTimer()
+    var timer: TestTimer = TestTimer()
 
 
     //will handle the logic of what state the timer is in when the user presses the button
@@ -22,7 +22,7 @@ struct TestLogic {
     //if the test is falseStart then we want to tell the user they pressed too soon, pressing again will start a new test
     //
     //if the test is ended we want to display the result, pressing again will start a new test
-    func pressTimerButton () {
+    mutating func pressTimerButton () {
 
     }
 

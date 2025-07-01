@@ -7,6 +7,10 @@
 
 import Foundation
 
-class Controller {
-    
+class Controller: Observable {
+    @Published var testModel: TestLogic = TestLogic()
+
+    func pressTimerButton () {
+        
+    }
 }
