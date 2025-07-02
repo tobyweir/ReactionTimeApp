@@ -8,13 +8,15 @@
 import Foundation
 
 @Observable class TestTimer {
-    var testState: TestState = .dormant
+    var testState: timerState = .dormant
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
     var recentReaction: TimeInterval? = nil
     var minRandomWaitTime: Double
     var maxRandomWaitTime: Double
 
+
+    
     init() {
         self.testState = .dormant
         self.minRandomWaitTime = 0.3
@@ -52,6 +54,10 @@ import Foundation
         testState = .dormant
     }
 
+    func getRecentResult() -> TimeInterval? {
+        recentReaction
+    }
+
 
 
 
@@ -60,7 +66,7 @@ import Foundation
 
 }
 
-enum TestState {
+enum timerState {
     case dormant
     case waitingForUser
     case waitingRandomTime

@@ -10,7 +10,7 @@ import Foundation
 @Observable class Controller {
     var testModel: TestLogic = TestLogic()
 
-    var testState: TestState {
+    var testState: timerState {
         testModel.testState
     }
 
