@@ -7,13 +7,16 @@
 
 import Foundation
 
-@Observable class TestTimer {
+@Observable class TestSession {
     var testState: timerState = .dormant
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
     var recentReaction: TimeInterval? = nil
     var minRandomWaitTime: Double
     var maxRandomWaitTime: Double
+    var maxResultCount: Int = 5
+    var sessionResults: [TimeInterval] = []
+    var sessionAverageResult: Double? = nil
 
 
     
@@ -71,4 +74,5 @@ enum timerState {
     case waitingForUser
     case waitingRandomTime
     case falseStart
+    case endOfSession
 }

@@ -8,32 +8,32 @@
 import Foundation
 
 struct TestLogic {
-    var timer: TestTimer = TestTimer()
+    var session: TestSession = TestSession()
 
     var sessionTestTotalCount: Int = 5
     var currentTestCount: Int = 0
 
 
     var recentResult: TimeInterval? {
-            timer.recentReaction
+            session.recentReaction
     }
 
     var recentSessionResult: Double? = nil
 
     var testState: timerState {
-        timer.testState
+        session.testState
     }
     
     mutating func pressTimerButton () {
-        if (timer.testState == .dormant || timer.testState == .falseStart) {
-            timer.waitRandomTime()
+        if (session.testState == .dormant || session.testState == .falseStart) {
+            session.waitRandomTime()
         }
-        else if (timer.testState == .waitingForUser) {
-            timer.recordUserReaction()
+        else if (session.testState == .waitingForUser) {
+            session.recordUserReaction()
         }
-        else if (timer.testState == .waitingRandomTime) {
-            timer = TestTimer()
-            timer.testState = .falseStart
+        else if (session.testState == .waitingRandomTime) {
+            session = TestSession()
+            session.testState = .falseStart
         }
     }
 
