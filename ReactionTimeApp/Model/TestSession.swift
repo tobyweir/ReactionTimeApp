@@ -7,18 +7,33 @@
 
 import Foundation
 
-@Observable class TestTimer {
-    var testState: TestState = .dormant
+@Observable class TestSession {
+    var testState: timerState = .dormant
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
     var recentReaction: TimeInterval? = nil
     var minRandomWaitTime: Double
     var maxRandomWaitTime: Double
+    var maxResultCount: Int = 5
+    var resultCount: Int = 0
+    var sessionResults: [TimeInterval] = []
+    var sessionAverageResult: Double? = nil
 
+
+    //this init is for creating a new session
     init() {
         self.testState = .dormant
         self.minRandomWaitTime = 0.3
         self.maxRandomWaitTime = 7.0
+    }
+
+    //this init is to be used to recreate a session that had a false start
+    init(results sessionResults: [TimeInterval], resultCount: Int) {
+        self.testState = .dormant
+        self.minRandomWaitTime = 0.3
+        self.maxRandomWaitTime = 7.0
+        self.sessionResults = sessionResults
+        self.resultCount = resultCount
     }
 
 
@@ -48,8 +63,29 @@ import Foundation
         print("recording user reaction")
         if (testState == .waitingForUser) {
             recentReaction = Date().timeIntervalSince(testStartTime)
+            if let result = recentReaction {
+                sessionResults += [result]
+                resultCount += 1
+            }
         }
-        testState = .dormant
+        if (resultCount == maxResultCount) {
+            calculateAverage()
+            testState = .endOfSession
+        } else {
+            testState = .dormant
+        }
+    }
+
+    func getRecentResult() -> TimeInterval? {
+        recentReaction
+    }
+
+    func calculateAverage() {
+        var totalTime: Double = 0
+        for result in sessionResults {
+            totalTime += result
+        }
+        sessionAverageResult = totalTime / Double (maxResultCount)
     }
 
 
@@ -60,9 +96,10 @@ import Foundation
 
 }
 
-enum TestState {
+enum timerState {
     case dormant
     case waitingForUser
     case waitingRandomTime
     case falseStart
+    case endOfSession
 }
