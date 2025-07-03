@@ -31,7 +31,8 @@ import Foundation
     }
 
     func saveSessionResult () {
-        if let _ = testModel.recentSessionResult {
+        if let average = testModel.recentSessionResult {
+            var result = Result(average: average)
             //store.saveResult(result)
         }
     }
