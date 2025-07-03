@@ -16,12 +16,24 @@ import Foundation
 
     var recentResult: TimeInterval? {
         testModel.recentResult
-    } //We will use a didSet here to send new results to the ResultStore, if the result is nil we will not send it
+    }
 
+    var resultCount: Int {
+        testModel.resultCount
+    }
 
+    var recentSessionResult: Double? {
+        testModel.recentSessionResult
+    }
 
     func pressTimerButton () {
         testModel.pressTimerButton()
+    }
+
+    func saveSessionResult () {
+        if let _ = testModel.recentSessionResult {
+            //store.saveResult(result)
+        }
     }
 
 }
