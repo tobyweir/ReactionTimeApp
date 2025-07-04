@@ -12,7 +12,12 @@ import Foundation
 //Will save results to file system as changes are made in the app (e.g a new result is recorded)
 //This store will also be responsible for sorting and filtering the results for use by Calendar and Graph views
 struct ResultStore {
-    var results: [Result]
+
+    var results: [Result] {
+        didSet {
+            saveToResultsToFile()
+        }
+    }
     let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResults")
 
     init () {
@@ -26,6 +31,12 @@ struct ResultStore {
         results = resultsFromFile
 
     }
+    //Computed Vars
+
+    var resultCount: Int {
+        results.count
+    }
+
     //Adding and Removing results
 
     mutating func add(_ result: Result) {
