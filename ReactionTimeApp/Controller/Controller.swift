@@ -9,6 +9,7 @@ import Foundation
 
 @Observable class Controller {
     var testModel: TestLogic = TestLogic()
+    var resultStore: ResultStore = ResultStore()
 
     var testState: timerState {
         testModel.testState
@@ -30,9 +31,10 @@ import Foundation
         testModel.pressTimerButton()
     }
 
-    func saveSessionResult () {
-        if let _ = testModel.recentSessionResult {
-            //store.saveResult(result)
+    func storeSessionResult () {
+        if let average = testModel.recentSessionResult {
+            let result = Result(average: average)
+            resultStore.add(result)
         }
     }
 
