@@ -28,6 +28,14 @@ struct ResultStore {
     }
     //Adding and Removing results
 
+    mutating func add(_ result: Result) {
+        results += [result]
+    }
+
+    mutating func delete(_ result: Result) {
+        results = results.filter({$0.id != result.id})
+    }
+
     //Returning selections of filtered results
 
 

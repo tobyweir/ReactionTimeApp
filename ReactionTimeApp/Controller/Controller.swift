@@ -34,7 +34,7 @@ import Foundation
     func storeSessionResult () {
         if let average = testModel.recentSessionResult {
             var result = Result(average: average)
-            //store.addResult(result)
+            resultStore.add(result)
         }
     }
 
