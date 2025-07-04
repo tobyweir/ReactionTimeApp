@@ -10,7 +10,7 @@ import Foundation
 //Simple Definition of what a result is,
 //To be used by Controller and ResultStore for storage
 //And to be displayed by Calendar and Graph views 
-struct Result {
+struct Result: Codable {
     var id = UUID()
     var average: Double
     var dateRecorded: Date = Date.now

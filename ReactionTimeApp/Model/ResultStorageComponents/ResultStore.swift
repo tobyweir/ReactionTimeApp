@@ -13,5 +13,27 @@ import Foundation
 //This store will also be responsible for sorting and filtering the results for use by Calendar and Graph views
 struct ResultStore {
     var results: [Result]
+    let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResults")
 
+    
+    func loadResultsFromFile () -> [Result] {
+        do {
+            let data = try Data(contentsOf: storageFilePath)
+            let results = try JSONDecoder().decode([Result].self, from: data)
+            return results
+        } catch {
+            print("Error loading results from file system: \(error)")
+        }
+        return []
+    }
+
+    func saveToResultsToFile () {
+        do {
+            let data = try JSONEncoder().encode(results)
+            try data.write(to: storageFilePath)
+        } catch {
+            print("Error saving results to file system: \(error)")
+        }
+    }
+	
 }

@@ -30,10 +30,10 @@ import Foundation
         testModel.pressTimerButton()
     }
 
-    func saveSessionResult () {
+    func storeSessionResult () {
         if let average = testModel.recentSessionResult {
             var result = Result(average: average)
-            //store.saveResult(result)
+            //store.addResult(result)
         }
     }
 
