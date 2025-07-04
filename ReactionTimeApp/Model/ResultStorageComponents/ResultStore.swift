@@ -15,7 +15,27 @@ struct ResultStore {
     var results: [Result]
     let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResults")
 
-    
+    init () {
+        var resultsFromFile: [Result] = []
+        do {
+            let data = try Data(contentsOf: storageFilePath)
+            resultsFromFile = try JSONDecoder().decode([Result].self, from: data)
+        } catch {
+            print("Error loading results from file system: \(error)")
+        }
+        results = resultsFromFile
+
+    }
+    //Adding and Removing results
+
+    //Returning selections of filtered results
+
+
+
+
+
+    //Saving and Loading
+
     func loadResultsFromFile () -> [Result] {
         do {
             let data = try Data(contentsOf: storageFilePath)
