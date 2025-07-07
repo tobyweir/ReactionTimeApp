@@ -13,6 +13,38 @@ struct TestView: View {
     }
 }
 
+
+struct EndOfSessionView: View {
+    var body: some View {
+
+    }
+}
+
+struct WaitingRandomTimeView: View {
+    var body: some View {
+
+    }
+}
+
+struct WaitingForUserView: View {
+    var body: some View {
+
+    }
+}
+
+struct DormantView: View {
+    var body: some View {
+
+    }
+}
+
+struct FalseStartView: View {
+    var body: some View {
+        
+    }
+}
+
+
 #Preview {
     TestView()
 }
