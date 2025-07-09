@@ -12,7 +12,7 @@ import Foundation
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
     var recentReaction: TimeInterval? = nil
-    var minRandomWaitTime: Double = 1.0
+    var minRandomWaitTime: Double = 0.4
     var maxRandomWaitTime: Double = 7.0
     var maxResultCount: Int = 5
     var resultCount: Int = 0

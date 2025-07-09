@@ -41,6 +41,7 @@ struct EndOfSessionView: View {
     var model: Controller
     var body: some View {
         Text("Average Result: \(model.recentSessionResult!)")
+        Text("Press to Continue")
         saveButton
     }
 
