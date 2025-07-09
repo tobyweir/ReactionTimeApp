@@ -32,9 +32,10 @@ import Foundation
     }
 
     func storeSessionResult () {
-        if let average = testModel.recentSessionResult {
-            let result = Result(average: average)
+        if  testModel.recentSessionResult != nil && testModel.savedResult == false {
+            let result = Result(average: testModel.recentSessionResult!)
             resultStore.add(result)
+            testModel.savedResult = true
         }
     }
 

@@ -12,8 +12,8 @@ import Foundation
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
     var recentReaction: TimeInterval? = nil
-    var minRandomWaitTime: Double
-    var maxRandomWaitTime: Double
+    var minRandomWaitTime: Double = 1.0
+    var maxRandomWaitTime: Double = 7.0
     var maxResultCount: Int = 5
     var resultCount: Int = 0
     var sessionResults: [TimeInterval] = []
@@ -23,17 +23,15 @@ import Foundation
     //this init is for creating a new session
     init() {
         self.testState = .dormant
-        self.minRandomWaitTime = 0.3
-        self.maxRandomWaitTime = 7.0
+        resetRandomTimeInterval()
     }
 
     //this init is to be used to recreate a session that had a false start
     init(results sessionResults: [TimeInterval], resultCount: Int) {
         self.testState = .dormant
-        self.minRandomWaitTime = 0.3
-        self.maxRandomWaitTime = 7.0
         self.sessionResults = sessionResults
         self.resultCount = resultCount
+        resetRandomTimeInterval()
     }
 
 

@@ -12,7 +12,7 @@ struct TestLogic {
     var sessionTestTotalCount: Int = 5
     var currentTestCount: Int = 0
     var recentSessionResult: Double? = nil
-
+    var savedResult: Bool = false
     var testState: timerState {
         session.testState
     }
@@ -31,6 +31,7 @@ struct TestLogic {
         }
         else if (session.testState == .endOfSession) {
             session = TestSession()
+            savedResult = false
         }
         else if (session.testState == .waitingForUser) {
             session.recordUserReaction()
