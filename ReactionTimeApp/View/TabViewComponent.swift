@@ -17,7 +17,7 @@ struct TabViewComponent: View {
                 testView1
             }
             Tab("Test", systemImage: "bolt", value: 1) {
-                TimerViewTemp()
+                TestView()
             }
             Tab("Graph", systemImage: "chart.bar.xaxis", value: 2) {
 

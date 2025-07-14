@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct WaitingRandomTimeView: View {
+    var model: Controller
     var body: some View {
-        Text("Wait")
+
+        Button {
+            model.pressTimerButton()
+        } label: {
+            Text("Wait")
+                .foregroundStyle(.white)
+                .padding([.top , .bottom] , 50)
+                .padding([.horizontal] , 125)
+                .background(RoundedRectangle(cornerRadius: 50)
+                    .foregroundStyle(.red))
+        }
     }
 }
 
 #Preview {
-    WaitingRandomTimeView()
+    WaitingRandomTimeView(model: Controller())
 }

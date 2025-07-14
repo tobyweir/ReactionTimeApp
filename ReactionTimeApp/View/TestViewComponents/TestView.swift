@@ -19,15 +19,15 @@ struct TestView: View {
 @ViewBuilder func getViewFromTestState(_ state: timerState, _ model: Controller) -> some View {
     switch (state) {
     case .dormant:
-        DormantView(prevResult: model.recentResult)
+        DormantView(model: model)
     case .endOfSession:
         EndOfSessionView(model: model)
     case .waitingForUser:
-        WaitingForUserView()
+        WaitingForUserView(model: model)
     case .waitingRandomTime:
-        WaitingRandomTimeView()
+        WaitingRandomTimeView(model: model)
     case .falseStart:
-        FalseStartView()
+        FalseStartView(model: model)
     }
 }
 

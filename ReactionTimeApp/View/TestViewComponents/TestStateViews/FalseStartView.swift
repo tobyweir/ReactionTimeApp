@@ -8,11 +8,33 @@
 import SwiftUI
 
 struct FalseStartView: View {
+    var model: Controller
     var body: some View {
-        Text("you pressed too early")
+        VStack(spacing: 30 ) {
+            VStack(spacing: 10) {
+                Text("You pressed too early")
+                Text("Wait for the button to turn green")
+            }
+
+            tryAgainButton
+        }
     }
+
+    var tryAgainButton: some View {
+        Button {
+            model.pressTimerButton()
+        } label: {
+            Text("Try Again")
+            .foregroundStyle(.black)
+            .padding(35)
+            .background(Circle()
+                .foregroundStyle(.yellow))
+        }
+    }
+
+
 }
 
 #Preview {
-    FalseStartView()
+    FalseStartView(model: Controller())
 }

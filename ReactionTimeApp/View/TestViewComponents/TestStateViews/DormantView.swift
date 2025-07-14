@@ -8,25 +8,44 @@
 import SwiftUI
 
 struct DormantView: View {
-    var prevResult: Double?
+    var model: Controller
     var body: some View {
-        if let _ = prevResult {
+        if let result = model.recentResult {
+            Text("\(result)").bold()
             continueTestView
         } else {
             startTestView
         }
     }
+
+
     @ViewBuilder
     var continueTestView: some View {
-        Text("Result: \(prevResult!)")
-        Text("continue the test")
+        Button {
+            model.pressTimerButton()
+        } label: {
+            Text("Continue")
+                .padding(35)
+                .foregroundStyle(.white)
+                .background(Circle().tint(.blue))
+        }
     }
+
     @ViewBuilder
     var startTestView: some View {
-        Text("start the test")
+        Button {
+            model.pressTimerButton()
+        } label: {
+            Text("Start")
+                .padding(35)
+                .foregroundStyle(.white)
+                .background(Circle().tint(.blue))
+        }
+
     }
 }
 
 #Preview {
-    DormantView()
+    DormantView(model: Controller()).continueTestView
+    DormantView(model: Controller()).startTestView
 }

@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct WaitingForUserView: View {
+    var model: Controller
     var body: some View {
-        Text("Press now!")
+        Button {
+            model.pressTimerButton()
+        } label: {
+            Text("Go!")
+                .foregroundStyle(.white)
+                .padding([.top , .bottom] , 50)
+                .padding([.horizontal] , 125)
+                .background(RoundedRectangle(cornerRadius: 50)
+                    .foregroundStyle(.green))
+        }
     }
 }
 
 #Preview {
-    WaitingForUserView()
+    WaitingForUserView(model: Controller())
 }

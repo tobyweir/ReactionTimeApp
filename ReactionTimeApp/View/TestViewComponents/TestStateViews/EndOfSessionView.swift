@@ -11,17 +11,38 @@ struct EndOfSessionView: View {
     var model: Controller
 
     var body: some View {
-        Text("Average Result: \(model.recentSessionResult)")
-        Text("Press to start a new test")
-        saveButton
+        if let sessionResult = model.recentSessionResult {
+            Text("Average Result: \(sessionResult)")
+        }
+        startAgainButton
+        HStack(spacing: 20) {
+            saveButton
+            shareButton
+        }
     }
+    var startAgainButton: some View {
+        Button {
+            model.pressTimerButton()
+        } label: {
+            Text("New Session")
+                .foregroundStyle(.white)
+                .padding(50)
+                .background(Circle()
+                    .foregroundStyle(.blue))
+        }
 
+    }
     var saveButton: some View {
         Button {
-            model.storeSessionResult()
+            model.storeSessionResult() } label: { model.testModel.savedResult ? Text("Saved") : Text("Save") }.disabled(model.testModel.savedResult)
+    }
+
+    var shareButton: some View {
+        Button {
+
         } label: {
-            model.testModel.savedResult ? Text("Saved") : Text("Save")
-        }.disabled(model.testModel.savedResult)
+            Text("Share")
+        }
 
     }
 }
