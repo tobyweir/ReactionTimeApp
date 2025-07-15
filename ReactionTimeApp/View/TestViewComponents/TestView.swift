@@ -12,11 +12,17 @@ struct TestView: View {
     @State var model: Controller = Controller()
 
     var body: some View {
-        getViewFromTestState(model.testState, model)
+        getTestButtonContentView(model.testState, model)
+
     }
 }
+//function to get extra information about the test based on the test state. e.g The previous result of the test, to be displayed above the button
+func getTestInfoView () {
 
-@ViewBuilder func getViewFromTestState(_ state: timerState, _ model: Controller) -> some View {
+}
+
+//function to get content displayed inside of the button dependant on the state of the test
+@ViewBuilder func getTestButtonContentView(_ state: timerState, _ model: Controller) -> some View {
     switch (state) {
     case .dormant:
         DormantView(model: model)

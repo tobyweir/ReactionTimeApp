@@ -37,6 +37,43 @@ struct TimerViewTemp: View {
     }
 }
 
+struct TESTER: View {
+    @Namespace var namespace
+
+    @State private var isFullScreen = false
+    @State private var stateNum = 0
+
+
+    var body: some View {
+        originalExample
+    }
+
+    var originalExample: some View {
+        VStack {
+            if !isFullScreen {
+                ZStack {
+                    AnimatableRoundedRectangle()
+                        .foregroundColor(.orange)
+                        .matchedGeometryEffect(id: "card", in: namespace)
+                        .frame(width: 100, height: 100)
+                }
+                .transition(.cornerRadius(identity: 60.0, active: 60.0))
+            } else {
+                ZStack {
+                    AnimatableRoundedRectangle()
+                        .foregroundColor(.orange)
+                        .matchedGeometryEffect(id: "card", in: namespace)
+                        .frame(maxWidth: .infinity, maxHeight: 300)
+                }
+                .transition(.cornerRadius(identity: 60.0, active: 60.0))
+            }
+        }
+        .animation(.linear, value: isFullScreen)
+        .onTapGesture { isFullScreen.toggle() }
+        .preferredColorScheme(.dark)
+    }
+}
+
 #Preview {
-    TimerViewTemp()
+   TESTER()
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FalseStartView: View {
+    @Namespace private var animation
     var model: Controller
     var body: some View {
         VStack(spacing: 30 ) {
@@ -17,12 +18,15 @@ struct FalseStartView: View {
             }
 
             tryAgainButton
+                .matchedGeometryEffect(id: "TestButton", in: animation)
         }
     }
 
     var tryAgainButton: some View {
         Button {
-            model.pressTimerButton()
+            withAnimation(.spring()) {
+                model.pressTimerButton()
+            }
         } label: {
             Text("Try Again")
             .foregroundStyle(.black)

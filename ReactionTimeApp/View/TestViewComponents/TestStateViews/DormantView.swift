@@ -9,12 +9,15 @@ import SwiftUI
 
 struct DormantView: View {
     var model: Controller
+    @Namespace private var animation
     var body: some View {
         if let result = model.recentResult {
             Text("\(result)").bold()
             continueTestView
+                .matchedGeometryEffect(id: "TestButton", in: animation)
         } else {
             startTestView
+                .matchedGeometryEffect(id: "TestButton", in: animation)
         }
     }
 
@@ -22,7 +25,9 @@ struct DormantView: View {
     @ViewBuilder
     var continueTestView: some View {
         Button {
-            model.pressTimerButton()
+            withAnimation(.spring()){
+                model.pressTimerButton()
+            }
         } label: {
             Text("Continue")
                 .padding(35)
@@ -34,7 +39,9 @@ struct DormantView: View {
     @ViewBuilder
     var startTestView: some View {
         Button {
-            model.pressTimerButton()
+            withAnimation(.spring()) {
+                model.pressTimerButton()
+            }
         } label: {
             Text("Start")
                 .padding(35)

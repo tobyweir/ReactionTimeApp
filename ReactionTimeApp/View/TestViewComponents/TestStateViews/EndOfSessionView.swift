@@ -9,12 +9,13 @@ import SwiftUI
 
 struct EndOfSessionView: View {
     var model: Controller
-
+    @Namespace private var animation
     var body: some View {
         if let sessionResult = model.recentSessionResult {
             Text("Average Result: \(sessionResult)")
         }
         startAgainButton
+            .matchedGeometryEffect(id: "TestButton", in: animation)
         HStack(spacing: 20) {
             saveButton
             shareButton
@@ -22,7 +23,9 @@ struct EndOfSessionView: View {
     }
     var startAgainButton: some View {
         Button {
-            model.pressTimerButton()
+            withAnimation(.spring()){
+                model.pressTimerButton()
+            }
         } label: {
             Text("New Session")
                 .foregroundStyle(.white)

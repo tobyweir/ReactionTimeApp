@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct WaitingForUserView: View {
+    @Namespace private var animation
     var model: Controller
     var body: some View {
         Button {
-            model.pressTimerButton()
+            withAnimation(.spring()){
+                model.pressTimerButton()
+            }
         } label: {
             Text("Go!")
                 .foregroundStyle(.white)
@@ -20,6 +23,7 @@ struct WaitingForUserView: View {
                 .background(RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(.green))
         }
+        .matchedGeometryEffect(id: "TestButton", in: animation)
     }
 }
 

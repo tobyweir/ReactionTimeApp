@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct WaitingRandomTimeView: View {
+    @Namespace private var animation
     var model: Controller
     var body: some View {
 
         Button {
-            model.pressTimerButton()
+            withAnimation(.spring()) {
+                model.pressTimerButton()
+            }
         } label: {
             Text("Wait")
                 .foregroundStyle(.white)
@@ -20,7 +23,7 @@ struct WaitingRandomTimeView: View {
                 .padding([.horizontal] , 125)
                 .background(RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(.red))
-        }
+        }.matchedGeometryEffect(id: "TestButton", in: animation)
     }
 }
 
