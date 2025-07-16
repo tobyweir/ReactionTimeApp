@@ -7,7 +7,7 @@
 
 import Foundation
 
-@Observable class TestSession {
+actor TestSession {
     var testState: timerState = .dormant
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
@@ -23,7 +23,6 @@ import Foundation
     //this init is for creating a new session
     init() {
         self.testState = .dormant
-        resetRandomTimeInterval()
     }
 
     //this init is to be used to recreate a session that had a false start
@@ -31,7 +30,6 @@ import Foundation
         self.testState = .dormant
         self.sessionResults = sessionResults
         self.resultCount = resultCount
-        resetRandomTimeInterval()
     }
 
 
@@ -39,9 +37,19 @@ import Foundation
         randomTimeInterval = Double.random(in: minRandomWaitTime..<maxRandomWaitTime)
     }
 
+    func getRandomTimeInterval () -> TimeInterval {
+        TimeInterval(Double.random(in: minRandomWaitTime..<maxRandomWaitTime))
+    }
+
     func waitRandomTime () {
         testState = .waitingRandomTime
-        DispatchQueue.main.asyncAfter(deadline: .now() + randomTimeInterval) {
+        updateStateAfterDelay()
+        resetRandomTimeInterval()
+    }
+
+    func updateStateAfterDelay () {
+        Task {
+            try await Task.sleep(nanoseconds: UInt64(getRandomTimeInterval() * 1_000_000_000))
             if (self.testState == .waitingRandomTime) {
                 print("Timer fired!")
                 self.testStartTime = Date.now
@@ -54,7 +62,6 @@ import Foundation
 //                self.testState = .dormant
             }
         }
-        resetRandomTimeInterval()
     }
 
     func recordUserReaction () {
@@ -86,7 +93,21 @@ import Foundation
         sessionAverageResult = totalTime / Double (maxResultCount)
     }
 
+    func getTestState () -> timerState {
+        testState
+    }
 
+    func getSessionAverage() -> Double? {
+        sessionAverageResult
+    }
+
+    func getResultCount() -> Int {
+        resultCount
+    }
+
+    func getSessionResults() -> [TimeInterval] {
+        sessionResults
+    }
 
 
 

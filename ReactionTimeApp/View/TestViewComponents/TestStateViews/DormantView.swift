@@ -14,10 +14,8 @@ struct DormantView: View {
         if let result = model.recentResult {
             Text("\(result)").bold()
             continueTestView
-                .matchedGeometryEffect(id: "TestButton", in: animation)
         } else {
             startTestView
-                .matchedGeometryEffect(id: "TestButton", in: animation)
         }
     }
 
@@ -25,9 +23,7 @@ struct DormantView: View {
     @ViewBuilder
     var continueTestView: some View {
         Button {
-            withAnimation(.spring()){
                 model.pressTimerButton()
-            }
         } label: {
             Text("Continue")
                 .padding(35)
@@ -39,9 +35,7 @@ struct DormantView: View {
     @ViewBuilder
     var startTestView: some View {
         Button {
-            withAnimation(.spring()) {
                 model.pressTimerButton()
-            }
         } label: {
             Text("Start")
                 .padding(35)

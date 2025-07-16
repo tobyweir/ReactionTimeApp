@@ -19,10 +19,6 @@ import Foundation
         testModel.recentResult
     }
 
-    var resultCount: Int {
-        testModel.resultCount
-    }
-
     var recentSessionResult: Double? {
         testModel.recentSessionResult
     }

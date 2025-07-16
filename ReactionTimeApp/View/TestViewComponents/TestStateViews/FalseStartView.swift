@@ -16,17 +16,13 @@ struct FalseStartView: View {
                 Text("You pressed too early")
                 Text("Wait for the button to turn green")
             }
-
             tryAgainButton
-                .matchedGeometryEffect(id: "TestButton", in: animation)
         }
     }
 
     var tryAgainButton: some View {
         Button {
-            withAnimation(.spring()) {
                 model.pressTimerButton()
-            }
         } label: {
             Text("Try Again")
             .foregroundStyle(.black)

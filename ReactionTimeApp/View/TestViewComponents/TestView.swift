@@ -22,7 +22,7 @@ func getTestInfoView () {
 }
 
 //function to get content displayed inside of the button dependant on the state of the test
-@ViewBuilder func getTestButtonContentView(_ state: timerState, _ model: Controller) -> some View {
+@MainActor @ViewBuilder func getTestButtonContentView(_ state: timerState, _ model: Controller) -> some View {
     switch (state) {
     case .dormant:
         DormantView(model: model)

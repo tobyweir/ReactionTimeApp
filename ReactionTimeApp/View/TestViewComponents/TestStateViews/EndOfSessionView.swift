@@ -15,7 +15,6 @@ struct EndOfSessionView: View {
             Text("Average Result: \(sessionResult)")
         }
         startAgainButton
-            .matchedGeometryEffect(id: "TestButton", in: animation)
         HStack(spacing: 20) {
             saveButton
             shareButton
@@ -23,9 +22,7 @@ struct EndOfSessionView: View {
     }
     var startAgainButton: some View {
         Button {
-            withAnimation(.spring()){
                 model.pressTimerButton()
-            }
         } label: {
             Text("New Session")
                 .foregroundStyle(.white)

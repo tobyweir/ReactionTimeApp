@@ -13,9 +13,7 @@ struct WaitingRandomTimeView: View {
     var body: some View {
 
         Button {
-            withAnimation(.spring()) {
-                model.pressTimerButton()
-            }
+            model.pressTimerButton()
         } label: {
             Text("Wait")
                 .foregroundStyle(.white)
@@ -23,7 +21,7 @@ struct WaitingRandomTimeView: View {
                 .padding([.horizontal] , 125)
                 .background(RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(.red))
-        }.matchedGeometryEffect(id: "TestButton", in: animation)
+        }
     }
 }
 
