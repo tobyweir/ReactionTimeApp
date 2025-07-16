@@ -81,6 +81,10 @@ actor TestSession {
         }
     }
 
+//    func pressTimerButton () {
+//        
+//    }
+
     func getRecentResult() -> TimeInterval? {
         recentReaction
     }

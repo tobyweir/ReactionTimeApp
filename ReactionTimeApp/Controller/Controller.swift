@@ -7,31 +7,37 @@
 
 import Foundation
 
+@MainActor
 @Observable class Controller {
     var testModel: TestLogic = TestLogic()
     var resultStore: ResultStore = ResultStore()
 
-    var testState: timerState {
-        testModel.testState
+
+    func getTestState () async -> timerState {
+        await testModel.getTestState()
     }
 
-    var recentResult: TimeInterval? {
-        testModel.recentResult
+    func getRecentResult () async -> TimeInterval? {
+        await testModel.getRecentResult()
     }
 
-    var recentSessionResult: Double? {
-        testModel.recentSessionResult
+
+    func getRecentSessionResult () async -> Double? {
+        await testModel.getRecentSessionResult()
     }
 
     func pressTimerButton () {
-        testModel.pressTimerButton()
+        Task {
+            await testModel.pressTimerButton()
+        }
     }
 
-    func storeSessionResult () {
-        if  testModel.recentSessionResult != nil && testModel.savedResult == false {
-            let result = Result(average: testModel.recentSessionResult!)
-            resultStore.add(result)
-            testModel.savedResult = true
+    func storeSessionResult () async {
+        if let sessionResult = await testModel.getRecentSessionResult() {
+            if (await testModel.getHaveSaved() == false) {
+                resultStore.add(Result(average: sessionResult))
+                await testModel.toggleHaveSaved()
+            }
         }
     }
 
