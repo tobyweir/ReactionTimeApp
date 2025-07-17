@@ -7,7 +7,7 @@
 
 import Foundation
 
-actor TestSession {
+@Observable class TestSession {
     var testState: timerState = .dormant
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
@@ -43,26 +43,37 @@ actor TestSession {
 
     func waitRandomTime () {
         testState = .waitingRandomTime
-        updateStateAfterDelay()
+        updateStateAfterTimer()
         resetRandomTimeInterval()
     }
 
-    func updateStateAfterDelay () {
-        Task {
-            try await Task.sleep(nanoseconds: UInt64(getRandomTimeInterval() * 1_000_000_000))
-            if (self.testState == .waitingRandomTime) {
-                print("Timer fired!")
-                self.testStartTime = Date.now
-                self.testState = .waitingForUser
-            } else {
-                print("user must have false started")
-                //Option 1 -> have the loop check every half a second if there is a false start and cancel the timer
-                //Option 2 -> abandon this timer and create a new one, this would be done in TestLogic
-//                self.recentReaction = nil
-//                self.testState = .dormant
-            }
+    func updateStateAfterTimer () {
+        let tempActor = TestSessionActor(state: .waitingRandomTime, randomTime: getRandomTimeInterval())
+        Task(priority: .utility) { [tempActor] in
+            let sleepTime = await tempActor.getRandomWaitTime()
+            try? await Task.sleep(nanoseconds: UInt64(sleepTime) * 1_000_000_000)
+            print ("timer fired")
+            await tempActor.setTestState(state: .waitingForUser)
+            await tempActor.setTestStartTime(date: Date.now)
         }
     }
+//    func updateStateAfterDelay () {
+//        Task {
+//            try await Task.sleep(nanoseconds: UInt64(getRandomTimeInterval() * 1_000_000_000))
+//            guard let self else {return }
+//            if (self.testState == .waitingRandomTime) {
+//                print("Timer fired!")
+//                self.testStartTime = Date.now
+//                self.testState = .waitingForUser
+//            } else {
+//                print("user must have false started")
+//                //Option 1 -> have the loop check every half a second if there is a false start and cancel the timer
+//                //Option 2 -> abandon this timer and create a new one, this would be done in TestLogic
+////                self.recentReaction = nil
+////                self.testState = .dormant
+//            }
+//        }
+//    }
 
     func recordUserReaction () {
         print("recording user reaction")

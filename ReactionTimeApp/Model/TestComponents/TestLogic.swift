@@ -7,60 +7,48 @@
 
 import Foundation
 
-actor TestLogic {
+struct TestLogic {
     var session: TestSession = TestSession()
     var sessionTestTotalCount: Int = 5
     var currentTestCount: Int = 0
     var recentSessionResult: Double? = nil
-    var savedResult: Bool = false
+    var haveSaved: Bool = false
     var maxResultCount: Int = 5
 
-    func getRecentResult () async -> TimeInterval? {
-        let result = await session.getRecentResult()
-        return result
-    }
-    func getTestState () async -> timerState {
-        let state = await session.getTestState()
-        return state
+    var testState: timerState {
+        session.testState
     }
 
-    func getHaveSaved () -> Bool {
-        savedResult
+    var recentResult: TimeInterval? {
+        session.recentReaction
     }
 
     func getRecentSessionResult () -> Double? {
         recentSessionResult
     }
 
-    func toggleHaveSaved () {
-        savedResult.toggle()
-    }
-    func pressTimerButton () {
-        Task {
-            let state = await session.getTestState()
-            switch (state) {
-            case .waitingForUser:
-                await session.recordUserReaction()
-                if (await session.getResultCount() == maxResultCount) {
-                    recentSessionResult = await session.getSessionAverage()
-                }
-            case .waitingRandomTime:
-                session = TestSession(results: await session.getSessionResults(), resultCount: await session.getResultCount())
-                await session.setTestState(state: .falseStart)
-            case .endOfSession:
-                session = TestSession()
-                savedResult = false
-            default:
-                await session.waitRandomTime()
-            }
-        }
+    mutating func toggleHaveSaved () {
+        haveSaved.toggle()
     }
 
-//    func pressTimerButton () {
-//        Task {
-//            await session.pressTimerButton()
-//        }
-//    }
+    mutating func pressTimerButton () {
+        let state =  session.getTestState()
+        switch (state) {
+        case .waitingForUser:
+            session.recordUserReaction()
+            if ( session.getResultCount() == maxResultCount) {
+                recentSessionResult =  session.getSessionAverage()
+            }
+        case .waitingRandomTime:
+            session = TestSession(results:  session.getSessionResults(), resultCount:  session.getResultCount())
+            session.setTestState(state: .falseStart)
+        case .endOfSession:
+            session = TestSession()
+            haveSaved = false
+        default:
+            session.waitRandomTime()
+        }
+    }
 
 
 }

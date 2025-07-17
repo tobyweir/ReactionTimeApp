@@ -11,52 +11,34 @@ import Foundation
 @Observable class Controller {
     var testModel: TestLogic = TestLogic()
     var resultStore: ResultStore = ResultStore()
-    var testState: timerState = .loading
-    var recentResult: TimeInterval? = nil
-    var recentSessionResult: Double? = nil
-    var haveSaved: Bool = true
 
-    func loadModel () async {
-        Task {
-            testState = await getTestState()
-            recentResult = await getRecentResult()
-            recentSessionResult = await getRecentSessionResult()
-            haveSaved = await getHaveSaved()
-        }
-    }
-    
-    func getTestState () async -> timerState {
-        await testModel.getTestState()
+    var testState: timerState {
+        testModel.testState
     }
 
-    func getRecentResult () async -> TimeInterval? {
-        await testModel.getRecentResult()
+    var recentResult: TimeInterval? {
+        testModel.recentResult
     }
 
-
-    func getRecentSessionResult () async -> Double? {
-        await testModel.getRecentSessionResult()
+    var recentSessionResult: Double? {
+        testModel.recentSessionResult
     }
+
+    var haveSaved: Bool {
+        testModel.haveSaved
+    }
+
 
     func pressTimerButton () {
-        Task {
-            await testModel.pressTimerButton()
-            await self.loadModel()
-        }
-
-
-    }
-
-    func getHaveSaved () async -> Bool {
-        await testModel.getHaveSaved()
+             testModel.pressTimerButton()
     }
 
     func storeSessionResult () {
         Task {
-            if let sessionResult = await testModel.getRecentSessionResult() {
-                if (await testModel.getHaveSaved() == false) {
+            if let sessionResult = testModel.getRecentSessionResult() {
+                if ( testModel.haveSaved == false) {
                     resultStore.add(Result(average: sessionResult))
-                    await testModel.toggleHaveSaved()
+                     testModel.toggleHaveSaved()
                 }
             }
         }
