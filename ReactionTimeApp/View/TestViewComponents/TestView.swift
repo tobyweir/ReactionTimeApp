@@ -12,7 +12,14 @@ struct TestView: View {
     @State var model: Controller = Controller()
     var body: some View {
         getTestButtonContentView(model.testState, model)
+            .task {
+            do {
+                try await model.loadModel()
+            } catch {
+                print ("error loading model")
+            }
 
+    }
     }
 }
 //function to get extra information about the test based on the test state. e.g The previous result of the test, to be displayed above the button

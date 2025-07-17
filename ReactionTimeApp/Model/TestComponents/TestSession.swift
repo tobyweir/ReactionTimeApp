@@ -101,6 +101,10 @@ actor TestSession {
         testState
     }
 
+    func setTestState (state: timerState) {
+        testState = state
+    }
+
     func getSessionAverage() -> Double? {
         sessionAverageResult
     }

@@ -16,9 +16,15 @@ import Foundation
     var recentSessionResult: Double? = nil
     var haveSaved: Bool = true
 
-    func loadModel () {
-        
+    func loadModel () async {
+        Task {
+            testState = await getTestState()
+            recentResult = await getRecentResult()
+            recentSessionResult = await getRecentSessionResult()
+            haveSaved = await getHaveSaved()
+        }
     }
+    
     func getTestState () async -> timerState {
         await testModel.getTestState()
     }
@@ -35,7 +41,14 @@ import Foundation
     func pressTimerButton () {
         Task {
             await testModel.pressTimerButton()
+            await self.loadModel()
         }
+
+
+    }
+
+    func getHaveSaved () async -> Bool {
+        await testModel.getHaveSaved()
     }
 
     func storeSessionResult () {

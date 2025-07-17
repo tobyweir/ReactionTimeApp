@@ -46,6 +46,7 @@ actor TestLogic {
                 }
             case .waitingRandomTime:
                 session = TestSession(results: await session.getSessionResults(), resultCount: await session.getResultCount())
+                await session.setTestState(state: .falseStart)
             case .endOfSession:
                 session = TestSession()
                 savedResult = false
