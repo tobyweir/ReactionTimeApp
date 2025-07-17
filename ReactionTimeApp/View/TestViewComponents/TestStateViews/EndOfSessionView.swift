@@ -34,7 +34,7 @@ struct EndOfSessionView: View {
     }
     var saveButton: some View {
         Button {
-            model.storeSessionResult() } label: { model.testModel.savedResult ? Text("Saved") : Text("Save") }.disabled(model.testModel.savedResult)
+            model.storeSessionResult() } label: { model.haveSaved ? Text("Saved") : Text("Save") }.disabled(model.haveSaved)
     }
 
     var shareButton: some View {

@@ -120,6 +120,7 @@ actor TestSession {
 }
 
 enum timerState {
+    case loading
     case dormant
     case waitingForUser
     case waitingRandomTime

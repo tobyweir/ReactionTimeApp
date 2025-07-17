@@ -10,7 +10,6 @@ import SwiftUI
 struct TestView: View {
 
     @State var model: Controller = Controller()
-
     var body: some View {
         getTestButtonContentView(model.testState, model)
 
@@ -34,6 +33,8 @@ func getTestInfoView () {
         WaitingRandomTimeView(model: model)
     case .falseStart:
         FalseStartView(model: model)
+    case .loading:
+        LoadingView()
     }
 }
 
