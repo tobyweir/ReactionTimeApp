@@ -31,7 +31,7 @@ struct TestLogic {
         haveSaved.toggle()
     }
 
-    mutating func pressTimerButton () {
+    mutating func pressTimerButton ()  {
         let state =  session.getTestState()
         switch (state) {
         case .waitingForUser:
@@ -46,7 +46,7 @@ struct TestLogic {
             session = TestSession()
             haveSaved = false
         default:
-            session.waitRandomTime()
+             session.waitRandomTime()
         }
     }
 

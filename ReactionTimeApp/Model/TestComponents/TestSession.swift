@@ -41,20 +41,16 @@ import Foundation
         TimeInterval(Double.random(in: minRandomWaitTime..<maxRandomWaitTime))
     }
 
-    func waitRandomTime () {
+    func waitRandomTime ()  {
         testState = .waitingRandomTime
-        updateStateAfterTimer()
-        resetRandomTimeInterval()
+         updateStateAfterTimer()
     }
 
-    func updateStateAfterTimer () {
-        let tempActor = TestSessionActor(state: .waitingRandomTime, randomTime: getRandomTimeInterval())
-        Task(priority: .utility) { [tempActor] in
-            let sleepTime = await tempActor.getRandomWaitTime()
-            try? await Task.sleep(nanoseconds: UInt64(sleepTime) * 1_000_000_000)
-            print ("timer fired")
-            await tempActor.setTestState(state: .waitingForUser)
-            await tempActor.setTestStartTime(date: Date.now)
+    func updateStateAfterTimer ()  {
+        let timeToWait = getRandomTimeInterval()
+        let timer = Timer.scheduledTimer(withTimeInterval: timeToWait, repeats: false) { timer in
+            self.testState = .waitingForUser
+            self.testStartTime = Date.now
         }
     }
 //    func updateStateAfterDelay () {

@@ -12,7 +12,7 @@ struct WaitingForUserView: View {
     var model: Controller
     var body: some View {
         Button {
-                model.pressTimerButton()
+                 model.pressTimerButton()
         } label: {
             Text("Go!")
                 .foregroundStyle(.white)

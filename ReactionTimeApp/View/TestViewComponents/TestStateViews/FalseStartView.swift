@@ -22,7 +22,7 @@ struct FalseStartView: View {
 
     var tryAgainButton: some View {
         Button {
-                model.pressTimerButton()
+                 model.pressTimerButton()
         } label: {
             Text("Try Again")
             .foregroundStyle(.black)

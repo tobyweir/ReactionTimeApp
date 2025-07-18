@@ -35,7 +35,7 @@ struct DormantView: View {
     @ViewBuilder
     var startTestView: some View {
         Button {
-                model.pressTimerButton()
+                 model.pressTimerButton()
         } label: {
             Text("Start")
                 .padding(35)

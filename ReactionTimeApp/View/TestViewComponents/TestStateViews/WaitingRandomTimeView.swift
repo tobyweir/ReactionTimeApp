@@ -13,7 +13,7 @@ struct WaitingRandomTimeView: View {
     var body: some View {
 
         Button {
-            model.pressTimerButton()
+                 model.pressTimerButton()
         } label: {
             Text("Wait")
                 .foregroundStyle(.white)

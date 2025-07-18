@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 @Observable class Controller {
     var testModel: TestLogic = TestLogic()
     var resultStore: ResultStore = ResultStore()
@@ -29,19 +28,17 @@ import Foundation
     }
 
 
-    func pressTimerButton () {
+    func pressTimerButton ()  {
              testModel.pressTimerButton()
     }
 
     func storeSessionResult () {
-        Task {
             if let sessionResult = testModel.getRecentSessionResult() {
                 if ( testModel.haveSaved == false) {
                     resultStore.add(Result(average: sessionResult))
                      testModel.toggleHaveSaved()
                 }
             }
-        }
     }
 
 }

@@ -22,7 +22,7 @@ struct EndOfSessionView: View {
     }
     var startAgainButton: some View {
         Button {
-                model.pressTimerButton()
+                 model.pressTimerButton()
         } label: {
             Text("New Session")
                 .foregroundStyle(.white)
