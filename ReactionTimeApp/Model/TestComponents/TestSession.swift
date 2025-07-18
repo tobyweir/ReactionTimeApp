@@ -12,8 +12,8 @@ import Foundation
     var randomTimeInterval: Double = 0
     var testStartTime: Date = Date.now
     var recentReaction: TimeInterval? = nil
-    var minRandomWaitTime: Double
-    var maxRandomWaitTime: Double
+    var minRandomWaitTime: Double = 0.4
+    var maxRandomWaitTime: Double = 7.0
     var maxResultCount: Int = 5
     var resultCount: Int = 0
     var sessionResults: [TimeInterval] = []
@@ -23,15 +23,11 @@ import Foundation
     //this init is for creating a new session
     init() {
         self.testState = .dormant
-        self.minRandomWaitTime = 0.3
-        self.maxRandomWaitTime = 7.0
     }
 
     //this init is to be used to recreate a session that had a false start
     init(results sessionResults: [TimeInterval], resultCount: Int) {
         self.testState = .dormant
-        self.minRandomWaitTime = 0.3
-        self.maxRandomWaitTime = 7.0
         self.sessionResults = sessionResults
         self.resultCount = resultCount
     }
@@ -41,22 +37,21 @@ import Foundation
         randomTimeInterval = Double.random(in: minRandomWaitTime..<maxRandomWaitTime)
     }
 
-    func waitRandomTime () {
+    func getRandomTimeInterval () -> TimeInterval {
+        TimeInterval(Double.random(in: minRandomWaitTime..<maxRandomWaitTime))
+    }
+
+    func waitRandomTime ()  {
         testState = .waitingRandomTime
-        DispatchQueue.main.asyncAfter(deadline: .now() + randomTimeInterval) {
-            if (self.testState == .waitingRandomTime) {
-                print("Timer fired!")
-                self.testStartTime = Date.now
-                self.testState = .waitingForUser
-            } else {
-                print("user must have false started")
-                //Option 1 -> have the loop check every half a second if there is a false start and cancel the timer
-                //Option 2 -> abandon this timer and create a new one, this would be done in TestLogic
-//                self.recentReaction = nil
-//                self.testState = .dormant
-            }
+         updateStateAfterTimer()
+    }
+
+    func updateStateAfterTimer ()  {
+        let timeToWait = getRandomTimeInterval()
+        let timer = Timer.scheduledTimer(withTimeInterval: timeToWait, repeats: false) { timer in
+            self.testState = .waitingForUser
+            self.testStartTime = Date.now
         }
-        resetRandomTimeInterval()
     }
 
     func recordUserReaction () {
@@ -88,7 +83,7 @@ import Foundation
         sessionAverageResult = totalTime / Double (maxResultCount)
     }
 
-
+    
 
 
 
@@ -97,6 +92,7 @@ import Foundation
 }
 
 enum timerState {
+    case loading
     case dormant
     case waitingForUser
     case waitingRandomTime

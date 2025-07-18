@@ -12,36 +12,41 @@ struct TestLogic {
     var sessionTestTotalCount: Int = 5
     var currentTestCount: Int = 0
     var recentSessionResult: Double? = nil
+    var haveSaved: Bool = false
+    var maxResultCount: Int = 5
 
     var testState: timerState {
         session.testState
     }
 
     var recentResult: TimeInterval? {
-            session.recentReaction
+        session.recentReaction
     }
 
-    var resultCount: Int {
-        session.resultCount
+    func getRecentSessionResult () -> Double? {
+        recentSessionResult
     }
 
-    mutating func pressTimerButton () {
-        if (session.testState == .dormant || session.testState == .falseStart) {
-            session.waitRandomTime()
-        }
-        else if (session.testState == .endOfSession) {
-            session = TestSession()
-        }
-        else if (session.testState == .waitingForUser) {
+    mutating func toggleHaveSaved () {
+        haveSaved.toggle()
+    }
+
+    mutating func pressTimerButton ()  {
+        let state =  session.testState
+        switch (state) {
+        case .waitingForUser:
             session.recordUserReaction()
-            if (resultCount == session.maxResultCount) {
-                recentSessionResult = session.sessionAverageResult
+            if ( session.resultCount == maxResultCount) {
+                recentSessionResult =  session.sessionAverageResult
             }
-        }
-        else if (session.testState == .waitingRandomTime) {
-            //recreate session so we can avoid waiting for timer to end
-            session = TestSession(results: session.sessionResults, resultCount: session.resultCount)
+        case .waitingRandomTime:
+            session = TestSession(results:  session.sessionResults, resultCount:  session.resultCount)
             session.testState = .falseStart
+        case .endOfSession:
+            session = TestSession()
+            haveSaved = false
+        default:
+             session.waitRandomTime()
         }
     }
 

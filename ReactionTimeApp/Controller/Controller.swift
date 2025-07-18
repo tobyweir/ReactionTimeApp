@@ -19,23 +19,26 @@ import Foundation
         testModel.recentResult
     }
 
-    var resultCount: Int {
-        testModel.resultCount
-    }
-
     var recentSessionResult: Double? {
         testModel.recentSessionResult
     }
 
-    func pressTimerButton () {
-        testModel.pressTimerButton()
+    var haveSaved: Bool {
+        testModel.haveSaved
+    }
+
+
+    func pressTimerButton ()  {
+             testModel.pressTimerButton()
     }
 
     func storeSessionResult () {
-        if let average = testModel.recentSessionResult {
-            let result = Result(average: average)
-            resultStore.add(result)
-        }
+            if let sessionResult = testModel.getRecentSessionResult() {
+                if ( testModel.haveSaved == false) {
+                    resultStore.add(Result(average: sessionResult))
+                     testModel.toggleHaveSaved()
+                }
+            }
     }
 
 }
