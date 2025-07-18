@@ -32,16 +32,16 @@ struct TestLogic {
     }
 
     mutating func pressTimerButton ()  {
-        let state =  session.getTestState()
+        let state =  session.testState
         switch (state) {
         case .waitingForUser:
             session.recordUserReaction()
-            if ( session.getResultCount() == maxResultCount) {
-                recentSessionResult =  session.getSessionAverage()
+            if ( session.resultCount == maxResultCount) {
+                recentSessionResult =  session.sessionAverageResult
             }
         case .waitingRandomTime:
-            session = TestSession(results:  session.getSessionResults(), resultCount:  session.getResultCount())
-            session.setTestState(state: .falseStart)
+            session = TestSession(results:  session.sessionResults, resultCount:  session.resultCount)
+            session.testState = .falseStart
         case .endOfSession:
             session = TestSession()
             haveSaved = false

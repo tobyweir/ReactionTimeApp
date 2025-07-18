@@ -53,23 +53,6 @@ import Foundation
             self.testStartTime = Date.now
         }
     }
-//    func updateStateAfterDelay () {
-//        Task {
-//            try await Task.sleep(nanoseconds: UInt64(getRandomTimeInterval() * 1_000_000_000))
-//            guard let self else {return }
-//            if (self.testState == .waitingRandomTime) {
-//                print("Timer fired!")
-//                self.testStartTime = Date.now
-//                self.testState = .waitingForUser
-//            } else {
-//                print("user must have false started")
-//                //Option 1 -> have the loop check every half a second if there is a false start and cancel the timer
-//                //Option 2 -> abandon this timer and create a new one, this would be done in TestLogic
-////                self.recentReaction = nil
-////                self.testState = .dormant
-//            }
-//        }
-//    }
 
     func recordUserReaction () {
         print("recording user reaction")
@@ -88,10 +71,6 @@ import Foundation
         }
     }
 
-//    func pressTimerButton () {
-//        
-//    }
-
     func getRecentResult() -> TimeInterval? {
         recentReaction
     }
@@ -104,25 +83,7 @@ import Foundation
         sessionAverageResult = totalTime / Double (maxResultCount)
     }
 
-    func getTestState () -> timerState {
-        testState
-    }
-
-    func setTestState (state: timerState) {
-        testState = state
-    }
-
-    func getSessionAverage() -> Double? {
-        sessionAverageResult
-    }
-
-    func getResultCount() -> Int {
-        resultCount
-    }
-
-    func getSessionResults() -> [TimeInterval] {
-        sessionResults
-    }
+    
 
 
 
