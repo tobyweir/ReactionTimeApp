@@ -9,39 +9,40 @@ import SwiftUI
 
 struct DormantView: View {
     var model: Controller
-    @Namespace private var animation
     var body: some View {
-        if let result = model.recentResult {
-            Text("\(result)").bold()
+        if let _ = model.recentResult {
             continueTestView
         } else {
             startTestView
         }
     }
 
-
+    @ViewBuilder
+    var buttonContent: some View {
+        if let _ = model.recentResult {
+            continueTestView
+        } else {
+            startTestView
+        }
+    }
+    
     @ViewBuilder
     var continueTestView: some View {
-        Button {
-                model.pressTimerButton()
-        } label: {
             Text("Continue")
                 .padding(35)
                 .foregroundStyle(.white)
-                .background(Circle().tint(.blue))
-        }
+//                .background(buttonBackground)
     }
+
+
 
     @ViewBuilder
     var startTestView: some View {
-        Button {
-                 model.pressTimerButton()
-        } label: {
             Text("Start")
                 .padding(35)
                 .foregroundStyle(.white)
-                .background(Circle().tint(.blue))
-        }
+            //                .background(buttonBackground)
+
 
     }
 }

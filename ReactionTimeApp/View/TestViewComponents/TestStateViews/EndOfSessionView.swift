@@ -11,27 +11,16 @@ struct EndOfSessionView: View {
     var model: Controller
     @Namespace private var animation
     var body: some View {
-        if let sessionResult = model.recentSessionResult {
-            Text("Average Result: \(sessionResult)")
-        }
-        startAgainButton
-        HStack(spacing: 20) {
-            saveButton
-            shareButton
-        }
+
+       buttonContent
+
     }
-    var startAgainButton: some View {
-        Button {
-                 model.pressTimerButton()
-        } label: {
+    var buttonContent: some View {
             Text("New Session")
                 .foregroundStyle(.white)
                 .padding(50)
-                .background(Circle()
-                    .foregroundStyle(.blue))
-        }
-
     }
+
     var saveButton: some View {
         Button {
             model.storeSessionResult() } label: { model.haveSaved ? Text("Saved") : Text("Save") }.disabled(model.haveSaved)
