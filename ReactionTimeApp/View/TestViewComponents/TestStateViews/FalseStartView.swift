@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FalseStartView: View {
-
+    @State var HapticTrigger = false
     var model: Controller
     var body: some View {
 //        VStack(spacing: 30 ) {
@@ -24,6 +24,10 @@ struct FalseStartView: View {
             Text("Try Again")
                 .foregroundStyle(.black)
                 .padding(35)
+                .sensoryFeedback(.error, trigger: HapticTrigger)
+                .onAppear {
+                    HapticTrigger = true
+                }
     }
 
 }
