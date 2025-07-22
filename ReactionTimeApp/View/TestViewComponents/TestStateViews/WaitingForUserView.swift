@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WaitingForUserView: View {
     @Namespace private var animation
+    @State var Trigger = false
     var model: Controller
     var body: some View {
             Text("Go!")
@@ -22,6 +23,11 @@ struct WaitingForUserView: View {
             .foregroundStyle(.white)
             .padding([.top , .bottom] , 50)
             .padding([.horizontal] , 125)
+            .sensoryFeedback(.start , trigger: Trigger)
+            .onAppear {
+                print("haptic feedback should play")
+                Trigger = true
+            }
     }
 
 

@@ -90,6 +90,7 @@ struct TestView: View {
             getUpperContent(state: model.testState, model: model)
             testButton
             getLowerContent(state: model.testState,model: model)
+
         }
     }
 
