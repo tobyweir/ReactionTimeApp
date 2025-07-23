@@ -20,6 +20,13 @@ struct FalseStartView: View {
 //        }
     }
 
+    var upperContent: some View {
+        VStack {
+            Text("You pressed too early")
+            Text("Wait for the button to turn green")
+        }
+    }
+
     var buttonContent: some View {
             Text("Try Again")
                 .foregroundStyle(.black)

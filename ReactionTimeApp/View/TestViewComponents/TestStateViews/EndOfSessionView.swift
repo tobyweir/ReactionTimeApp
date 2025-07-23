@@ -15,6 +15,24 @@ struct EndOfSessionView: View {
        buttonContent
 
     }
+
+    var upperContent: some View {
+        VStack {
+            Text("You averaged a reaction time of")
+            if let result = model.recentSessionResult {
+                Text("\(Int (result * 1000))ms")
+            } else {
+                Text("")
+            }
+        }
+    }
+
+    var lowerContent: some View {
+        HStack {
+            saveButton
+            shareButton
+        } .padding(15)
+    }
     var buttonContent: some View {
             Text("New Session")
                 .foregroundStyle(.white)

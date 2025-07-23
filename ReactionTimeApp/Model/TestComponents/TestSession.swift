@@ -55,14 +55,11 @@ import Foundation
     }
 
     func recordUserReaction () {
-        print("recording user reaction")
-        if (testState == .waitingForUser) {
             recentReaction = Date().timeIntervalSince(testStartTime)
             if let result = recentReaction {
                 sessionResults += [result]
                 resultCount += 1
             }
-        }
         if (resultCount == maxResultCount) {
             calculateAverage()
             testState = .endOfSession

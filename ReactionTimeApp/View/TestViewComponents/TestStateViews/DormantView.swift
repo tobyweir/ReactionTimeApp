@@ -16,6 +16,14 @@ struct DormantView: View {
             startTestView
         }
     }
+    @ViewBuilder
+    var upperContent: some View {
+        if let result = model.recentResult {
+            Text("\(Int (result * 1000))ms")
+        } else {
+            Text("")
+        }
+    }
 
     @ViewBuilder
     var buttonContent: some View {
