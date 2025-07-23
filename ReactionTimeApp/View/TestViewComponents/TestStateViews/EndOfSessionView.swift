@@ -11,27 +11,34 @@ struct EndOfSessionView: View {
     var model: Controller
     @Namespace private var animation
     var body: some View {
-        if let sessionResult = model.recentSessionResult {
-            Text("Average Result: \(sessionResult)")
-        }
-        startAgainButton
-        HStack(spacing: 20) {
-            saveButton
-            shareButton
+
+       buttonContent
+
+    }
+
+    var upperContent: some View {
+        VStack {
+            Text("You averaged a reaction time of")
+            if let result = model.recentSessionResult {
+                Text("\(Int (result * 1000))ms")
+            } else {
+                Text("")
+            }
         }
     }
-    var startAgainButton: some View {
-        Button {
-                 model.pressTimerButton()
-        } label: {
+
+    var lowerContent: some View {
+        HStack {
+            saveButton
+            shareButton
+        } .padding(15)
+    }
+    var buttonContent: some View {
             Text("New Session")
                 .foregroundStyle(.white)
                 .padding(50)
-                .background(Circle()
-                    .foregroundStyle(.blue))
-        }
-
     }
+
     var saveButton: some View {
         Button {
             model.storeSessionResult() } label: { model.haveSaved ? Text("Saved") : Text("Save") }.disabled(model.haveSaved)
