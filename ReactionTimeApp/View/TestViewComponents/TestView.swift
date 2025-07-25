@@ -19,15 +19,13 @@ struct TestView: View {
 
     var body: some View {
         VStack {
-            ZStack {
-                colorScheme == .dark ? Color.black : Color.white
+            Spacer()
                 getUpperContent(state: model.testState, model: model)
-            }
+            Spacer()
             testButton
-            ZStack {
-                colorScheme == .dark ? Color.black : Color.white
-                getLowerContent(state: model.testState,model: model)
-            }
+            Spacer()
+            getLowerContent(state: model.testState,model: model)
+            Spacer()
 
         }
     }

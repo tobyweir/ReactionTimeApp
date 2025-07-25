@@ -18,8 +18,9 @@ struct DormantView: View {
     }
     @ViewBuilder
     var upperContent: some View {
-        if let result = model.recentResult {
-            Text("\(Int (result * 1000))ms")
+        if let result = model.recentResult {  
+                Text("\(Int (result * 1000))ms")
+
         } else {
             Text("")
         }
