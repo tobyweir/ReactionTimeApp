@@ -45,6 +45,33 @@ enum Month {
         }
     }
 
+    static func getMonthCode (month: Month) -> Int {
+        switch (month) {
+        case .January:
+            0
+        case .Febuary , .March:
+            3
+        case .April:
+            6
+        case .May:
+            1
+        case .June:
+            4
+        case .July:
+            6
+        case .August:
+            2
+        case .September:
+            5
+        case . October:
+            0
+        case .November:
+            3
+        case .December:
+            5
+        }
+    }
+
     static func isALeapYear (year: Int) -> Bool {
         if (year % 100 == 0) {
             year % 400 == 0 ? true : false
@@ -54,6 +81,10 @@ enum Month {
     }
 
     static func getDayFromDate (date: Int, month: Month, year: Int) -> Day {
+        let yearFinal2Digits = year % 100 //last 2 digits of the year
+        let yearCode = ( yearFinal2Digits + (yearFinal2Digits / 4)) % 7
+
+
         return .Monday
     }
 
