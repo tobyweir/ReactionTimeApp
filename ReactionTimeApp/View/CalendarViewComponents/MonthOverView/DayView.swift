@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct DayView: View {
-    let date: Int
+    var day: Day = .Monday
+    var date: Int = -1
     let results: [Result]
-    let dayType: CalendarDayType = .weekday
-    let foregroundColour: Color = .black
-    let backgroundColor: Color = .white
+    var dayType: CalendarDayType = .weekday
+    @Environment(\.colorScheme) var colorScheme
+
+    var foregroundColour: Color {
+        if dayType == .weekend {
+            Color.gray
+        } else {
+            colorScheme == .dark ? .white : .black
+        }
+    }
+    var backgroundColor: Color {
+        colorScheme == .dark ? .black : .white
+    }
     var body: some View {
         ZStack {
             Rectangle()
