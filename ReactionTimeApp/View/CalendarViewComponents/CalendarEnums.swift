@@ -45,7 +45,7 @@ enum Month {
         }
     }
 
-    static func getMonthCode (month: Month) -> Int {
+    static func getCode (for month: Month) -> Int {
         switch (month) {
         case .January:
             0
@@ -83,10 +83,22 @@ enum Month {
     static func getDayFromDate (date: Int, month: Month, year: Int) -> Day {
         let yearFinal2Digits = year % 100 //last 2 digits of the year
         let yearCode = ( yearFinal2Digits + (yearFinal2Digits / 4)) % 7
-
+        let monthCode = Month.getCode(for: month)
+        let centuryCode = getCenturyCode(for: year)
 
         return .Monday
     }
 
 
+
+}
+
+func getCenturyCode(for year : Int) -> Int? {
+    if (year < 0) { return nil }  // Negative years don't exist, unexpected behaviour
+    let codes = [4,2,0,6,4,2,0,6,4,2,0,6] // Sliding window , values are 4,2,0,6
+    let century = (year / 100) * 100 // remove last 2 digits from the year
+    let anchorYear = 1700
+    let steps = ((century - anchorYear) / 100) % 4
+    let index = 4
+    return codes[index + steps]
 }
