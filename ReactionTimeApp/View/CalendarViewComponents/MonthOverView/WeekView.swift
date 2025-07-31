@@ -7,16 +7,29 @@
 import SwiftUI
 
 struct WeekView: View {
-    let dates: [Int]
-    let results: [[Result]]
+    let mondayView: DayView
+    let tuesdayView: DayView
+    let wednesdayView: DayView
+    let thursdayView: DayView
+    let fridayView: DayView
+    let saturdayView: DayView
+    let sundayView: DayView
+    let results: [[Result]] = [[]]
+
+
+    init () {
+
+    }
+
     var body: some View {
         HStack (spacing: 0){
-            ForEach(0..<7) { index in
-                if (dates.count == 7 && results.count == 7) {
-                    DayView(date: dates[index], results: results[index])
-                }
-
-            }
+            mondayView
+            tuesdayView
+            wednesdayView
+            thursdayView
+            fridayView
+            saturdayView
+            sundayView
 
         }
         .border(.black)
@@ -24,5 +37,5 @@ struct WeekView: View {
 }
 
 #Preview {
-    WeekView(dates: [1,2,3,4,5,6,7], results: [[Result(average: 0.8)],[],[],[],[],[],[]])
+    WeekView()
 }

@@ -24,6 +24,7 @@ struct DayView: View {
     var backgroundColor: Color {
         colorScheme == .dark ? .black : .white
     }
+
     var body: some View {
         ZStack {
             Rectangle()

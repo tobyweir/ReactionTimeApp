@@ -11,14 +11,14 @@ enum CalendarDayType {
     case invalid
 }
 
-enum Day {
-    case Monday
-    case Tuesday
-    case Wednesday
-    case Thursday
-    case Friday
-    case Saturday
-    case Sunday
+enum Day: Int {
+    case Monday = 1
+    case Tuesday = 2
+    case Wednesday = 3
+    case Thursday = 4
+    case Friday = 5
+    case Saturday = 6
+    case Sunday = 0
 }
 enum Month {
     case January
@@ -34,7 +34,7 @@ enum Month {
     case November
     case December
 
-    static func getDaysInMonth (month: Month, year: Int) -> Int    {
+    static func getDaysIn (_ month: Month, year: Int) -> Int    {
         switch (month) {
         case .Febuary:
             isALeapYear(year: year) ? 29 : 28
@@ -72,33 +72,35 @@ enum Month {
         }
     }
 
-    static func isALeapYear (year: Int) -> Bool {
-        if (year % 100 == 0) {
-            year % 400 == 0 ? true : false
-        } else {
-            year % 4 == 0 ? true : false
-        }
-    }
-
-    static func getDayFromDate (date: Int, month: Month, year: Int) -> Day {
-        let yearFinal2Digits = year % 100 //last 2 digits of the year
-        let yearCode = ( yearFinal2Digits + (yearFinal2Digits / 4)) % 7
-        let monthCode = Month.getCode(for: month)
-        let centuryCode = getCenturyCode(for: year)
-
-        return .Monday
-    }
-
-
-
 }
 
-func getCenturyCode(for year : Int) -> Int? {
-    if (year < 0) { return nil }  // Negative years don't exist, unexpected behaviour
+func isALeapYear (year: Int) -> Bool {
+    if (year % 100 == 0) {
+        year % 400 == 0 ? true : false
+    } else {
+        year % 4 == 0 ? true : false
+    }
+}
+
+func getCenturyCode(for year : Int) -> Int {
+    if (year < 0) { return -1}  // Negative years don't exist, unexpected behaviour
     let codes = [4,2,0,6,4,2,0,6,4,2,0,6] // Sliding window , values are 4,2,0,6
     let century = (year / 100) * 100 // remove last 2 digits from the year
     let anchorYear = 1700
     let steps = ((century - anchorYear) / 100) % 4
     let index = 4
     return codes[index + steps]
+}
+
+func getDayFromDateGregorianCalendar (date: Int, month: Month, year: Int) -> Day {
+    let yearFinal2Digits = year % 100 //last 2 digits of the year
+    let yearCode = ( yearFinal2Digits + (yearFinal2Digits / 4)) % 7
+    let monthCode = Month.getCode(for: month)
+    let centuryCode = getCenturyCode(for: year)
+    let leapYearModifier: Int = isALeapYear(year: year) && (month == .January || month == .Febuary) ?  1 :  0
+    let dateCode: Int = (yearCode + monthCode + centuryCode + date + leapYearModifier) % 7
+    if let day = Day(rawValue: dateCode) {
+        return day
+    }
+    return .Monday
 }
