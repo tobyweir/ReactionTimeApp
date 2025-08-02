@@ -19,8 +19,16 @@ struct DayView: View {
         self.model = model
     }
 
+    var isWeekend: Bool {
+        if let tempDate = date {
+            Calendar.current.isDateInWeekend(tempDate)
+        } else {
+            false
+        }
+
+    }
     var foregroundColour: Color {
-        if dayType == .weekend {
+        if isWeekend == true {
             Color.gray
         } else {
             colorScheme == .dark ? .white : .black
@@ -78,5 +86,5 @@ struct DayView: View {
 }
 
 #Preview {
-    DayView(date: Date.now, dayType: .weekday, model: Controller())
+    DayView(date: Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue), dayType: .weekday, model: Controller())
 }

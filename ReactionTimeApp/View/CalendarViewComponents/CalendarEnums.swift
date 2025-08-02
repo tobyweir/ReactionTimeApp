@@ -7,7 +7,6 @@
 
 enum CalendarDayType {
     case weekday
-    case weekend
     case invalid
 }
 
@@ -26,15 +25,6 @@ enum Day: String {
     case Friday = "Fri"
     case Saturday = "Sat"
     case Sunday = "Sun"
-
-    func getDayType () -> CalendarDayType {
-        switch (self) {
-        case .Sunday , .Saturday:
-                .weekend
-        default:
-                .weekday
-        }
-    }
 
     static func getWeekday(from num: Int) -> Day {
         switch (num) {

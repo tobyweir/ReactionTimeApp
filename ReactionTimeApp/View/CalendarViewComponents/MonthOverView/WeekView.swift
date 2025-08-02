@@ -32,8 +32,7 @@ struct WeekView: View {
     func createDayView (for day: Day , against date: Date) -> (DayView , Bool) {
         let dayToCompare = date.formatted(Date.FormatStyle().weekday(.abbreviated))
         if (day.rawValue == dayToCompare) {
-            let dayType = day.getDayType()
-            let dayView = DayView(date: date, dayType: dayType, model: model)
+            let dayView = DayView(date: date, dayType: .weekday, model: model)
             return (dayView , true)
         } else {
             return (DayView(date: nil, dayType: .invalid, model: Controller()) , false)
@@ -54,19 +53,7 @@ struct WeekView: View {
 }
 
 #Preview {
-    let startDate = Date.now
-    WeekView(start: Date.now , model: Controller())
+    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue )
+    WeekView(start: startDate , model: Controller())
 }
 
-public extension Date {
-
-    func add(Days days: Double) -> Date {
-        let seconds = days * 24 * 60 * 60
-        return addingTimeInterval(seconds)
-    }
-
-    func remove(Days days: Double) -> Date {
-        let seconds = days * 24 * 60 * 60
-        return addingTimeInterval(-seconds)
-    }
-}
