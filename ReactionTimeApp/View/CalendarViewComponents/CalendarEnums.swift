@@ -11,6 +11,12 @@ enum CalendarDayType {
     case invalid
 }
 
+enum UsefulTimeIntervals : Double {
+    case day = 86400
+    case hour = 3600
+
+}
+
 
 enum Day: String {
     case Monday = "Mon"
@@ -20,6 +26,36 @@ enum Day: String {
     case Friday = "Fri"
     case Saturday = "Sat"
     case Sunday = "Sun"
+
+    func getDayType () -> CalendarDayType {
+        switch (self) {
+        case .Sunday , .Saturday:
+                .weekend
+        default:
+                .weekday
+        }
+    }
+
+    static func getWeekday(from num: Int) -> Day {
+        switch (num) {
+        case 0:
+                .Monday
+        case 1:
+                .Tuesday
+        case 2:
+                .Wednesday
+        case 3:
+                .Thursday
+        case 4:
+                .Friday
+        case 5:
+                .Saturday
+        case 6:
+                .Sunday
+        default:
+                .Monday
+        }
+    }
 }
 
 enum Month {
@@ -84,25 +120,4 @@ func isALeapYear (year: Int) -> Bool {
     }
 }
 
-func getCenturyCode(for year : Int) -> Int {
-    if (year < 0) { return -1}  // Negative years don't exist, unexpected behaviour
-    let codes = [4,2,0,6,4,2,0,6,4,2,0,6] // Sliding window , values are 4,2,0,6
-    let century = (year / 100) * 100 // remove last 2 digits from the year
-    let anchorYear = 1700
-    let steps = ((century - anchorYear) / 100) % 4
-    let index = 4
-    return codes[index + steps]
-}
 
-func getDayFromDateGregorianCalendar (date: Int, month: Month, year: Int) -> Day {
-    let yearFinal2Digits = year % 100 //last 2 digits of the year
-    let yearCode = ( yearFinal2Digits + (yearFinal2Digits / 4)) % 7
-    let monthCode = Month.getCode(for: month)
-    let centuryCode = getCenturyCode(for: year)
-    let leapYearModifier: Int = isALeapYear(year: year) && (month == .January || month == .Febuary) ?  1 :  0
-    let dateCode: Int = (yearCode + monthCode + centuryCode + date + leapYearModifier) % 7
-    if let day = Day(rawValue: dateCode) {
-        return day
-    }
-    return .Monday
-}
