@@ -49,10 +49,12 @@ struct ResultStore {
 
     //Returning selections of filtered results
 
-
-
-
-
+    func getResults(between date: Date , and date2: Date) -> [Result] {
+        //Not implemented
+        //
+        []
+    }
+    
     //Saving and Loading
 
     func loadResultsFromFile () -> [Result] {

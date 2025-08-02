@@ -7,29 +7,24 @@
 import SwiftUI
 
 struct WeekView: View {
-    let mondayView: DayView
-    let tuesdayView: DayView
-    let wednesdayView: DayView
-    let thursdayView: DayView
-    let fridayView: DayView
-    let saturdayView: DayView
-    let sundayView: DayView
-    let results: [[Result]] = [[]]
+    let startDate: Date
+    let model: Controller
+    let dayViews: [DayView]
 
-
-    init () {
+    init(start: Date, model: Controller) {
+        self.startDate = start
+        self.model = model
+        self.dayViews = []
 
     }
-
+    func createDayViews (date: Date) -> [DayView] {
+        []
+    }
+    func createDayView (day: Day , date: Date) -> DayView {
+        
+    }
     var body: some View {
         HStack (spacing: 0){
-            mondayView
-            tuesdayView
-            wednesdayView
-            thursdayView
-            fridayView
-            saturdayView
-            sundayView
 
         }
         .border(.black)
@@ -37,5 +32,20 @@ struct WeekView: View {
 }
 
 #Preview {
-    WeekView()
+    let startDate = Date.now
+    let endDate = startDate.addingTimeInterval(3 * 24 * 60 * 60)
+    WeekView(start: Date.now , model: Controller())
+}
+
+public extension Date {
+
+    func add(Days days: Double) -> Date {
+        let seconds = days * 24 * 60 * 60
+        return addingTimeInterval(seconds)
+    }
+
+    func remove(Days days: Double) -> Date {
+        let seconds = days * 24 * 60 * 60
+        return addingTimeInterval(-seconds)
+    }
 }

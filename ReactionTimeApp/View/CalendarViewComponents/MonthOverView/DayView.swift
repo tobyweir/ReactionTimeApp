@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct DayView: View {
-    var day: Day = .Monday
-    var date: Int = -1
-    let results: [Result]
-    var dayType: CalendarDayType = .weekday
+    var date: Date?
+    var dayType: CalendarDayType
+    let model: Controller
     @Environment(\.colorScheme) var colorScheme
+
+    init (date: Date?, dayType: CalendarDayType, model : Controller) {
+        self.date = date
+        self.dayType = dayType
+        self.model = model
+    }
 
     var foregroundColour: Color {
         if dayType == .weekend {
@@ -21,8 +26,19 @@ struct DayView: View {
             colorScheme == .dark ? .white : .black
         }
     }
+
     var backgroundColor: Color {
         colorScheme == .dark ? .black : .white
+    }
+
+    var results: [Result] {
+        if (dayType != .invalid) {
+            if let date {
+                return model.getResults(between: date, and: date)
+            } else { return [] }
+        } else {
+            return []
+        }
     }
 
     var body: some View {
@@ -30,15 +46,16 @@ struct DayView: View {
             Rectangle()
                 .foregroundStyle(backgroundColor)
             VStack (spacing: 0) {
-                dateNumber
+                dateNumberView
                 resultView
 
             }
         }.aspectRatio(1/2 , contentMode: .fit)
     }
 
-    var dateNumber: some View {
-        Text("\(date)")
+    @ViewBuilder
+    var dateNumberView: some View {
+        Text("\(date?.formatted(Date.FormatStyle().day()) ?? "0")")
             .foregroundStyle(foregroundColour)
             .font(.system(size: 30))
     }
@@ -61,5 +78,5 @@ struct DayView: View {
 }
 
 #Preview {
-    DayView(date: 1, results: [Result(average: 1.2)])
+    DayView(date: Date.now, dayType: .weekday, model: Controller())
 }
