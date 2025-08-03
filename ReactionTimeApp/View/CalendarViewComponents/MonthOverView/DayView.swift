@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct DayView: View {
+struct DayView: View , Identifiable {
+    var id = UUID()
     var date: Date?
     var dayType: CalendarDayType
     let model: Controller
