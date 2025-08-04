@@ -17,9 +17,11 @@ struct MonthView: View {
     }
 
     var body: some View {
-        let stuff: [WeekView] = createWeekViews(start: start, model: model)
+        let weekViews: [WeekView] = createWeekViews(start: start, model: model)
         VStack {
-            ForEach(stuff) { view in
+            Text("\(start.formatted(Date.FormatStyle().month(.abbreviated)))")
+                .font(.system(size: 30, weight: .heavy, design: .monospaced))
+            ForEach(weekViews) { view in
                 view
             }
         }
