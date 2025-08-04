@@ -20,7 +20,7 @@ struct MonthView: View {
         let weekViews: [WeekView] = createWeekViews(start: start, model: model)
         VStack {
             Text("\(start.formatted(Date.FormatStyle().month(.abbreviated)))")
-                .font(.system(size: 30, weight: .heavy, design: .monospaced))
+                .font(.system(size: 30, weight: .bold, design: .monospaced))
             ForEach(weekViews) { view in
                 view
             }
@@ -44,6 +44,6 @@ struct MonthView: View {
 }
 
 #Preview {
-    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 3)
+    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 34)
     MonthView(start: startDate, model: Controller())
 }
