@@ -43,17 +43,17 @@ struct WeekView: View {
     }
     var body: some View {
         HStack (spacing: 0){
-            ForEach(dayViews) { view in
+            ForEach(dayViews, id: \.id) { view in
                 view
             }
         }
-        .border(.black)
+        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(.black), alignment: .top)
     }
 }
 
 #Preview {
     var date = DateComponents()
-    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 6 )
+    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 34)
     WeekView(start: startDate , model: Controller())
 }
 

@@ -8,22 +8,22 @@
 import SwiftUI
 
 struct MonthView: View {
-//    let month: Month
-//    let year: Int
-    let startOfMonth: Int  = 1
-//    let endOfMonth: Int
-//    let weekView1: WeekView
-//    let weekView2: WeekView
-//    let weekView3: WeekView
-//    let weekView4: WeekView
-//    let weekView5: WeekView
-//    let weekView6: WeekView
+    let start: Date
+    let model: Controller
 
-    init () {
-        
-    }
     var body: some View {
         Text("temp")
+    }
+
+    func createWeekViews() -> [WeekView] {
+        var weekViews: [WeekView] = []
+        for index in 0..<6 {
+
+        }
+    }
+
+    func createWeekView (against start: Date) -> WeekView {
+        WeekView(start: start, model: model)
     }
 }
 

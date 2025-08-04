@@ -59,6 +59,7 @@ struct DayView: View , Identifiable {
                 resultView
 
             }
+            .opacity(dayType == .invalid ? 0 : 1)
         }.aspectRatio(1/2 , contentMode: .fit)
     }
 
