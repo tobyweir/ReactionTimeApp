@@ -6,16 +6,17 @@
 //
 import SwiftUI
 
-struct WeekView: View {
+struct WeekView: View, Identifiable {
+    let id = UUID()
     let startDate: Date
     let model: Controller
     var dayViews: [DayView] = []
     var monthDigits: String
 
-    init(start: Date, model: Controller) {
+    init(start: Date, model: Controller, monthDigits: String) {
         self.startDate = start
         self.model = model
-        self.monthDigits = start.formatted(Date.FormatStyle().month(.defaultDigits))
+        self.monthDigits = monthDigits
         self.dayViews = createDayViews(date: start)
 
     }
@@ -26,15 +27,15 @@ struct WeekView: View {
             let result = createDayView(for: Day.getWeekday(from: index), against: currDate)
             views.append(result.0)
             if (result.1 == true) {
-                let newDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue)
-                currDate = newDate.formatted(Date.FormatStyle().month(.defaultDigits)) == monthDigits ? newDate : currDate
+                currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue)
             }
         }
         return views
     }
     func createDayView (for day: Day , against date: Date) -> (DayView , Bool) {
         let dayToCompare = date.formatted(Date.FormatStyle().weekday(.abbreviated))
-        if (day.rawValue == dayToCompare) {
+        let monthToCompare = date.formatted(Date.FormatStyle().month(.defaultDigits))
+        if (day.rawValue == dayToCompare && monthToCompare == monthDigits) {
             let dayView = DayView(date: date, dayType: .weekday, model: model)
             return (dayView , true)
         } else {
@@ -53,7 +54,7 @@ struct WeekView: View {
 
 #Preview {
     var date = DateComponents()
-    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 34)
-    WeekView(start: startDate , model: Controller())
+    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 7)
+    WeekView(start: startDate , model: Controller(), monthDigits: startDate.formatted(Date.FormatStyle().month(.defaultDigits)))
 }
 

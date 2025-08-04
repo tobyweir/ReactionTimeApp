@@ -11,22 +11,37 @@ struct MonthView: View {
     let start: Date
     let model: Controller
 
-    var body: some View {
-        Text("temp")
+    init(start: Date, model: Controller) {
+        self.start = start
+        self.model = model
     }
 
-    func createWeekViews() -> [WeekView] {
-        var weekViews: [WeekView] = []
-        for index in 0..<6 {
-
+    var body: some View {
+        let stuff: [WeekView] = createWeekViews(start: start, model: model)
+        VStack {
+            ForEach(stuff) { view in
+                view
+            }
         }
     }
 
-    func createWeekView (against start: Date) -> WeekView {
-        WeekView(start: start, model: model)
-    }
+    func createWeekViews(start: Date , model: Controller) -> [WeekView] {
+            let monthDigits = start.formatted(Date.FormatStyle().month(.defaultDigits))
+            var result: [WeekView] = [WeekView(start: start, model: model, monthDigits: monthDigits)]
+            let currentWeekday = start.formatted(Date.FormatStyle().weekday(.oneDigit))
+            let dayDifference: Int = 8 - Int(currentWeekday)!
+            let secondWeek = start.addingTimeInterval(UsefulTimeIntervals.day.rawValue * Double (dayDifference) )
+            var currDate: Date = secondWeek
+            for _ in 0..<5 {
+                result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits))
+                currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue * 7)
+            }
+            return result
+        }
+
 }
 
 #Preview {
-    //MonthView()
+    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 3)
+    MonthView(start: startDate, model: Controller())
 }
