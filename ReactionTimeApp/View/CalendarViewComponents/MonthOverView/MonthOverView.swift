@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MonthOverView: View {
-    let currMonth: Date
+    @State var currMonth: Date
 
     var currMonthString: String {
         currMonth.formatted(Date.FormatStyle().month(.wide))
@@ -20,7 +20,18 @@ struct MonthOverView: View {
     var body: some View {
         VStack {
             header
-            Text("\(currMonthString) +  \(currYearString)")
+            Text("\(currMonth)")
+            Button {
+               currMonth = getPreviousMonth(date: currMonth)
+            } label: {
+               Text("Back 1 Month")
+            }
+            Button {
+               currMonth = getNextMonth(date: currMonth)
+            } label: {
+                Text("Forward 1 Month")
+            }
+
             Spacer()
         }
 
@@ -78,13 +89,42 @@ struct MonthOverView: View {
         ScrollView {
 } }
 
-    mutating func getPreviousMonth (date: Date) -> Date {
-        var myCalender = Calendar.current.date(byAdding: .month, value: 1, to: date)
-        return Date.now
+     func getPreviousMonth (date: Date) -> Date {
+        var components = DateComponents()
+        let currMonth = getMonthAsInt(from: date)
+        let newMonth = currMonth == 1 ? 12 : currMonth - 1
+        let newYear = newMonth == 12 ? (getYearAsInt(from: date)) - 1 : getYearAsInt(from: date)
+        components.year = newYear
+        components.month = newMonth
+        components.day = 1
+        return Calendar.current.date(from: components) ?? Date.now
     }
 
-    mutating func getNextMoneh (date: Date) -> Date {
-        Date.now
+    func createDummyDate (day: Int , month: Int, year: Int) -> Date {
+        var components = DateComponents()
+        components.day = day
+        components.month = month
+        components.year = year
+        return Calendar.current.date(from: components) ?? Date.now
+    }
+     func getNextMonth (date: Date) -> Date {
+         var components = DateComponents()
+         let currMonth = getMonthAsInt(from: date)
+         let newMonth = currMonth == 12 ? 1 : currMonth + 1
+         let newYear = newMonth == 1 ? getYearAsInt(from: date) + 1 : getYearAsInt(from: date)
+         components.year = newYear
+         components.month = newMonth
+         components.day = 1
+         return Calendar.current.date(from: components) ?? Date.now
+    }
+
+    func getYearAsInt (from date: Date) -> Int {
+        let result = date.formatted(Date.FormatStyle().year(.defaultDigits))
+        return Int(result)!
+    }
+    func getMonthAsInt (from date: Date) -> Int {
+        let result = date.formatted(Date.FormatStyle().month(.twoDigits))
+        return Int(result)!
     }
 }
 
