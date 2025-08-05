@@ -48,7 +48,6 @@ struct WeekView: View, Identifiable {
                 view
             }
         }
-        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(.black), alignment: .top)
     }
 }
 

@@ -40,6 +40,10 @@ struct DayView: View , Identifiable {
         colorScheme == .dark ? .black : .white
     }
 
+    var opacity: Double {
+        dayType == .invalid ? 0 : 1
+    }
+
     var results: [Result] {
         if (dayType != .invalid) {
             if let date {
@@ -59,7 +63,8 @@ struct DayView: View , Identifiable {
                 resultView
 
             }
-            .opacity(dayType == .invalid ? 0 : 1)
+            .opacity(opacity)
+            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(.gray), alignment: .top).opacity(opacity)
         }.aspectRatio(1/2 , contentMode: .fit)
     }
 
