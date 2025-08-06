@@ -28,6 +28,17 @@ struct MonthView: View , Identifiable {
         }
     }
 
+    func calculateWeekNum(for date: Date) -> Int {
+        var currMonth: String = date.formatted(Date.FormatStyle().month(.twoDigits))
+        var currDate  = date
+        var weekNum = 0
+        while (currMonth == currDate.formatted(Date.FormatStyle().month(.twoDigits))) {
+            currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue * 7)
+            weekNum += 1
+        }
+        return weekNum
+    }
+
     func createWeekViews(start: Date , model: Controller) -> [WeekView] {
             let monthDigits = start.formatted(Date.FormatStyle().month(.defaultDigits))
             var result: [WeekView] = [WeekView(start: start, model: model, monthDigits: monthDigits)]
@@ -35,7 +46,8 @@ struct MonthView: View , Identifiable {
             let dayDifference: Int = 8 - Int(currentWeekday)!
             let secondWeek = start.addingTimeInterval(UsefulTimeIntervals.day.rawValue * Double (dayDifference) )
             var currDate: Date = secondWeek
-            for _ in 0..<5 {
+            let weekNum = calculateWeekNum(for: start)
+        for _ in 0..<weekNum - 1 {
                 result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits))
                 currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue * 7)
             }
