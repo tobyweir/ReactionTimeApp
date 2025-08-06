@@ -123,18 +123,13 @@ extension Date {
         components.month = newMonth
         components.day = 1
         return Calendar.current.date(from: components) ?? Date.now
+
    }
 
     func getNextWeek () -> Date {
-        var components = DateComponents()
-        let currMonth = getMonthAsInt(from: self)
-        let newMonth = currMonth == 12 ? 1 : currMonth + 1
-        let newYear = newMonth == 1 ? getYearAsInt(from: self) + 1 : getYearAsInt(from: self)
-        components.year = newYear
-        components.month = newMonth
-        components.day = 1
-        return Calendar.current.date(from: components) ?? Date.now
+        return Calendar.current.date(byAdding: .day, value: 7, to: self)!
     }
+
 
    func getYearAsInt (from date: Date) -> Int {
        let result = date.formatted(Date.FormatStyle().year(.defaultDigits))
@@ -145,6 +140,11 @@ extension Date {
        let result = date.formatted(Date.FormatStyle().month(.twoDigits))
        return Int(result)!
    }
+
+    func getDayAsInt (from date: Date) -> Int {
+        let result = date.formatted(Date.FormatStyle().day(.twoDigits))
+        return Int(result)!
+    }
 }
 
 #Preview {

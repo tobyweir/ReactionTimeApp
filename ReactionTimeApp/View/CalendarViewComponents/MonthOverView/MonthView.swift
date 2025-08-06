@@ -51,9 +51,9 @@ struct MonthView: View , Identifiable {
         let secondWeek = start.addingTimeInterval(UsefulTimeIntervals.day.rawValue * Double (dayDifference) )
         var currDate: Date = secondWeek
         let weekNum = calculateWeekNum(for: secondWeek)
-        for _ in 0..<5{
+        for _ in 0..<weekNum{
             result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits))
-            currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue * 7.1)
+            currDate = currDate.getNextWeek()
         }
         return result
     }
