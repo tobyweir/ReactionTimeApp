@@ -130,6 +130,10 @@ extension Date {
         return Calendar.current.date(byAdding: .day, value: 7, to: self)!
     }
 
+    func getNextDay () -> Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)!
+    }
+
 
    func getYearAsInt (from date: Date) -> Int {
        let result = date.formatted(Date.FormatStyle().year(.defaultDigits))

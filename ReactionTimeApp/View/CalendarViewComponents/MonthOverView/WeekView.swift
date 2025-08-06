@@ -31,7 +31,7 @@ struct WeekView: View, Identifiable {
             let result = createDayView(for: Day.getWeekday(from: index), against: currDate)
             views.append(result.0)
             if (result.1 == true) {
-                currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue)
+                currDate = currDate.getNextDay()
             }
         }
         return views

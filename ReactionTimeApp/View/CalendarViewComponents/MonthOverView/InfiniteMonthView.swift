@@ -23,7 +23,7 @@ struct InfiniteMonthView: View {
     var body: some View {
 //        Text("\(monthId)")
         ScrollView {
-            LazyVStack {
+            VStack { //Scrolling lags on Lazy sometimes,may need to swap back
                 ForEach (months , id: \.self) { month in
                     MonthView(start: month, model: model)
 
@@ -35,8 +35,6 @@ struct InfiniteMonthView: View {
 
     func initMonths () {
         expandHead()
-        expandHead()
-        expandTail()
         expandTail()
     }
 
