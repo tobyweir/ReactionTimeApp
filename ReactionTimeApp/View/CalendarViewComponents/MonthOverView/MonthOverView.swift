@@ -22,12 +22,12 @@ struct MonthOverView: View {
             header
             Text("\(currMonth)")
             Button {
-               currMonth = getPreviousMonth(date: currMonth)
+                currMonth = currMonth.getPreviousMonth()
             } label: {
                Text("Back 1 Month")
             }
             Button {
-               currMonth = getNextMonth(date: currMonth)
+                currMonth = currMonth.getNextMonth()
             } label: {
                 Text("Forward 1 Month")
             }
@@ -89,43 +89,49 @@ struct MonthOverView: View {
         ScrollView {
 } }
 
-     func getPreviousMonth (date: Date) -> Date {
-        var components = DateComponents()
-        let currMonth = getMonthAsInt(from: date)
-        let newMonth = currMonth == 1 ? 12 : currMonth - 1
-        let newYear = newMonth == 12 ? (getYearAsInt(from: date)) - 1 : getYearAsInt(from: date)
-        components.year = newYear
-        components.month = newMonth
-        components.day = 1
-        return Calendar.current.date(from: components) ?? Date.now
-    }
+}
 
-    func createDummyDate (day: Int , month: Int, year: Int) -> Date {
+extension Date {
+
+    static func createDummyDate (day: Int , month: Int, year: Int) -> Date {
         var components = DateComponents()
         components.day = day
         components.month = month
         components.year = year
         return Calendar.current.date(from: components) ?? Date.now
     }
-     func getNextMonth (date: Date) -> Date {
-         var components = DateComponents()
-         let currMonth = getMonthAsInt(from: date)
-         let newMonth = currMonth == 12 ? 1 : currMonth + 1
-         let newYear = newMonth == 1 ? getYearAsInt(from: date) + 1 : getYearAsInt(from: date)
-         components.year = newYear
-         components.month = newMonth
-         components.day = 1
-         return Calendar.current.date(from: components) ?? Date.now
-    }
 
-    func getYearAsInt (from date: Date) -> Int {
-        let result = date.formatted(Date.FormatStyle().year(.defaultDigits))
-        return Int(result)!
-    }
-    func getMonthAsInt (from date: Date) -> Int {
-        let result = date.formatted(Date.FormatStyle().month(.twoDigits))
-        return Int(result)!
-    }
+    func getPreviousMonth () -> Date {
+       var components = DateComponents()
+       let currMonth = getMonthAsInt(from: self)
+       let newMonth = currMonth == 1 ? 12 : currMonth - 1
+       let newYear = newMonth == 12 ? (getYearAsInt(from: self)) - 1 : getYearAsInt(from: self)
+       components.year = newYear
+       components.month = newMonth
+       components.day = 1
+       return Calendar.current.date(from: components) ?? Date.now
+   }
+
+    func getNextMonth () -> Date {
+        var components = DateComponents()
+        let currMonth = getMonthAsInt(from: self)
+        let newMonth = currMonth == 12 ? 1 : currMonth + 1
+        let newYear = newMonth == 1 ? getYearAsInt(from: self) + 1 : getYearAsInt(from: self)
+        components.year = newYear
+        components.month = newMonth
+        components.day = 1
+        return Calendar.current.date(from: components) ?? Date.now
+   }
+
+   func getYearAsInt (from date: Date) -> Int {
+       let result = date.formatted(Date.FormatStyle().year(.defaultDigits))
+       return Int(result)!
+   }
+
+   func getMonthAsInt (from date: Date) -> Int {
+       let result = date.formatted(Date.FormatStyle().month(.twoDigits))
+       return Int(result)!
+   }
 }
 
 #Preview {

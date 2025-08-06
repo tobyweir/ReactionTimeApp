@@ -52,7 +52,6 @@ struct WeekView: View, Identifiable {
 }
 
 #Preview {
-    var date = DateComponents()
     let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 7)
     WeekView(start: startDate , model: Controller(), monthDigits: startDate.formatted(Date.FormatStyle().month(.defaultDigits)))
 }

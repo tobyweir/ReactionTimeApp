@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct MonthView: View {
+struct MonthView: View , Identifiable {
+    let id = UUID()
     let start: Date
     let model: Controller
 

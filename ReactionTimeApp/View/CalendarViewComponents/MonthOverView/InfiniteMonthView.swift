@@ -8,53 +8,126 @@
 import SwiftUI
 
 struct InfiniteMonthView: View {
+    @State  var months: [Date]
+    @Binding var monthId: Date
+    let model : Controller
+
+    init (monthId: Binding<Date> , model : Controller ) {
+        self._monthId = monthId
+        self.model = model
+        months = [monthId.wrappedValue]
+    }
+
+
+
     var body: some View {
-        Text("Temp")
+        Text("\(monthId)")
+        ScrollView {
+            LazyVStack {
+                ForEach (months , id: \.self) { month in
+                    MonthView(start: month, model: model)
+
+                }
+            }
+        }.onAppear() {
+            expandHead()
+            expandTail()
+        }
+    }
+
+    func expandHead () {
+        let newHead = months.first
+        months = newHead == nil ? months : [newHead!.getPreviousMonth()] + months
+    }
+
+    func expandTail () {
+        let newTail = months.last
+        months = newTail == nil ? months : months + [newTail!.getNextMonth()]
+    }
+
+    func reduceHead () {
+        if let head = months.indices.first {
+            months.remove(at: head)
+        }
+    }
+
+    func reduceTail () {
+        if let tail = months.indices.last {
+            months.remove(at: tail)
+        }
     }
 }
 
-struct InfiniteContentView: View {
-  @State private var numbers: [Int] = Array(1...20)
-  @State private var isLoading = false
-  @State private var isFinished = false
 
-  var body: some View {
-    NavigationStack {
-      List {
-        ForEach(numbers, id: \.self) { number in
-          Text("Row \(number)")
-        }
+struct InfiniteExampleView: View {
+    @State var data: [String] = (0 ..< 25).map { String($0) }
+    @State var dataID: String?
 
-        if !isFinished {
-          ProgressView()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .foregroundColor(.black)
-            .foregroundColor(.red)
-            .onAppear {
-              loadMoreContent()
+    var body: some View {
+        ScrollView {
+            VStack {
+                Text("Header")
+
+                LazyVStack {
+                    ForEach(data, id: \.self) { item in
+                        Color.red
+                            .frame(width: 100, height: 100)
+                            .overlay {
+                                Text("\(item)")
+                                    .padding()
+                                    .background()
+                            }
+                    }
+                }
+                .scrollTargetLayout()
             }
         }
-      }
-      .navigationTitle("Infinite List")
-    }
-  }
+        .scrollPosition(id: $dataID)
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Text("\(Text("Scrolled").bold()) \(dataIDText)")
+                Spacer()
+                Button {
+                    dataID = data.first
+                } label: {
+                    Label("Top", systemImage: "arrow.up")
+                }
+                Button {
+                    dataID = data.last
+                } label: {
+                    Label("Bottom", systemImage: "arrow.down")
+                }
+                Menu {
 
-  func loadMoreContent() {
-    if !isLoading {
-      isLoading = true
-      // This simulates an asynchronus call
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-        let moreNumbers = numbers.count + 1...numbers.count + 20
-        numbers.append(contentsOf: moreNumbers)
-        isLoading = false
-        if numbers.count > 250 {
-          isFinished = true
+                    Button("Prepend") {
+                        let next = String(data.count)
+                        data.insert(next, at: 0)
+                    }
+                    Button("Append") {
+                        let next = String(data.count)
+                        data.append(next)
+                    }
+                    Button("Remove First") {
+                        data.removeFirst()
+                    }
+                    Button("Remove Last") {
+                        data.removeLast()
+                    }
+
+                } label: {
+                    Label("More", systemImage: "ellipsis.circle")
+                }
+            }
         }
-      }
     }
-  }
+
+    var dataIDText: String {
+        dataID.map(String.init(describing:)) ?? "None"
+    }
 }
 
 #Preview {
-    InfiniteContentView()
+    @Previewable @State var date: Date = Date.createDummyDate(day: 1, month: 6, year: 2020)
+    let model = Controller()
+    InfiniteMonthView(monthId: $date, model: model)
 }
