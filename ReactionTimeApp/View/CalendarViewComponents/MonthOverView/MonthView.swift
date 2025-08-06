@@ -11,6 +11,7 @@ struct MonthView: View , Identifiable {
     let id = UUID()
     let start: Date
     let model: Controller
+    @State var weekViews: [WeekView] = []
 
     init(start: Date, model: Controller) {
         self.start = start
@@ -18,18 +19,21 @@ struct MonthView: View , Identifiable {
     }
 
     var body: some View {
-        let weekViews: [WeekView] = createWeekViews(start: start, model: model)
+//        let weekViews: [WeekView] = createWeekViews(start: start, model: model)
         VStack {
             Text("\(start.formatted(Date.FormatStyle().month(.abbreviated)))")
                 .font(.system(size: 30, weight: .bold, design: .monospaced))
             ForEach(weekViews) { view in
                 view
             }
-        }
+        }.onAppear(perform: populateWeekViews)
     }
 
+    func populateWeekViews () {
+        weekViews = createWeekViews(start: start, model: model)
+    }
     func calculateWeekNum(for date: Date) -> Int {
-        var currMonth: String = date.formatted(Date.FormatStyle().month(.twoDigits))
+        let currMonth: String = date.formatted(Date.FormatStyle().month(.twoDigits))
         var currDate  = date
         var weekNum = 0
         while (currMonth == currDate.formatted(Date.FormatStyle().month(.twoDigits))) {
@@ -40,23 +44,23 @@ struct MonthView: View , Identifiable {
     }
 
     func createWeekViews(start: Date , model: Controller) -> [WeekView] {
-            let monthDigits = start.formatted(Date.FormatStyle().month(.defaultDigits))
-            var result: [WeekView] = [WeekView(start: start, model: model, monthDigits: monthDigits)]
-            let currentWeekday = start.formatted(Date.FormatStyle().weekday(.oneDigit))
-            let dayDifference: Int = 8 - Int(currentWeekday)!
-            let secondWeek = start.addingTimeInterval(UsefulTimeIntervals.day.rawValue * Double (dayDifference) )
-            var currDate: Date = secondWeek
-            let weekNum = calculateWeekNum(for: start)
-        for _ in 0..<weekNum - 1 {
-                result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits))
-                currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue * 7)
-            }
-            return result
+        let monthDigits = start.formatted(Date.FormatStyle().month(.twoDigits))
+        var result: [WeekView] = [WeekView(start: start, model: model, monthDigits: monthDigits)]
+        let currentWeekday = start.formatted(Date.FormatStyle().weekday(.oneDigit))
+        let dayDifference: Int = 8 - Int(currentWeekday)!
+        let secondWeek = start.addingTimeInterval(UsefulTimeIntervals.day.rawValue * Double (dayDifference) )
+        var currDate: Date = secondWeek
+        let weekNum = calculateWeekNum(for: secondWeek)
+        for _ in 0..<5{
+            result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits))
+            currDate = currDate.addingTimeInterval(UsefulTimeIntervals.day.rawValue * 7.1)
         }
+        return result
+    }
 
 }
 
 #Preview {
-    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 34)
+    let startDate = Date.createDummyDate(day: 1, month: 10, year: 2025)
     MonthView(start: startDate, model: Controller())
 }

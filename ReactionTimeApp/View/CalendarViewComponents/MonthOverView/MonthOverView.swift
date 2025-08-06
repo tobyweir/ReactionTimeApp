@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MonthOverView: View {
     @State var currMonth: Date
+    let model: Controller
 
     var currMonthString: String {
         currMonth.formatted(Date.FormatStyle().month(.wide))
@@ -18,19 +19,20 @@ struct MonthOverView: View {
         currMonth.formatted(Date.FormatStyle().year(.defaultDigits))
     }
     var body: some View {
-        VStack {
+        VStack (spacing: 0) {
             header
+            InfiniteMonthView(monthId: $currMonth , model: model)
             Text("\(currMonth)")
-            Button {
-                currMonth = currMonth.getPreviousMonth()
-            } label: {
-               Text("Back 1 Month")
-            }
-            Button {
-                currMonth = currMonth.getNextMonth()
-            } label: {
-                Text("Forward 1 Month")
-            }
+//            Button {
+//                currMonth = currMonth.getPreviousMonth()
+//            } label: {
+//               Text("Back 1 Month")
+//            }
+//            Button {
+//                currMonth = currMonth.getNextMonth()
+//            } label: {
+//                Text("Forward 1 Month")
+//            }
 
             Spacer()
         }
@@ -123,6 +125,17 @@ extension Date {
         return Calendar.current.date(from: components) ?? Date.now
    }
 
+    func getNextWeek () -> Date {
+        var components = DateComponents()
+        let currMonth = getMonthAsInt(from: self)
+        let newMonth = currMonth == 12 ? 1 : currMonth + 1
+        let newYear = newMonth == 1 ? getYearAsInt(from: self) + 1 : getYearAsInt(from: self)
+        components.year = newYear
+        components.month = newMonth
+        components.day = 1
+        return Calendar.current.date(from: components) ?? Date.now
+    }
+
    func getYearAsInt (from date: Date) -> Int {
        let result = date.formatted(Date.FormatStyle().year(.defaultDigits))
        return Int(result)!
@@ -135,5 +148,6 @@ extension Date {
 }
 
 #Preview {
-    MonthOverView(currMonth: Date.now)
+    let model = Controller()
+    MonthOverView(currMonth: Date.now, model: model)
 }

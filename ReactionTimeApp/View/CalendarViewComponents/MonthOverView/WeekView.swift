@@ -10,15 +10,19 @@ struct WeekView: View, Identifiable {
     let id = UUID()
     let startDate: Date
     let model: Controller
-    var dayViews: [DayView] = []
+    @State var dayViews: [DayView] = []
     var monthDigits: String
 
     init(start: Date, model: Controller, monthDigits: String) {
         self.startDate = start
         self.model = model
         self.monthDigits = monthDigits
-        self.dayViews = createDayViews(date: start)
+//        self.dayViews = createDayViews(date: start)
 
+    }
+
+    func populateDayViews () {
+        dayViews = createDayViews(date: startDate)
     }
     func createDayViews (date: Date) -> [DayView] {
         var currDate = date
@@ -34,7 +38,7 @@ struct WeekView: View, Identifiable {
     }
     func createDayView (for day: Day , against date: Date) -> (DayView , Bool) {
         let dayToCompare = date.formatted(Date.FormatStyle().weekday(.abbreviated))
-        let monthToCompare = date.formatted(Date.FormatStyle().month(.defaultDigits))
+        let monthToCompare = date.formatted(Date.FormatStyle().month(.twoDigits))
         if (day.rawValue == dayToCompare && monthToCompare == monthDigits) {
             let dayView = DayView(date: date, dayType: .weekday, model: model)
             return (dayView , true)
@@ -48,11 +52,12 @@ struct WeekView: View, Identifiable {
                 view
             }
         }
+        .onAppear(perform: populateDayViews)
     }
 }
 
 #Preview {
-    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 7)
-    WeekView(start: startDate , model: Controller(), monthDigits: startDate.formatted(Date.FormatStyle().month(.defaultDigits)))
+    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 5)
+    WeekView(start: startDate , model: Controller(), monthDigits: startDate.formatted(Date.FormatStyle().month(.twoDigits)))
 }
 

@@ -12,6 +12,7 @@ struct DayView: View , Identifiable {
     var date: Date?
     var dayType: CalendarDayType
     let model: Controller
+    let results: [Result] = []
     @Environment(\.colorScheme) var colorScheme
 
     init (date: Date?, dayType: CalendarDayType, model : Controller) {
@@ -44,16 +45,6 @@ struct DayView: View , Identifiable {
         dayType == .invalid ? 0 : 1
     }
 
-    var results: [Result] {
-        if (dayType != .invalid) {
-            if let date {
-                return model.getResults(between: date, and: date)
-            } else { return [] }
-        } else {
-            return []
-        }
-    }
-
     var body: some View {
         ZStack {
             Rectangle()
@@ -66,6 +57,7 @@ struct DayView: View , Identifiable {
             .opacity(opacity)
             .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(.gray), alignment: .top).opacity(opacity)
         }.aspectRatio(1/2 , contentMode: .fit)
+            .onAppear(perform: populateResults)
     }
 
     @ViewBuilder
@@ -88,6 +80,12 @@ struct DayView: View , Identifiable {
             backgroundColor
         default:
                 .green
+        }
+    }
+
+    func populateResults () {
+        if (dayType != .invalid) {
+//            results = model.getResults(between: , and: )
         }
     }
 }

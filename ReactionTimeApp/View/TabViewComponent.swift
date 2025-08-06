@@ -9,12 +9,13 @@ import SwiftUI
 
 struct TabViewComponent: View {
     var tabSelectionColor: Color = .blue
+    @State var model: Controller
     @State var tabSelection: Int = 1
     var body: some View {
 
         TabView(selection: $tabSelection) {
             Tab("Calender", systemImage: "calendar", value: 0) {
-                testView1
+                MonthView(start: Date.createDummyDate(day: 1, month: 10, year: 2024), model: model)
             }
             Tab("Test", systemImage: "bolt", value: 1) {
                 TestView()
@@ -38,5 +39,6 @@ struct TabViewComponent: View {
 
 
 #Preview {
-    TabViewComponent()
+    let model = Controller()
+    TabViewComponent(model: model)
 }

@@ -21,7 +21,7 @@ struct InfiniteMonthView: View {
 
 
     var body: some View {
-        Text("\(monthId)")
+//        Text("\(monthId)")
         ScrollView {
             LazyVStack {
                 ForEach (months , id: \.self) { month in
@@ -29,10 +29,15 @@ struct InfiniteMonthView: View {
 
                 }
             }
-        }.onAppear() {
-            expandHead()
-            expandTail()
-        }
+        }.onAppear(perform: initMonths)
+
+    }
+
+    func initMonths () {
+        expandHead()
+        expandHead()
+        expandTail()
+        expandTail()
     }
 
     func expandHead () {
@@ -127,7 +132,7 @@ struct InfiniteExampleView: View {
 }
 
 #Preview {
-    @Previewable @State var date: Date = Date.createDummyDate(day: 1, month: 6, year: 2020)
+    @Previewable @State var date: Date = Date.createDummyDate(day: 1, month: 8, year: 2025)
     let model = Controller()
     InfiniteMonthView(monthId: $date, model: model)
 }
