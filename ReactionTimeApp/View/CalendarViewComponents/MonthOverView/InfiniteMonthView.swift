@@ -21,17 +21,28 @@ struct InfiniteMonthView: View {
 
 
     var body: some View {
-//        Text("\(monthId)")
-        ScrollView {
-            VStack { //Scrolling lags on Lazy sometimes,may need to swap back
-                ForEach (months , id: \.self) { month in
-                    MonthView(start: month, model: model)
+        VStack {
+            Text("\(monthId)")
+            ScrollView {
+                LazyVStack { //Scrolling lags on Lazy sometimes,may need to swap back
+                    ForEach (months , id: \.self) { month in
+                        MonthView(start: month, model: model)
 
+                    }
                 }
+                .onAppear(perform: initMonths)
+                .scrollTargetLayout()
             }
-        }.onAppear(perform: initMonths)
-
+            //            .scrollTargetBehavior(.viewAligned)
+            .scrollPosition(id: Binding($monthId))
+            Button {
+                expandHead()
+            } label: {
+                Label("Top", systemImage: "arrow.up")
+            }
+        }
     }
+
 
     func initMonths () {
         expandHead()
