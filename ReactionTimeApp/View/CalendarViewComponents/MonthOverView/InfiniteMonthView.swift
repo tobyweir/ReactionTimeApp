@@ -33,21 +33,28 @@ struct InfiniteMonthView: View {
                 .onAppear(perform: initMonths)
                 .scrollTargetLayout()
             }
-            //            .scrollTargetBehavior(.viewAligned)
+            //.scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: Binding($monthId))
+            .defaultScrollAnchor(.center)
             Button {
-                expandHead()
+                monthId = months.first ?? monthId
             } label: {
                 Label("Top", systemImage: "arrow.up")
+            }
+            Button {
+                monthId = months.last ?? monthId
+            } label: {
+                Label("Bottom", systemImage: "arrow.down")
             }
         }
     }
 
 
     func initMonths () {
-        expandHead()
-        expandTail()
+       expandHead()
+       expandTail()
     }
+
 
     func expandHead () {
         let newHead = months.first
