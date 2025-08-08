@@ -12,7 +12,9 @@ struct DayView: View , Identifiable {
     var date: Date?
     var dayType: CalendarDayType
     let model: Controller
-    let results: [Result] = []
+    @State var results: [Result] = []
+    @State var foregroundColour: Color = .gray
+    @State var backgroundColour: Color = .white
     @Environment(\.colorScheme) var colorScheme
 
     init (date: Date?, dayType: CalendarDayType, model : Controller) {
@@ -29,35 +31,36 @@ struct DayView: View , Identifiable {
         }
 
     }
-    var foregroundColour: Color {
-        if isWeekend == true {
-            Color.gray
+
+    @ViewBuilder
+    var body: some View {
+        if dayType == .invalid {
+            invalidView
         } else {
-            colorScheme == .dark ? .white : .black
+            totalView
         }
     }
 
-    var backgroundColor: Color {
-        colorScheme == .dark ? .black : .white
+    var invalidView : some View {
+        Rectangle().foregroundStyle(backgroundColour)
     }
 
-    var opacity: Double {
-        dayType == .invalid ? 0 : 1
-    }
-
-    var body: some View {
+    var totalView : some View {
         ZStack {
             Rectangle()
-                .foregroundStyle(backgroundColor)
-            VStack (spacing: 0) {
-                dateNumberView
-                resultView
-
-            }
-            .opacity(opacity)
-            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(.gray), alignment: .top).opacity(opacity)
+                .foregroundStyle(backgroundColour)
+            contentView
         }.aspectRatio(1/2 , contentMode: .fit)
-            .onAppear(perform: populateResults)
+            .onAppear(perform: initView)
+    }
+
+    var contentView: some View {
+        VStack (spacing: 0) {
+            dateNumberView
+            resultView
+
+        }
+        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(.gray), alignment: .top)
     }
 
     @ViewBuilder
@@ -77,10 +80,26 @@ struct DayView: View , Identifiable {
     var resultViewColor: Color {
         switch results.count {
         case 0:
-            backgroundColor
+            backgroundColour
         default:
                 .green
         }
+    }
+
+    func initView () {
+        populateResults()
+        calculateColours()
+    }
+
+    func calculateColours(){
+        if isWeekend == true {
+            foregroundColour = Color.gray
+        } else {
+            foregroundColour = colorScheme == .dark ? .white : .black
+        }
+        backgroundColour = colorScheme == .dark ? .black : .white
+
+
     }
 
     func populateResults () {

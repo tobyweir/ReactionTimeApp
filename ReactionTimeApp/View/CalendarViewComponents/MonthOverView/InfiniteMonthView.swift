@@ -22,39 +22,24 @@ struct InfiniteMonthView: View {
 
     var body: some View {
         VStack {
-            Text("\(monthId)")
             ScrollView {
                 LazyVStack { //Scrolling lags on Lazy sometimes,may need to swap back
                     ForEach (months , id: \.self) { month in
                         MonthView(start: month, model: model)
-
                     }
                 }
                 .onAppear(perform: initMonths)
                 .scrollTargetLayout()
             }
-            //.scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: Binding($monthId))
             .defaultScrollAnchor(.center)
-            Button {
-                monthId = months.first ?? monthId
-            } label: {
-                Label("Top", systemImage: "arrow.up")
-            }
-            Button {
-                monthId = months.last ?? monthId
-            } label: {
-                Label("Bottom", systemImage: "arrow.down")
-            }
         }
     }
-
 
     func initMonths () {
        expandHead()
        expandTail()
     }
-
 
     func expandHead () {
         let newHead = months.first
@@ -76,74 +61,6 @@ struct InfiniteMonthView: View {
         if let tail = months.indices.last {
             months.remove(at: tail)
         }
-    }
-}
-
-
-struct InfiniteExampleView: View {
-    @State var data: [String] = (0 ..< 25).map { String($0) }
-    @State var dataID: String?
-
-    var body: some View {
-        ScrollView {
-            VStack {
-                Text("Header")
-
-                LazyVStack {
-                    ForEach(data, id: \.self) { item in
-                        Color.red
-                            .frame(width: 100, height: 100)
-                            .overlay {
-                                Text("\(item)")
-                                    .padding()
-                                    .background()
-                            }
-                    }
-                }
-                .scrollTargetLayout()
-            }
-        }
-        .scrollPosition(id: $dataID)
-        .safeAreaInset(edge: .bottom) {
-            HStack {
-                Text("\(Text("Scrolled").bold()) \(dataIDText)")
-                Spacer()
-                Button {
-                    dataID = data.first
-                } label: {
-                    Label("Top", systemImage: "arrow.up")
-                }
-                Button {
-                    dataID = data.last
-                } label: {
-                    Label("Bottom", systemImage: "arrow.down")
-                }
-                Menu {
-
-                    Button("Prepend") {
-                        let next = String(data.count)
-                        data.insert(next, at: 0)
-                    }
-                    Button("Append") {
-                        let next = String(data.count)
-                        data.append(next)
-                    }
-                    Button("Remove First") {
-                        data.removeFirst()
-                    }
-                    Button("Remove Last") {
-                        data.removeLast()
-                    }
-
-                } label: {
-                    Label("More", systemImage: "ellipsis.circle")
-                }
-            }
-        }
-    }
-
-    var dataIDText: String {
-        dataID.map(String.init(describing:)) ?? "None"
     }
 }
 

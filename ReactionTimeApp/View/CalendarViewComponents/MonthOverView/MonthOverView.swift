@@ -22,7 +22,6 @@ struct MonthOverView: View {
         VStack (spacing: 0) {
             header
             InfiniteMonthView(monthId: $currMonth , model: model)
-            Text("\(currMonth)")
 //            Button {
 //                currMonth = currMonth.getPreviousMonth()
 //            } label: {
@@ -134,7 +133,6 @@ extension Date {
         return Calendar.current.date(byAdding: .day, value: 1, to: self)!
     }
 
-
    func getYearAsInt (from date: Date) -> Int {
        let result = date.formatted(Date.FormatStyle().year(.defaultDigits))
        return Int(result)!
@@ -153,5 +151,6 @@ extension Date {
 
 #Preview {
     let model = Controller()
-    MonthOverView(currMonth: Date.now, model: model)
+    let date = Date.createDummyDate(day: 1, month: 8, year: 2025)
+    MonthOverView(currMonth: date, model: model)
 }
