@@ -11,6 +11,7 @@ struct InfiniteMonthView: View {
     @State  var months: [Date]
     @Binding var monthId: Date
     let model : Controller
+//    @State var loadedToHeadCount: Int = 0
 
     init (monthId: Binding<Date> , model : Controller ) {
         self._monthId = monthId
@@ -21,10 +22,11 @@ struct InfiniteMonthView: View {
 
 
     var body: some View {
-        VStack {
-            ScrollView {
-                LazyVStack { //Scrolling lags on Lazy sometimes,may need to swap back
+            ScrollView (.vertical , showsIndicators: false){
+                LazyVStack {
                     ForEach (months , id: \.self) { month in
+                        Divider()
+                        .hidden()
                         MonthView(start: month, model: model)
                     }
                 }
@@ -32,14 +34,35 @@ struct InfiniteMonthView: View {
                 .scrollTargetLayout()
             }
             .scrollPosition(id: Binding($monthId))
+            .scrollTargetBehavior(.viewAligned)
             .defaultScrollAnchor(.center)
-        }
+//            .onChange(of: monthId, initial: false) { oldValue , newValue in
+//                if (oldValue > newValue && newValue == months[0]) {
+//                    loadedToHeadCount += 1
+//                    print ("added to head , total: \(loadedToHeadCount)")
+//                    expandHead()
+//                }
+//            }
+
     }
 
     func initMonths () {
-       expandHead()
-       expandTail()
+        expandMonthsUp(by: 2)
+        expandMonthsDown(by: 2)
     }
+
+    func expandMonthsUp(by count: Int) {
+        for _ in (0..<count) {
+            expandHead()
+        }
+    }
+
+    func expandMonthsDown(by count: Int) {
+        for _ in (0..<count) {
+            expandTail()
+        }
+    }
+
 
     func expandHead () {
         let newHead = months.first
@@ -62,6 +85,8 @@ struct InfiniteMonthView: View {
             months.remove(at: tail)
         }
     }
+
+
 }
 
 #Preview {

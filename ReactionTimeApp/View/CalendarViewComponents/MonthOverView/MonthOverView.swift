@@ -56,18 +56,23 @@ struct MonthOverView: View {
     }
 
     var weekdayGuideBar: some View {
-        let weekdayArray: [String] = ["M" , "T" , "W", "T" , "F" , "S" , "S"]
+        let weekdayArray: [StringWrapper] = [StringWrapper(val: "M") , StringWrapper(val: "T") , StringWrapper(val: "W") , StringWrapper(val: "T") , StringWrapper(val: "F") , StringWrapper(val: "S") , StringWrapper(val: "S")]
         return HStack (spacing: 0) {
-                ForEach (weekdayArray, id: \.self) { day in
+            ForEach (weekdayArray) { day in
                     ZStack {
                         Color.blue
                         VStack {
                             Spacer()
-                            Text("\(day)")
+                            Text("\(day.val)")
                         }
                     }
                 }
         }
+    }
+
+    struct StringWrapper: Identifiable {
+        var id = UUID()
+        var val: String
     }
 
     var currMonthView: some View {
