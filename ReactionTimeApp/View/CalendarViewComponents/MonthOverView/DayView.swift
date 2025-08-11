@@ -36,8 +36,10 @@ struct DayView: View , Identifiable {
     var body: some View {
         if dayType == .invalid {
             invalidView
+                .onAppear(perform: initView)
         } else {
             totalView
+                .onAppear(perform: initView)
         }
     }
 
@@ -51,7 +53,6 @@ struct DayView: View , Identifiable {
                 .foregroundStyle(backgroundColour)
             contentView
         }.aspectRatio(1/2 , contentMode: .fit)
-            .onAppear(perform: initView)
     }
 
     var contentView: some View {

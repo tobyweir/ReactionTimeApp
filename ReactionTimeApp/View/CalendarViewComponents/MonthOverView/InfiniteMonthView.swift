@@ -30,37 +30,19 @@ struct InfiniteMonthView: View {
             ScrollView (.vertical , showsIndicators: false){
                 LazyVStack { //Why does lazy cause lagging? getting stuck?
                     ForEach (months , id: \.self) { month in
-                        Divider()
-                        .hidden()
                         MonthView(start: month, model: model)
-                            .onAppear {
-                                if month == months[0] {
 
-                                }
-                            }
-                            .onDisappear {
-                                months = months.filter({$0 != month})
-                            }
                     }
                 }
                 .onAppear(perform: initMonths)
                 .scrollTargetLayout()
             }
-            .scrollPosition(id: Binding($monthId))
-            .scrollTargetBehavior(.viewAligned)
-            .defaultScrollAnchor(.center)
-//            .onChange(of: monthId, initial: false) { oldValue , newValue in
-//                if (oldValue > newValue && newValue == months[0]) {
-//                    loadedToHeadCount += 1
-//                    print ("added to head , total: \(loadedToHeadCount)")
-//                    expandHead()
-//                }
-//            }
-
+            .scrollPosition(id: Binding($monthId), anchor: .center)
     }
 
     func initMonths () {
-
+        expandMonthsUp(by: 3)
+        expandMonthsDown(by: 3)
     }
 
     func expandMonthsUp(by count: Int) {

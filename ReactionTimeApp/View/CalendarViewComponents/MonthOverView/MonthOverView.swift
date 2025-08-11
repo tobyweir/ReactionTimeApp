@@ -19,7 +19,7 @@ struct MonthOverView: View {
         currMonth.formatted(Date.FormatStyle().year(.defaultDigits))
     }
     var body: some View {
-        VStack (spacing: 0) {
+        VStack {
             header
             InfiniteMonthView(monthId: $currMonth , model: model)
 //            Button {
