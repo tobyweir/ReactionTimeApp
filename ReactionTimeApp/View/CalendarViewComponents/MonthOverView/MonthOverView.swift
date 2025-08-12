@@ -19,21 +19,11 @@ struct MonthOverView: View {
         currMonth.formatted(Date.FormatStyle().year(.defaultDigits))
     }
     var body: some View {
-        VStack {
+        VStack (spacing: 0) {
             header
-            InfiniteMonthView(monthId: $currMonth , model: model)
-//            Button {
-//                currMonth = currMonth.getPreviousMonth()
-//            } label: {
-//               Text("Back 1 Month")
-//            }
-//            Button {
-//                currMonth = currMonth.getNextMonth()
-//            } label: {
-//                Text("Forward 1 Month")
-//            }
-
             Spacer()
+            InfiniteMonthView2(monthId: $currMonth, model: model)
+                .aspectRatio(0.5 , contentMode: .fill)
         }
 
     }
