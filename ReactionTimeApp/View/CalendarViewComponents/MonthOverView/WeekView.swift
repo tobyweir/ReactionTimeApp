@@ -10,25 +10,22 @@ struct WeekView: View, Identifiable {
     let id = UUID()
     let startDate: Date
     let model: Controller
-    @State var dayViews: [DayView] = []
+    @State var dayViews: [DayView]
     var monthDigits: String
 
     init(start: Date, model: Controller, monthDigits: String) {
         self.startDate = start
         self.model = model
         self.monthDigits = monthDigits
-//        self.dayViews = createDayViews(date: start)
+        self.dayViews = WeekView.createDayViews(date: start, monthDigits: monthDigits, model: model)
 
     }
 
-    func populateDayViews () {
-        dayViews = createDayViews(date: startDate)
-    }
-    func createDayViews (date: Date) -> [DayView] {
+    static func createDayViews (date: Date, monthDigits: String, model: Controller) -> [DayView] {
         var currDate = date
         var views: [DayView] = []
         for index in 0..<7 {
-            let result = createDayView(for: Day.getWeekday(from: index), against: currDate)
+            let result = createDayView(for: Day.getWeekday(from: index), against: currDate, monthDigits: monthDigits, model: model)
             views.append(result.0)
             if (result.1 == true) {
                 currDate = currDate.getNextDay()
@@ -36,7 +33,8 @@ struct WeekView: View, Identifiable {
         }
         return views
     }
-    func createDayView (for day: Day , against date: Date) -> (DayView , Bool) {
+
+    static func createDayView (for day: Day , against date: Date, monthDigits: String, model: Controller) -> (DayView , Bool) {
         let dayToCompare = date.formatted(Date.FormatStyle().weekday(.abbreviated))
         let monthToCompare = date.formatted(Date.FormatStyle().month(.twoDigits))
         if (day.rawValue == dayToCompare && monthToCompare == monthDigits) {
@@ -52,12 +50,11 @@ struct WeekView: View, Identifiable {
                 view
             }
         }
-        .onAppear(perform: populateDayViews)
     }
 }
 
 #Preview {
-    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 5)
+    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 1)
     WeekView(start: startDate , model: Controller(), monthDigits: startDate.formatted(Date.FormatStyle().month(.twoDigits)))
 }
 
