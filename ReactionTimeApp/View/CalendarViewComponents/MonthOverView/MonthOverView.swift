@@ -91,9 +91,6 @@ struct MonthOverView: View {
         Text("")
     }
 
-    var InfiniteMonthViews: some View {
-        ScrollView {
-} }
 
 }
 
@@ -108,25 +105,11 @@ extension Date {
     }
 
     func getPreviousMonth () -> Date {
-       var components = DateComponents()
-       let currMonth = getMonthAsInt(from: self)
-       let newMonth = currMonth == 1 ? 12 : currMonth - 1
-       let newYear = newMonth == 12 ? (getYearAsInt(from: self)) - 1 : getYearAsInt(from: self)
-       components.year = newYear
-       components.month = newMonth
-       components.day = 1
-       return Calendar.current.date(from: components) ?? Date.now
+        Calendar.current.date(byAdding: .month, value: -1, to: self)!
    }
 
     func getNextMonth () -> Date {
-        var components = DateComponents()
-        let currMonth = getMonthAsInt(from: self)
-        let newMonth = currMonth == 12 ? 1 : currMonth + 1
-        let newYear = newMonth == 1 ? getYearAsInt(from: self) + 1 : getYearAsInt(from: self)
-        components.year = newYear
-        components.month = newMonth
-        components.day = 1
-        return Calendar.current.date(from: components) ?? Date.now
+        return Calendar.current.date(byAdding: .month, value: 1, to: self)!
 
    }
 

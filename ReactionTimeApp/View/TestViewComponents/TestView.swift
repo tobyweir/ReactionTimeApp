@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TestView: View {
 
-    @State var model: Controller = Controller()
+    @State var model: Controller
     @Environment(\.colorScheme) var colorScheme
     var buttonBackground: some View {
         RoundedRectangle(cornerRadius: cornerRadius)
@@ -158,6 +158,6 @@ struct TestView: View {
 
 
 #Preview {
-    TestView()
+    TestView(model: Controller())
 }
 

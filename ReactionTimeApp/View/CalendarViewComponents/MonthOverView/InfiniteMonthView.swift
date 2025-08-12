@@ -19,25 +19,25 @@ struct InfiniteMonthView: View {
         months = [monthId.wrappedValue]
     }
 
-
-
     var body: some View {
-        Button {
-            expandMonthsUp(by: 3)
-        } label: {
-            Text("Load More")
-        }
             ScrollView (.vertical , showsIndicators: false){
-                LazyVStack { //Why does lazy cause lagging? getting stuck?
+                LazyVStack {
                     ForEach (months , id: \.self) { month in
                         MonthView(start: month, model: model)
-
                     }
                 }
                 .onAppear(perform: initMonths)
                 .scrollTargetLayout()
             }
             .scrollPosition(id: Binding($monthId), anchor: .center)
+            .onChange(of: monthId, initial: false) { oldValue, newValue  in
+                if (newValue == months[1]) {
+                    months.insert(months.first!.getPreviousMonth(), at: 0)
+                } else if (newValue == months[months.count - 2]) {
+                    months.append(months.last!.getNextMonth())
+                }
+
+            }
     }
 
     func initMonths () {
@@ -47,39 +47,15 @@ struct InfiniteMonthView: View {
 
     func expandMonthsUp(by count: Int) {
         for _ in (0..<count) {
-            expandHead()
+            months.insert(months.first!.getPreviousMonth(), at: 0)
         }
     }
 
     func expandMonthsDown(by count: Int) {
         for _ in (0..<count) {
-            expandTail()
+            months.append(months.last!.getNextMonth())
         }
     }
-
-
-    func expandHead () {
-        let newHead = months.first
-        months = newHead == nil ? months : [newHead!.getPreviousMonth()] + months
-    }
-
-    func expandTail () {
-        let newTail = months.last
-        months = newTail == nil ? months : months + [newTail!.getNextMonth()]
-    }
-
-    func reduceHead () {
-        if let head = months.indices.first {
-            months.remove(at: head)
-        }
-    }
-
-    func reduceTail () {
-        if let tail = months.indices.last {
-            months.remove(at: tail)
-        }
-    }
-
 
 }
 

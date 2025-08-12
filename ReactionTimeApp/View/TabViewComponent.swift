@@ -15,10 +15,10 @@ struct TabViewComponent: View {
 
         TabView(selection: $tabSelection) {
             Tab("Calender", systemImage: "calendar", value: 0) {
-                InfiniteViewOwner()
+                MonthOverView(currMonth: Date.createDummyDate(day: 1, month: 8, year: 2025), model: model)
             }
             Tab("Test", systemImage: "bolt", value: 1) {
-                TestView()
+                TestView(model: model)
             }
             Tab("Graph", systemImage: "chart.bar.xaxis", value: 2) {
 
