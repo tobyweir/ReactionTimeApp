@@ -11,11 +11,12 @@ struct MonthView: View , Identifiable {
     let id = UUID()
     let start: Date
     let model: Controller
-    @State var weekViews: [WeekView] = []
+    @State var weekViews: [WeekView]
 
     init(start: Date, model: Controller) {
         self.start = start
         self.model = model
+        self.weekViews = MonthView.createWeekViews(start: start, model: model)
     }
 
     var body: some View {
@@ -26,13 +27,9 @@ struct MonthView: View , Identifiable {
             ForEach(weekViews) { view in
                 view
             }
-        }.onAppear(perform: populateWeekViews)
+        }
     }
 
-    func populateWeekViews () {
-        print("month created: \(start)")
-        weekViews = createWeekViews(start: start, model: model)
-    }
     func calculateWeekNum(for date: Date) -> Int {
         let currMonth: String = date.formatted(Date.FormatStyle().month(.twoDigits))
         var currDate  = date
@@ -44,7 +41,7 @@ struct MonthView: View , Identifiable {
         return weekNum
     }
 
-    func createWeekViews(start: Date , model: Controller) -> [WeekView] {
+    static func createWeekViews(start: Date , model: Controller) -> [WeekView] {
         let monthDigits = start.formatted(Date.FormatStyle().month(.twoDigits))
         var result: [WeekView] = [WeekView(start: start, model: model, monthDigits: monthDigits)]
         let currentWeekday = start.formatted(Date.FormatStyle().weekday(.oneDigit))
