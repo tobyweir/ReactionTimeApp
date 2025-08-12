@@ -69,7 +69,7 @@ struct InfiniteMonthView: View {
 //This seems to improve performance over my original implementation, not 100 percent sure what makes the difference, I think its to do with LazyVStack handling consistent sizes.
 //Downside is alot of unused space, especially on a month like febuary.
 struct InfiniteMonthView2: View {
-
+    var scrollController: UIScrollView = UIScrollView()
     @State var months: [Date] = []
     var model: Controller
     @Binding var currMonth: Date
@@ -86,7 +86,7 @@ struct InfiniteMonthView2: View {
                     LazyVStack {
                         ForEach(months, id: \.self) { month in
                             ZStack {
-                                Text("\(month)")
+//                                Text("\(month)")
                                 MonthView(start: month, model: model)
                             }
                             .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
@@ -105,8 +105,10 @@ struct InfiniteMonthView2: View {
                 .onAppear {
                     expandMonthsUp(by: 6)
                     expandMonthsDown(by: 6)
+                    scrollController.scrollsToTop = false
                 }
                 .scrollPosition(id: Binding($currMonth), anchor: .center)
+
             }
         }
     }

@@ -7,9 +7,19 @@
 
 import SwiftUI
 
+
 struct MonthOverView: View {
     @State var currMonth: Date
     let model: Controller
+    @Environment(\.colorScheme) var colorScheme
+
+    var foregroundColor : Color {
+        colorScheme == .dark ? .white : .black
+    }
+
+    var backgroundColor : Color {
+        colorScheme == .dark ? .black : .white
+    }
 
     var currMonthString: String {
         currMonth.formatted(Date.FormatStyle().month(.wide))
@@ -21,26 +31,25 @@ struct MonthOverView: View {
     var body: some View {
         VStack (spacing: 0) {
             header
-            Spacer()
             InfiniteMonthView2(monthId: $currMonth, model: model)
-                .aspectRatio(0.5 , contentMode: .fill)
+                .aspectRatio(1/2, contentMode: .fill)
         }
 
     }
 
     var header: some View {
         ZStack {
-            Color.gray
-                .ignoresSafeArea()
+
             VStack {
                 Spacer()
                 currMonthView
                     .frame(maxHeight: 60)
                 weekdayGuideBar
+                    .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(.primary), alignment: .bottom)
                     .frame(maxHeight: 0)
             }
         }
-        .frame(maxHeight: 140)
+        .frame(minHeight: 200)
         .padding(.bottom)
 
     }
@@ -50,7 +59,7 @@ struct MonthOverView: View {
         return HStack (spacing: 0) {
             ForEach (weekdayArray) { day in
                     ZStack {
-                        Color.blue
+                        backgroundColor
                         VStack {
                             Spacer()
                             Text("\(day.val)")
@@ -67,7 +76,7 @@ struct MonthOverView: View {
 
     var currMonthView: some View {
         ZStack {
-            Color.red
+            backgroundColor
             HStack (spacing: 0) {
                     Text("\(currMonthString)")
                     .font(.system(size: 30, weight: .bold))
