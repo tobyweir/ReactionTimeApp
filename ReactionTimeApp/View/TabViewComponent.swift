@@ -15,7 +15,7 @@ struct TabViewComponent: View {
 
         TabView(selection: $tabSelection) {
             Tab("Calender", systemImage: "calendar", value: 0) {
-                MonthOverView(currMonth: Date.createDummyDate(day: 1, month: 8, year: 2025), model: model)
+                InfiniteViewOwner()
             }
             Tab("Test", systemImage: "bolt", value: 1) {
                 TestView()
