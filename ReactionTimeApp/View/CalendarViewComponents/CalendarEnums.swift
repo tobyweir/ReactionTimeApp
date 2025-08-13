@@ -13,7 +13,6 @@ enum CalendarDayType {
 enum UsefulTimeIntervals : Double {
     case day = 86400
     case hour = 3600
-
 }
 
 

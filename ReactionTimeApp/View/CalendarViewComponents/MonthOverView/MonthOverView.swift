@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct MonthOverView: View {
-    @State var currMonth: Date
+    @Binding var currMonth: Date
     let model: Controller
     @Environment(\.colorScheme) var colorScheme
 
@@ -31,8 +31,8 @@ struct MonthOverView: View {
     var body: some View {
         VStack (spacing: 0) {
             header
-            InfiniteMonthView2(monthId: $currMonth, model: model)
-                .aspectRatio(1/2, contentMode: .fill)
+                InfiniteMonthView2(monthId: $currMonth, model: model)
+                    .aspectRatio(1/2, contentMode: .fill)
         }
 
     }
@@ -42,8 +42,8 @@ struct MonthOverView: View {
 
             VStack {
                 Spacer()
-                currMonthView
-                    .frame(maxHeight: 60)
+//                currMonthView
+//                    .frame(maxHeight: 60)
                 weekdayGuideBar
                     .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(.primary), alignment: .bottom)
                     .frame(maxHeight: 0)
@@ -137,7 +137,7 @@ extension Date {
 }
 
 #Preview {
+    @Previewable @State var date = Date.createDummyDate(day: 1, month: 8, year: 2025)
     let model = Controller()
-    let date = Date.createDummyDate(day: 1, month: 8, year: 2025)
-    MonthOverView(currMonth: date, model: model)
+    MonthOverView(currMonth: $date, model: model)
 }

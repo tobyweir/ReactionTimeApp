@@ -68,6 +68,7 @@ struct InfiniteMonthView: View {
 //This second implementation of InfiniteMonthView follows the code found here https://stackoverflow.com/a/78686082
 //This seems to improve performance over my original implementation, not 100 percent sure what makes the difference, I think its to do with LazyVStack handling consistent sizes.
 //Downside is alot of unused space, especially on a month like febuary.
+
 struct InfiniteMonthView2: View {
     var scrollController: UIScrollView = UIScrollView()
     @State var months: [Date] = []

@@ -48,7 +48,9 @@ struct DayView: View , Identifiable {
         if dayType == .invalid {
             invalidView
         } else {
-            totalView
+            NavigationLink(destination: DayOverView(date: date!)) {
+                totalView
+            }
         }
     }
 
