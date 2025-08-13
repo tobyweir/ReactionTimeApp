@@ -59,6 +59,8 @@ struct MonthView: View , Identifiable {
 }
 
 #Preview {
+    @Previewable @State var focusedDate = Date.createDummyDate(day: 1, month: 10, year: 2025)
     let startDate = Date.createDummyDate(day: 1, month: 10, year: 2025)
+
     MonthView(start: startDate, model: Controller())
 }

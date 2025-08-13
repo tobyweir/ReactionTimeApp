@@ -13,7 +13,6 @@ struct YearOverView: View {
     var body: some View {
         NavigationStack {
             MonthOverView(currMonth: $date, model: model)
-                .navigationTitle("\(date.formatted(Date.FormatStyle().month(.wide)))")
         }
     }
 }

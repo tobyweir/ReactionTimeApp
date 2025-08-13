@@ -34,6 +34,9 @@ struct MonthOverView: View {
                 InfiniteMonthView2(monthId: $currMonth, model: model)
                     .aspectRatio(1/2, contentMode: .fill)
         }
+        .navigationTitle("\(currMonth.formatted(Date.FormatStyle().month(.wide)))")
+        .navigationBarTitleDisplayMode(.automatic)
+//                .toolbar(.hidden , for: .automatic)
 
     }
 

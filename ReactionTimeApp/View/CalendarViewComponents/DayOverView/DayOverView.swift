@@ -8,6 +8,7 @@ import SwiftUI
 
 struct DayOverView: View {
     let date: Date
+
     var body: some View {
         Text("day")
     }
@@ -15,5 +16,6 @@ struct DayOverView: View {
 }
 
 #Preview {
+    
     DayOverView(date: Date.createDummyDate(day: 1, month: 7, year: 2020))
 }
