@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct InfiniteYearView: View {
+    @State var years: [Int]
+    @State var currYear: Int
+
+    init(currYear: Int) {
+        self.years = [currYear]
+        self.currYear = currYear
+    }
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("stop")
     }
 }
 
 #Preview {
-    InfiniteYearView()
+    InfiniteYearView(currYear: 2025)
 }

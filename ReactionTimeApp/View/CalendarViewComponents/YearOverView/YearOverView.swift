@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct YearOverView: View {
-    @State var date: Date
+    var date: Date
+    @State var currYear = Date.now.getYearAsInt(from: Date.now)
     let model: Controller
     var body: some View {
         NavigationStack {
-            MonthOverView(currMonth: $date, model: model)
+                YearView(year: 2025, model: model, currYear: $currYear)
+                .navigationTitle(Text("\(String(currYear))"))
+//                .toolbar(.hidden , for: .automatic)
         }
+        
     }
 }
 
