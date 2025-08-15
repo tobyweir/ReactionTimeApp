@@ -15,7 +15,7 @@ struct TabViewComponent: View {
 
         TabView(selection: $tabSelection) {
             Tab("Calender", systemImage: "calendar", value: 0) {
-                
+                YearOverView(date: Date.now, model: model)
             }
             Tab("Test", systemImage: "bolt", value: 1) {
                 TestView(model: model)

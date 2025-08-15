@@ -132,20 +132,37 @@ extension Date {
        return Int(result)!
    }
 
+    func getYearAsInt () -> Int {
+        let result = self.formatted(Date.FormatStyle().year(.defaultDigits))
+        return Int(result)!
+    }
+
+
+
    func getMonthAsInt (from date: Date) -> Int {
        let result = date.formatted(Date.FormatStyle().month(.twoDigits))
        return Int(result)!
    }
 
+    func getMonthAsInt () -> Int {
+        let result = self.formatted(Date.FormatStyle().month(.twoDigits))
+        return Int(result)!
+    }
+
     func getDayAsInt (from date: Date) -> Int {
         let result = date.formatted(Date.FormatStyle().day(.twoDigits))
+        return Int(result)!
+    }
+
+    func getDayAsInt () -> Int {
+        let result = self.formatted(Date.FormatStyle().day(.twoDigits))
         return Int(result)!
     }
 }
 
 #Preview {
     @Previewable @State var year = 2025
-    var date = Date.createDummyDate(day: 1, month: 8, year: 2025)
+    let date = Date.createDummyDate(day: 1, month: 8, year: 2025)
     let model = Controller()
     MonthOverView(currMonth: date, year: $year, model: model)
 }

@@ -13,7 +13,7 @@ struct DayView: View , Identifiable {
     var dayType: CalendarDayType
     let isWeekend: Bool
     let model: Controller
-    let results: [Result]
+    @State var results: [Result]
 
     @Environment(\.colorScheme) var colorScheme
 
@@ -21,7 +21,6 @@ struct DayView: View , Identifiable {
         self.date = date
         self.dayType = dayType
         self.model = model
-        self.results = []
         var isWeekendResult: Bool
         if let tempDate = date {
             isWeekendResult = Calendar.current.isDateInWeekend(tempDate)
@@ -29,6 +28,7 @@ struct DayView: View , Identifiable {
             isWeekendResult = false
         }
         self.isWeekend = isWeekendResult
+        self.results = []
     }
 
 
@@ -49,8 +49,11 @@ struct DayView: View , Identifiable {
         if dayType == .invalid {
             invalidView
         } else {
-            NavigationLink(destination: DayOverView(date: date!)) {
+            NavigationLink(destination: DayOverView(date: date!, results: results)) {
                 totalView
+                    .onAppear {
+                        results = model.getResults(on: date!)
+                    }
             }
         }
     }

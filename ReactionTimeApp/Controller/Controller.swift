@@ -47,4 +47,12 @@ import Foundation
         []
     }
 
+    func getResults(on date: Date) -> [Result] {
+        resultStore.getResults(on: date)
+    }
+
+    func getResultsIn(month date: Date) -> [Result] {
+        resultStore.getResultsIn(month: date)
+    }
+
 }
