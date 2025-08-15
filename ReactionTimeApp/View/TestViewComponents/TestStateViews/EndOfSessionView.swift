@@ -30,7 +30,7 @@ struct EndOfSessionView: View {
     var lowerContent: some View {
         HStack {
             saveButton
-            shareButton
+            //shareButton
         } .padding(15)
     }
     var buttonContent: some View {
