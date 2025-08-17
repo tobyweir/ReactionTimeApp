@@ -18,8 +18,10 @@ struct DormantView: View {
     }
     @ViewBuilder
     var upperContent: some View {
-        if let result = model.recentResult {
-            Text("\(Int (result * 1000))ms")
+        if let result = model.recentResult {  
+                Text("\(Int (result * 1000))ms")
+                .font(.system(size: 30))
+
         } else {
             Text("")
         }
@@ -47,6 +49,7 @@ struct DormantView: View {
     @ViewBuilder
     var startTestView: some View {
             Text("Start")
+                .font(.system(size: 15))
                 .padding(35)
                 .foregroundStyle(.white)
             //                .background(buttonBackground)

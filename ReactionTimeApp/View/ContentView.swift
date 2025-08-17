@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    let model: Controller = Controller()
     var body: some View {
-        TabViewComponent()
+        TabViewComponent(model: model)
+
 
 
     }

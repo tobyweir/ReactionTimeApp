@@ -18,7 +18,7 @@ struct ResultStore {
             saveToResultsToFile()
         }
     }
-    let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResults")
+    let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResultsStore")
 
     init () {
         var resultsFromFile: [Result] = []
@@ -49,9 +49,33 @@ struct ResultStore {
 
     //Returning selections of filtered results
 
+    func getResults(between date: Date , and date2: Date) -> [Result] {
+        //Not implemented
+        //
+        []
+    }
 
+    func getResults(on date: Date) -> [Result] {
+        return results.filter { result in
+            let resultDate = result.dateRecorded
+            if (resultDate.getDayAsInt() == date.getDayAsInt() && resultDate.getMonthAsInt() == date.getMonthAsInt() && date.getYearAsInt() == resultDate.getYearAsInt()) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
 
-
+    func getResultsIn(month date: Date) -> [Result] {
+        return results.filter { result in
+            let resultDate = result.dateRecorded
+            if (resultDate.getMonthAsInt() == date.getMonthAsInt() && date.getYearAsInt() == resultDate.getYearAsInt()) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
 
     //Saving and Loading
 

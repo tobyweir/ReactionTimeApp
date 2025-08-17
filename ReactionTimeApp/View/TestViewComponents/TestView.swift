@@ -9,25 +9,25 @@ import SwiftUI
 
 struct TestView: View {
 
-    @State var model: Controller = Controller()
+    @State var model: Controller
     @Environment(\.colorScheme) var colorScheme
     var buttonBackground: some View {
         RoundedRectangle(cornerRadius: cornerRadius)
-            .frame(width: width, height: height)
+            .frame(minWidth: 100 , minHeight: 100)
+            .scaleEffect(x: scaleFactorX, y: scaleFactorY, anchor: .center)
+            .aspectRatio(1, contentMode: .fit)
             .foregroundStyle(color)
     }
 
     var body: some View {
         VStack {
-            ZStack {
-                colorScheme == .dark ? Color.black : Color.white
+            Spacer()
                 getUpperContent(state: model.testState, model: model)
-            }
+            Spacer()
             testButton
-            ZStack {
-                colorScheme == .dark ? Color.black : Color.white
-                getLowerContent(state: model.testState,model: model)
-            }
+            Spacer()
+            getLowerContent(state: model.testState,model: model)
+            Spacer()
 
         }
     }
@@ -49,51 +49,51 @@ struct TestView: View {
     var cornerRadius: Double {
         switch (model.testState) {
         case .dormant:
-            100
+            200
         case .waitingForUser:
-            15
+            30
         case .waitingRandomTime:
-            15
+            30
         case .endOfSession:
-            100
+            200
         case .loading:
-            10
-        case .falseStart:
             100
+        case .falseStart:
+            200
         }
     }
 
-    var width: Double {
+    var scaleFactorX: Double {
         switch (model.testState) {
         case .dormant:
-            100
+            0.33
         case .waitingForUser:
-            300
+            0.8
         case .waitingRandomTime:
-            300
+            0.8
         case .endOfSession:
-            125
-        case .loading:
-            10
+            0.33
         case .falseStart:
-            100
+            0.33
+        default:
+            0.5
         }
     }
 
-    var height: Double {
-        switch (model.testState) {
+    var scaleFactorY: Double {
+        switch(model.testState) {
         case .dormant:
-            100
+            0.33
         case .waitingForUser:
-            200
+            0.50
         case .waitingRandomTime:
-            200
+            0.50
         case .endOfSession:
-            125
-        case .loading:
-            10
+            0.33
         case .falseStart:
-            100
+            0.33
+        default:
+            0.10
         }
     }
 
@@ -158,6 +158,6 @@ struct TestView: View {
 
 
 #Preview {
-    TestView()
+    TestView(model: Controller())
 }
 

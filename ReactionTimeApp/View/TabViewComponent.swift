@@ -9,15 +9,16 @@ import SwiftUI
 
 struct TabViewComponent: View {
     var tabSelectionColor: Color = .blue
+    @State var model: Controller
     @State var tabSelection: Int = 1
     var body: some View {
 
         TabView(selection: $tabSelection) {
             Tab("Calender", systemImage: "calendar", value: 0) {
-                testView1
+                YearOverView(date: Date.now, model: model)
             }
             Tab("Test", systemImage: "bolt", value: 1) {
-                TestView()
+                TestView(model: model)
             }
             Tab("Graph", systemImage: "chart.bar.xaxis", value: 2) {
 
@@ -25,7 +26,8 @@ struct TabViewComponent: View {
             Tab("Profile", systemImage: "person.crop.circle", value: 3) {
 
             }
-        }.tint(tabSelectionColor)
+        }
+        .tint(tabSelectionColor)
 
     }
 
@@ -38,5 +40,6 @@ struct TabViewComponent: View {
 
 
 #Preview {
-    TabViewComponent()
+    let model = Controller()
+    TabViewComponent(model: model)
 }

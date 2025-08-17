@@ -23,8 +23,8 @@ struct TestLogic {
         session.recentReaction
     }
 
-    func getRecentSessionResult () -> Double? {
-        recentSessionResult
+    func getRecentSessionResults () -> [Double] {
+        session.sessionResults
     }
 
     mutating func toggleHaveSaved () {

@@ -30,7 +30,7 @@ struct EndOfSessionView: View {
     var lowerContent: some View {
         HStack {
             saveButton
-            shareButton
+            //shareButton
         } .padding(15)
     }
     var buttonContent: some View {
@@ -41,7 +41,7 @@ struct EndOfSessionView: View {
 
     var saveButton: some View {
         Button {
-            model.storeSessionResult() } label: { model.haveSaved ? Text("Saved") : Text("Save") }.disabled(model.haveSaved)
+            model.storeSessionResults() } label: { model.haveSaved ? Text("Saved") : Text("Save") }.disabled(model.haveSaved)
     }
 
     var shareButton: some View {
