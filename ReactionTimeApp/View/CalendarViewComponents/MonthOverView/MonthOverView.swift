@@ -22,6 +22,14 @@ struct MonthOverView: View {
         colorScheme == .dark ? .black : .white
     }
 
+    var headerWidth: Double {
+        UIDevice.isIPad ? 0.9 : 1.0
+    }
+
+    var monthViewAspectRatio : Double {
+        UIDevice.isIPad ? 1/1.65 : 1/2
+    }
+
     var currMonthString: String {
         currMonth.formatted(Date.FormatStyle().month(.wide))
     }
@@ -31,12 +39,14 @@ struct MonthOverView: View {
     }
     var body: some View {
         VStack (spacing: 0) {
+
             header
-                InfiniteMonthView2(monthId: $currMonth, model: model)
-                    .aspectRatio(1/2, contentMode: .fill)
-                    .onChange (of: currMonth ){
-                        year = Date.now.getYearAsInt(from: currMonth)
-                    }
+                .scaleEffect(CGSize(width: headerWidth, height: 1.0))
+            InfiniteMonthView2(monthId: $currMonth, model: model)
+                .aspectRatio(monthViewAspectRatio, contentMode: .fill)
+                .onChange (of: currMonth ){
+                    year = Date.now.getYearAsInt(from: currMonth)
+                }
         }
         .navigationTitle("\(currMonth.formatted(Date.FormatStyle().month(.wide)))")
         .navigationBarTitleDisplayMode(.automatic)
@@ -165,4 +175,14 @@ extension Date {
     let date = Date.createDummyDate(day: 1, month: 8, year: 2025)
     let model = Controller()
     MonthOverView(currMonth: date, year: $year, model: model)
+}
+
+extension UIDevice {
+    static var isIPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+
+    static var isIPhone: Bool {
+        UIDevice.current.userInterfaceIdiom == .phone
+    }
 }

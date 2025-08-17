@@ -32,13 +32,14 @@ import Foundation
              testModel.pressTimerButton()
     }
 
-    func storeSessionResult () {
-            if let sessionResult = testModel.getRecentSessionResult() {
+    func storeSessionResults () {
+            let sessionResults = testModel.getRecentSessionResults()
                 if ( testModel.haveSaved == false) {
-                    resultStore.add(Result(average: sessionResult))
+                    for result in sessionResults {
+                        resultStore.add(Result(time: result))
+                    }
                      testModel.toggleHaveSaved()
                 }
-            }
     }
 
     func getResults(between date: Date , and date2: Date) -> [Result] {

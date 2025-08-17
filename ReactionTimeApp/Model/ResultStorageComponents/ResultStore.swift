@@ -18,7 +18,7 @@ struct ResultStore {
             saveToResultsToFile()
         }
     }
-    let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResults")
+    let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResultsStore")
 
     init () {
         var resultsFromFile: [Result] = []

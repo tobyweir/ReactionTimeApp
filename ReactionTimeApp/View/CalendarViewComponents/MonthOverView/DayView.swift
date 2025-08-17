@@ -28,7 +28,11 @@ struct DayView: View , Identifiable {
             isWeekendResult = false
         }
         self.isWeekend = isWeekendResult
-        self.results = []
+        var tempResults: [Result ] = []
+        if let dateOfResults = date {
+            tempResults = model.getResults(on: dateOfResults)
+        }
+        self.results = tempResults
     }
 
 
@@ -51,9 +55,6 @@ struct DayView: View , Identifiable {
         } else {
             NavigationLink(destination: DayOverView(date: date!, results: results)) {
                 totalView
-                    .onAppear {
-                        results = model.getResults(on: date!)
-                    }
             }
         }
     }
