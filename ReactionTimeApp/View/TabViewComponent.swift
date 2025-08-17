@@ -26,7 +26,8 @@ struct TabViewComponent: View {
             Tab("Profile", systemImage: "person.crop.circle", value: 3) {
 
             }
-        }.tint(tabSelectionColor)
+        }
+        .tint(tabSelectionColor)
 
     }
 

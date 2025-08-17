@@ -16,7 +16,6 @@ struct InfiniteYearView: View {
         self.years = [currYear.wrappedValue]
         self._currYear = currYear
         self.model = model
-
     }
 
     var body: some View {

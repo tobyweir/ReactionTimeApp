@@ -13,13 +13,11 @@ struct YearView: View {
     let year: Int
     let startDate: Date
     let model: Controller
-    @State var currMonth: Date
 
     init(year: Int, model: Controller, currYear: Binding<Int>) {
         self.year = year
 //        self._currYear = currYear
         self.startDate = Date.createDummyDate(day: 1, month: 1, year: year)
-        self._currMonth = State( initialValue: Date.createDummyDate(day: 1, month: 1, year: year))
         self.model = model
         self._currYear = currYear
     }
