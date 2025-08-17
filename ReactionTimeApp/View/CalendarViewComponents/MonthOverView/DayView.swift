@@ -13,7 +13,7 @@ struct DayView: View , Identifiable {
     var dayType: CalendarDayType
     let isWeekend: Bool
     let model: Controller
-    @State var results: [Result]
+//    @State var results: [Result]
 
     @Environment(\.colorScheme) var colorScheme
 
@@ -28,13 +28,20 @@ struct DayView: View , Identifiable {
             isWeekendResult = false
         }
         self.isWeekend = isWeekendResult
-        var tempResults: [Result ] = []
-        if let dateOfResults = date {
-            tempResults = model.getResults(on: dateOfResults)
-        }
-        self.results = tempResults
+//        var tempResults: [Result ] = []
+//        if let dateOfResults = date {
+//            tempResults = model.getResults(on: dateOfResults)
+//        }
+//        self.results = tempResults
     }
 
+    var results: [Result] {
+        if let date = date {
+            return model.getResults(on: date)
+        } else {
+            return []
+        }
+    }
 
     var foregroundColour: Color {
         if isWeekend == true {
@@ -53,7 +60,7 @@ struct DayView: View , Identifiable {
         if dayType == .invalid {
             invalidView
         } else {
-            NavigationLink(destination: DayOverView(date: date!, results: results)) {
+            NavigationLink(destination: DayOverView(date: date!, model: model)) {
                 totalView
             }
         }
@@ -91,6 +98,7 @@ struct DayView: View , Identifiable {
         Circle()
             .aspectRatio(contentMode: .fit)
             .foregroundStyle(resultViewColor)
+            .opacity(Result.resultCountToOpacity(results.count))
             .scaleEffect(CGSize(width: 0.75, height: 0.75), anchor: .center)
     }
 

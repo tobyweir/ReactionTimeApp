@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MonthOverView: View {
     @State var currMonth: Date
-    @Binding var year: Int
+    @Binding var currYear: Int
     let model: Controller
     @Environment(\.colorScheme) var colorScheme
 
@@ -44,11 +44,8 @@ struct MonthOverView: View {
                 .scaleEffect(CGSize(width: headerWidth, height: 1.0))
             InfiniteMonthView2(monthId: $currMonth, model: model)
                 .aspectRatio(monthViewAspectRatio, contentMode: .fill)
-                .onChange (of: currMonth ){
-                    year = Date.now.getYearAsInt(from: currMonth)
-                }
         }
-        .navigationTitle("\(currMonth.formatted(Date.FormatStyle().month(.wide)))")
+        .navigationTitle("\(currMonth.formatted(Date.FormatStyle().month(.wide))), \(currMonth.formatted(Date.FormatStyle().year()))")
         .navigationBarTitleDisplayMode(.automatic)
 //                .toolbar(.hidden , for: .automatic)
 
@@ -171,10 +168,7 @@ extension Date {
 }
 
 #Preview {
-    @Previewable @State var year = 2025
-    let date = Date.createDummyDate(day: 1, month: 8, year: 2025)
-    let model = Controller()
-    MonthOverView(currMonth: date, year: $year, model: model)
+    
 }
 
 extension UIDevice {

@@ -8,7 +8,11 @@ import SwiftUI
 
 struct DayOverView: View {
     let date: Date
-    let results: [Result]
+    let model: Controller
+
+    var results: [Result] {
+        model.getResults(on: date)
+    }
 
     var body: some View {
         VStack {
@@ -29,5 +33,5 @@ struct DayOverView: View {
 
 #Preview {
     
-    DayOverView(date: Date.createDummyDate(day: 1, month: 7, year: 2020), results: [])
+    DayOverView(date: Date.createDummyDate(day: 1, month: 7, year: 2020), model: Controller())
 }

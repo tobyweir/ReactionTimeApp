@@ -13,7 +13,7 @@ struct YearOverView: View {
     let model: Controller
     var body: some View {
         NavigationStack {
-                YearView(year: 2025, model: model, currYear: $currYear)
+            InfiniteYearView(currYear: $currYear, model: model)
                 .navigationTitle(Text("\(String(currYear))"))
 //                .toolbar(.hidden , for: .automatic)
         }

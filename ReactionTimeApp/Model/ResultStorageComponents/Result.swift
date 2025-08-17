@@ -39,4 +39,18 @@ struct Result: Codable {
             return animalGrades[8]
         }
     }
+
+    //for use in view elements to communicate how many results took place on that day/month without using a number
+    static func resultCountToOpacity (_ resultCount: Int) -> Double {
+        switch (resultCount) {
+        case _ where resultCount < 5:
+            0
+        case _ where resultCount < 15:
+            0.35
+        case _ where resultCount < 30:
+            0.7
+        default:
+            1
+        }
+    }
 }

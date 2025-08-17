@@ -75,7 +75,7 @@ struct InfiniteMonthView2: View {
     var model: Controller
     @Binding var currMonth: Date
 
-    init (monthId currMonth : Binding<Date> , model: Controller ) {
+    init (monthId currMonth : Binding<Date> , model: Controller) {
         self.months = [currMonth.wrappedValue]
         self._currMonth = currMonth
         self.model = model
@@ -86,10 +86,7 @@ struct InfiniteMonthView2: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack {
                         ForEach(months, id: \.self) { month in
-                            ZStack {
-//                                Text("\(month)")
                                 MonthView(start: month, model: model)
-                            }
                             .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
 
                             .onAppear {
@@ -128,7 +125,7 @@ struct InfiniteMonthView2: View {
 }
 
 #Preview {
-    @Previewable @State var date: Date = Date.createDummyDate(day: 1, month: 8, year: 2025)
-    let model = Controller()
-    InfiniteMonthView2(monthId: $date, model: model)
+//    @Previewable @State var date: Date = Date.createDummyDate(day: 1, month: 8, year: 2025)
+//    let model = Controller()
+//    InfiniteMonthView2(monthId: $date, model: model)
 }
