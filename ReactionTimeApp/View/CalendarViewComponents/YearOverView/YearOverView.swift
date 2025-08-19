@@ -21,6 +21,6 @@ struct YearOverView: View {
     }
 }
 
-#Preview {
-    YearOverView(date: Date.createDummyDate(day: 1, month: 8, year: 2025), model: Controller())
-}
+//#Preview {
+//    YearOverView(date: Date.createDummyDate(day: 1, month: 8, year: 2025), model: Controller())
+//}

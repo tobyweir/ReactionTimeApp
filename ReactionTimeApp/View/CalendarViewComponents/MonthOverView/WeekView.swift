@@ -41,7 +41,7 @@ struct WeekView: View, Identifiable {
             let dayView = DayView(date: date, dayType: .weekday, model: model)
             return (dayView , true)
         } else {
-            return (DayView(date: nil, dayType: .invalid, model: Controller()) , false)
+            return (DayView(date: nil, dayType: .invalid, model: model) , false)
         }
     }
     var body: some View {
@@ -53,8 +53,8 @@ struct WeekView: View, Identifiable {
     }
 }
 
-#Preview {
-    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 1)
-    WeekView(start: startDate , model: Controller(), monthDigits: startDate.formatted(Date.FormatStyle().month(.twoDigits)))
-}
+//#Preview {
+//    let startDate = Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue * 1)
+//    WeekView(start: startDate , model: Controller(), monthDigits: startDate.formatted(Date.FormatStyle().month(.twoDigits)))
+//}
 

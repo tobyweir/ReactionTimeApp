@@ -49,7 +49,7 @@ struct MonthView: View , Identifiable {
         let secondWeek = start.addingTimeInterval(UsefulTimeIntervals.day.rawValue * Double (dayDifference) )
         var currDate: Date = secondWeek
 //        let weekNum = calculateWeekNum(for: secondWeek)
-        for _ in 0..<5 {
+        for _ in 0..<5{
             result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits))
             currDate = currDate.getNextWeek()
         }
@@ -58,9 +58,9 @@ struct MonthView: View , Identifiable {
 
 }
 
-#Preview {
-    @Previewable @State var focusedDate = Date.createDummyDate(day: 1, month: 10, year: 2025)
-    let startDate = Date.createDummyDate(day: 1, month: 10, year: 2025)
-
-    MonthView(start: startDate, model: Controller())
-}
+//#Preview {
+//    @Previewable @State var focusedDate = Date.createDummyDate(day: 1, month: 2, year: 2025)
+//    let startDate = Date.createDummyDate(day: 1, month: 10, year: 2025)
+//
+//    MonthView(start: startDate, model: Controller())
+//}

@@ -71,6 +71,7 @@ struct InfiniteMonthView: View {
 
 struct InfiniteMonthView2: View {
     var scrollController: UIScrollView = UIScrollView()
+
     @State var months: [Date] = []
     var model: Controller
     @Binding var currMonth: Date
@@ -103,9 +104,11 @@ struct InfiniteMonthView2: View {
                 .onAppear {
                     expandMonthsUp(by: 6)
                     expandMonthsDown(by: 6)
-                    scrollController.scrollsToTop = false
+                    UIScrollView.appearance().scrollsToTop = false
                 }
                 .scrollPosition(id: Binding($currMonth), anchor: .center)
+//                .scrollTargetBehavior(.paging)
+
 
             }
         }

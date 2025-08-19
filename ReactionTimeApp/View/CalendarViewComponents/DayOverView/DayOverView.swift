@@ -220,7 +220,7 @@ struct DayOverView: View {
 
 }
 
-#Preview {
-    DayOverView(date: Date.createDummyDate(day: 17, month: 8, year: 2025), model: Controller())
-}
+//#Preview {
+//    DayOverView(date: Date.createDummyDate(day: 17, month: 8, year: 2025), model: Controller())
+//}
 

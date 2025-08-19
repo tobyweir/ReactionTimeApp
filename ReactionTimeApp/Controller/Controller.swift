@@ -15,6 +15,7 @@ import Foundation
         testModel.testState
     }
 
+
     var recentResult: TimeInterval? {
         testModel.recentResult
     }
@@ -25,6 +26,10 @@ import Foundation
 
     var haveSaved: Bool {
         testModel.haveSaved
+    }
+
+    init() {
+
     }
 
 

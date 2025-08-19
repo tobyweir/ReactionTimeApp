@@ -112,7 +112,7 @@ struct DayView: View , Identifiable {
     }
 }
 
-#Preview {
-    @Previewable @State var focusedDate = Date.createDummyDate(day: 1, month: 10, year: 2000)
-    DayView(date: Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue), dayType: .weekday, model: Controller())
-}
+//#Preview {
+//    @Previewable @State var focusedDate = Date.createDummyDate(day: 1, month: 10, year: 2000)
+//    DayView(date: Date.now.addingTimeInterval(-UsefulTimeIntervals.day.rawValue), dayType: .weekday, model: Controller())
+//}
