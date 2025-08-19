@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct YearOverView: View {
-    var date: Date
+    @State var date: Date = Date.now
     @State var currYear = Date.now.getYearAsInt(from: Date.now)
     let model: Controller
     var body: some View {
         NavigationStack {
-            InfiniteYearView(currYear: $currYear, model: model)
+            InfiniteYearView(currDate: $date , currYear: $currYear, model: model)
                 .navigationTitle(Text("\(String(currYear))"))
 //                .toolbar(.hidden , for: .automatic)
         }

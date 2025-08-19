@@ -9,8 +9,8 @@ import SwiftUI
 
 
 struct MonthOverView: View {
-    @State var currMonth: Date
-    @Binding var currYear: Int
+    @Binding var currMonth: Date
+    var startDate: Date
     let model: Controller
     @Environment(\.colorScheme) var colorScheme
 

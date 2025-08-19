@@ -9,12 +9,14 @@ import SwiftUI
 
 struct YearView: View {
 //    @Binding var currYear: Int
+    @Binding var currDate: Date
     @Binding var currYear: Int
     let year: Int
     let startDate: Date
     let model: Controller
 
-    init(year: Int, model: Controller, currYear: Binding<Int>) {
+    init(currDate: Binding<Date> , year: Int, model: Controller, currYear: Binding<Int>) {
+        self._currDate = currDate
         self.year = year
 //        self._currYear = currYear
         self.startDate = Date.createDummyDate(day: 1, month: 1, year: year)
@@ -33,7 +35,7 @@ struct YearView: View {
                     ForEach(0..<4) { index1 in
                         GridRow {
                             ForEach(1..<4) { index2 in
-                                MonthOfYearView(startDate: Date.createDummyDate(day: 1, month: (index1 * 3 + index2), year: year),currYear: $currYear, model: model)
+                                MonthOfYearView(currDate: $currDate , startDate: Date.createDummyDate(day: 1, month: (index1 * 3 + index2), year: year),currYear: $currYear, model: model)
                             }
                         }
                     }
@@ -46,13 +48,16 @@ struct YearView: View {
 
 
 struct MonthOfYearView: View {
+    @Binding var currDate: Date
+    @State var navIsActive: Bool = false
     let startDate: Date
     @Binding var currYear: Int
     let model: Controller
 
     @Environment(\.colorScheme) var colourScheme
 
-    init(startDate: Date, currYear: Binding<Int> , model: Controller) {
+    init(currDate: Binding<Date> , startDate: Date, currYear: Binding<Int> , model: Controller) {
+        self._currDate = currDate
         self.startDate = startDate
         self._currYear = currYear
         self.model = model
@@ -63,7 +68,10 @@ struct MonthOfYearView: View {
     }
 
     var body: some View {
-        NavigationLink (destination: MonthOverView(currMonth: startDate, currYear: $currYear, model: model)) {
+        NavigationLink(isActive: $navIsActive) {
+            MonthOverView(currMonth: $currDate, startDate: startDate, model: model)
+        }
+        label: {
             ZStack {
                 Rectangle()
                     .foregroundStyle(colourScheme == .dark ? .black : .white)
@@ -78,8 +86,14 @@ struct MonthOfYearView: View {
             }
             .aspectRatio(1 , contentMode: .fit)
         }
+        .onChange(of: navIsActive) {
+            currDate = startDate
+        }
     }
-}
+
+
+    }
+
 #Preview {
 //    @Previewable @State var currYear = 2020
 //    @Previewable @State var dateTracker = Date.now

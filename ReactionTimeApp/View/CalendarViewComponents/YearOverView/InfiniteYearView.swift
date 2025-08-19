@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct InfiniteYearView: View {
+    @Binding var currDate: Date
+    @State var arrayInitComplete = false
     @State var years: [Int]
     @Binding var currYear: Int
     let model: Controller
 
-    init(currYear: Binding<Int>, model: Controller) {
+    init(currDate: Binding<Date> , currYear: Binding<Int>, model: Controller) {
+        self._currDate = currDate
         self.years = [currYear.wrappedValue]
         self._currYear = currYear
         self.model = model
@@ -24,9 +27,8 @@ struct InfiniteYearView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack {
                         ForEach (years, id: \.self) { year in
-                            YearView(year: year, model: model, currYear: $currYear)
+                            YearView(currDate: $currDate , year: year, model: model, currYear: $currYear)
                                 .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
-
                                 .onAppear {
                                     if years[1] == currYear {
                                         expandYearsUp(by: 1)
@@ -40,8 +42,12 @@ struct InfiniteYearView: View {
                     .scrollTargetLayout()
                 }
                 .onAppear {
-                    expandYearsUp(by: 2000)
-                    expandYearsDown(by: 2000)
+                    if (arrayInitComplete == false) {
+                        print("expanding years!")
+                        expandYearsUp(by: 2000)
+                        expandYearsDown(by: 2000)
+                        arrayInitComplete = true
+                    }
                 }
                 .scrollPosition(id: Binding($currYear), anchor: .center)
 
