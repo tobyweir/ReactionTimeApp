@@ -107,7 +107,7 @@ struct InfiniteMonthView2: View {
                     UIScrollView.appearance().scrollsToTop = false
                 }
                 .scrollPosition(id: Binding($currMonth), anchor: .center)
-//                .scrollTargetBehavior(.paging)
+//                .scrollTargetBehavior(.viewAligned)
 
 
             }
