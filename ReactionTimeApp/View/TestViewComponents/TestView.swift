@@ -20,30 +20,37 @@ struct TestView: View {
     }
 
     var body: some View {
-        VStack {
-            Spacer()
+        ZStack {
+            VStack {
                 getUpperContent(state: model.testState, model: model)
-            Spacer()
-            testButton
-            Spacer()
-            getLowerContent(state: model.testState,model: model)
-            Spacer()
+                    .padding(.top)
+                Spacer()
+            }
+            VStack {
+                Spacer()
+                getLowerContent(state: model.testState, model: model)
+                    .padding(.bottom)
 
+            }
+            VStack {
+                Spacer()
+                testButton
+                Spacer()
+            }
         }
     }
 
     var testButton: some View {
-        Button {
-            withAnimation(.spring) {
-                model.pressTimerButton()
-            }
-        } label: {
             ZStack {
                 buttonBackground
+                    .onTapGesture {
+                        withAnimation {
+                            model.pressTimerButton()
+                        }
+                    }
                 getTestButtonContentView(model.testState, model)
 
             }
-        }
     }
 
     var cornerRadius: Double {
