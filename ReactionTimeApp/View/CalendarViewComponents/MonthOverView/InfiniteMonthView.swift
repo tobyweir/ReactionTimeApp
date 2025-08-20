@@ -70,14 +70,14 @@ struct InfiniteMonthView: View {
 //Downside is alot of unused space, especially on a month like febuary.
 
 struct InfiniteMonthView2: View {
-    var scrollController: UIScrollView = UIScrollView()
-
+    let startDate: Date
     @State var months: [Date] = []
     @State var isInitComplete = false
     var model: Controller
     @Binding var currMonth: Date
 
-    init (monthId currMonth : Binding<Date> , model: Controller) {
+    init (monthId currMonth : Binding<Date> , model: Controller, startDate: Date) {
+        self.startDate = startDate
         self.months = [currMonth.wrappedValue]
         self._currMonth = currMonth
         self.model = model
@@ -104,9 +104,10 @@ struct InfiniteMonthView2: View {
                 }
                 .onAppear {
                     if (isInitComplete == false) {
+                        months = [startDate]
+                        currMonth = startDate
                         expandMonthsUp(by: 6)
                         expandMonthsDown(by: 6)
-                        UIScrollView.appearance().scrollsToTop = false
                         isInitComplete = true
                     }
                 }

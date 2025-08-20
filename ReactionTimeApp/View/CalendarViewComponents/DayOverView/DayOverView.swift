@@ -67,12 +67,6 @@ struct DayOverView: View {
                 .foregroundStyle(foregroundColour)
             Spacer()
         }
-        HStack {
-            Text("Summary")
-                .padding(.horizontal)
-                .font(.system(size: 31))
-            Spacer()
-        }
     }
 
     var infoBlocks: some View {

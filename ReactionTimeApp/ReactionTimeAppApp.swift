@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct ReactionTimeAppApp: App {
+    var scrollController: UIScrollView = UIScrollView()
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    UIScrollView.appearance().scrollsToTop = false
+                }
         }
+
     }
 }

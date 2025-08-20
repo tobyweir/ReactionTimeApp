@@ -53,22 +53,22 @@ struct MonthOfYearView: View {
     let startDate: Date
     @Binding var currYear: Int
     let model: Controller
-
+    
     @Environment(\.colorScheme) var colourScheme
-
+    
     init(currDate: Binding<Date> , startDate: Date, currYear: Binding<Int> , model: Controller) {
         self._currDate = currDate
         self.startDate = startDate
         self._currYear = currYear
         self.model = model
     }
-
+    
     var resultCount : Int {
         model.getResultsIn(month: startDate).count
     }
-
+    
     var body: some View {
-        NavigationLink(isActive: $navIsActive) {
+        NavigationLink {
             MonthOverView(currMonth: $currDate, startDate: startDate, model: model)
         }
         label: {
@@ -77,7 +77,7 @@ struct MonthOfYearView: View {
                     .foregroundStyle(colourScheme == .dark ? .black : .white)
                 Circle()
                     .foregroundStyle(.green)
-
+                
                     .scaleEffect(0.75)
                     .opacity(Result.resultCountToOpacity(resultCount))
                 Text("\(startDate.formatted(Date.FormatStyle().month(.abbreviated)))")
@@ -86,15 +86,8 @@ struct MonthOfYearView: View {
             }
             .aspectRatio(1 , contentMode: .fit)
         }
-        .onChange(of: navIsActive, initial: false) { oldState , newState in
-            if (newState == true) {
-                currDate = startDate
-            }
-        }
     }
-
-
-    }
+}
 
 #Preview {
 //    @Previewable @State var currYear = 2020
