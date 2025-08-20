@@ -28,7 +28,9 @@ struct InfiniteYearView: View {
                     LazyVStack {
                         ForEach (years, id: \.self) { year in
                             YearView(currDate: $currDate , year: year, model: model, currYear: $currYear)
+                                .id(year)
                                 .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
+
                                 .onAppear {
                                     if years[1] == currYear {
                                         expandYearsUp(by: 1)
@@ -41,6 +43,7 @@ struct InfiniteYearView: View {
                     }
                     .scrollTargetLayout()
                 }
+                .scrollPosition(id: Binding($currYear), anchor: .center)
                 .onAppear {
                     if (arrayInitComplete == false) {
                         print("expanding years!")
@@ -49,11 +52,11 @@ struct InfiniteYearView: View {
                         arrayInitComplete = true
                     }
                 }
-                .scrollPosition(id: Binding($currYear), anchor: .center)
-
             }
+            
         }
     }
+
 
     func expandYearsDown(by count: Int) {
         for _ in (0..<count) {

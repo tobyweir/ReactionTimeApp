@@ -73,6 +73,7 @@ struct InfiniteMonthView2: View {
     var scrollController: UIScrollView = UIScrollView()
 
     @State var months: [Date] = []
+    @State var isInitComplete = false
     var model: Controller
     @Binding var currMonth: Date
 
@@ -87,9 +88,9 @@ struct InfiniteMonthView2: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack {
                         ForEach(months, id: \.self) { month in
-                                MonthView(start: month, model: model)
-                            .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
-
+                            MonthView(start: month, model: model)
+                                .id(month)
+                                .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
                             .onAppear {
                                 if months[1] == month {
                                     months.insert(months.first!.getPreviousMonth(), at: 0)
@@ -102,12 +103,29 @@ struct InfiniteMonthView2: View {
                     .scrollTargetLayout()
                 }
                 .onAppear {
-                    expandMonthsUp(by: 6)
-                    expandMonthsDown(by: 6)
-                    UIScrollView.appearance().scrollsToTop = false
+                    if (isInitComplete == false) {
+                        expandMonthsUp(by: 6)
+                        expandMonthsDown(by: 6)
+                        UIScrollView.appearance().scrollsToTop = false
+                        isInitComplete = true
+                    }
                 }
                 .scrollPosition(id: Binding($currMonth), anchor: .center)
 //                .scrollTargetBehavior(.viewAligned)
+                .toolbar {
+                    Button {
+                        let today = Date.createDummyDate(day: 1, month: Date.now.getMonthAsInt(), year: Date.now.getYearAsInt())
+                        if (months.firstIndex(where: {$0 == today}) == nil) {
+                            months = [today]
+                            expandMonthsUp(by: 6)
+                            expandMonthsDown(by: 6)
+                        }
+                        scrollProxy.scrollTo(today)
+                        currMonth = today
+                    } label: {
+                        Text("Today")
+                    }
+                }
 
 
             }
@@ -123,6 +141,20 @@ struct InfiniteMonthView2: View {
     func expandMonthsDown(by count: Int) {
         for _ in (0..<count) {
             months.append(months.last!.getNextMonth())
+        }
+    }
+
+    func expandTill(date: Date) {
+        if date < currMonth {
+            while (months.first! != date) {
+                expandMonthsUp(by: 1)
+            }
+            print(months.first!)
+        } else {
+            while (months.last! != date) {
+                expandMonthsDown(by: 1)
+            }
+            print(months.last!)
         }
     }
 }
