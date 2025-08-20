@@ -86,8 +86,10 @@ struct MonthOfYearView: View {
             }
             .aspectRatio(1 , contentMode: .fit)
         }
-        .onChange(of: navIsActive) {
-            currDate = startDate
+        .onChange(of: navIsActive, initial: false) { oldState , newState in
+            if (newState == true) {
+                currDate = startDate
+            }
         }
     }
 

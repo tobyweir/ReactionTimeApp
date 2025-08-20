@@ -14,7 +14,11 @@ struct YearOverView: View {
     var body: some View {
         NavigationStack {
             InfiniteYearView(currDate: $date , currYear: $currYear, model: model)
-                .navigationTitle(Text("\(String(currYear))"))
+                .aspectRatio(contentMode: .fill)
+                .navigationTitle(Text("\(String(date.getYearAsInt()))"))
+                .onChange(of: currYear, initial: false) {
+                    date = Date.createDummyDate(day: 1, month: 1, year: currYear)
+                }
 //                .toolbar(.hidden , for: .automatic)
         }
         

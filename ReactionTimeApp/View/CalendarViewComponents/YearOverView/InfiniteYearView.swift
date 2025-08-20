@@ -30,7 +30,6 @@ struct InfiniteYearView: View {
                             YearView(currDate: $currDate , year: year, model: model, currYear: $currYear)
                                 .id(year)
                                 .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
-
                                 .onAppear {
                                     if years[1] == currYear {
                                         expandYearsUp(by: 1)
@@ -45,11 +44,24 @@ struct InfiniteYearView: View {
                 }
                 .scrollPosition(id: Binding($currYear), anchor: .center)
                 .onAppear {
+                    scrollProxy.scrollTo(currDate.getYearAsInt())
                     if (arrayInitComplete == false) {
                         print("expanding years!")
-                        expandYearsUp(by: 2000)
-                        expandYearsDown(by: 2000)
+                        expandYearsUp(by: 10)
+                        expandYearsDown(by: 10)
                         arrayInitComplete = true
+                    }
+                }
+                .toolbar {
+                    Button {
+                        let today = Date.now.getYearAsInt()
+                        years = [today]
+                        expandYearsUp(by: 10)
+                        expandYearsDown(by: 10)
+                        scrollProxy.scrollTo(today)
+                        currYear = today
+                    } label: {
+                        Text("Today")
                     }
                 }
             }
@@ -58,7 +70,7 @@ struct InfiniteYearView: View {
     }
 
 
-    func expandYearsDown(by count: Int) {
+    func expandYearsUp(by count: Int) {
         for _ in (0..<count) {
             if (years.first! != 0) {
                 years.insert(years.first! - 1, at: 0)
@@ -66,7 +78,7 @@ struct InfiniteYearView: View {
         }
     }
 
-    func expandYearsUp(by count: Int) {
+    func expandYearsDown(by count: Int) {
         for _ in (0..<count) {
             years.append(years.last! + 1)
         }
