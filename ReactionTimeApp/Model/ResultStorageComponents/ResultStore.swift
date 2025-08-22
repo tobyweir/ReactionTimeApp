@@ -66,10 +66,33 @@ struct ResultStore {
         }
     }
 
+    func getResultsInWeek(start date: Date) -> [Result] {
+        return results.filter { result in
+            let resultDate = result.dateRecorded
+            let endOfWeek = date.getNextWeek()
+            if ((resultDate >= date) && (resultDate <= endOfWeek)) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+
     func getResultsIn(month date: Date) -> [Result] {
         return results.filter { result in
             let resultDate = result.dateRecorded
             if (resultDate.getMonthAsInt() == date.getMonthAsInt() && date.getYearAsInt() == resultDate.getYearAsInt()) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+
+    func getResultsIn(year date: Date) -> [Result] {
+        return results.filter { result in
+            let resultDate = result.dateRecorded
+            if (resultDate.getYearAsInt() == date.getYearAsInt()) {
                 return true
             } else {
                 return false
