@@ -137,6 +137,10 @@ extension Date {
         return Calendar.current.date(byAdding: .year, value: 1, to: self)!
     }
 
+    func getLastYear () -> Date {
+        return Calendar.current.date(byAdding: .year, value: -1, to: self)!
+    }
+
     func getNextWeek () -> Date {
         return Calendar.current.date(byAdding: .day, value: 7, to: self)!
     }

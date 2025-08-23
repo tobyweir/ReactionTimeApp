@@ -11,29 +11,40 @@ import Charts
 
 struct GraphView: View {
     let model: Controller
-    let data = [SimpleData(type: "bird" , count: 2),
-                SimpleData(type: "dog", count: 2),
-                SimpleData(type: "cat", count: 4)]
+    let dataModel: ChartData
+    @State var data: [SimpleResultData] = []
 
-    var maxSimpleData: SimpleData? {
-        data.max {$0.count < $1.count}
+    init(model: Controller) {
+        self.model = model
+        self.dataModel = ChartData(model: model)
     }
 
+    @State var startDate: Date = Date.createDummyDate(day: 1, month: 8, year: 2025)
+    @State var endDate: Date = Date.now
+    @State var stride: ChartDateValues = .month
+    @State var count: Int = 6
+
+
     var body: some View {
+        Text("\(data.count)")
         Chart {
             ForEach(data) { dataPoint in
-                LineMark(x: .value("Type", dataPoint.type),
-                        y: .value("Population", dataPoint.count))
+                BarMark(x: .value("Date", dataPoint.date),
+                         y: .value("Time", dataPoint.value))
             }
         }
+        .chartXScale(domain: Date.createDummyDate(day: 1, month: 1, year: 2024)...Date.createDummyDate(day: 1, month: 1, year: 2026))
         .aspectRatio(1 ,contentMode: .fit)
+        .onAppear {
+            data = dataModel.buildSimpleData(startDate: startDate, dateStride: .month, count: 30, resultType: .min)
+        }
         .padding()
     }
 
 }
 
 struct SimpleData: Identifiable, Equatable {
-    let type: String
+    let date: Date
     let count: Int
     let id = UUID()
 }
