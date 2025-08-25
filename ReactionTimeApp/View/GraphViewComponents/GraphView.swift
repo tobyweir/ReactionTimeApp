@@ -45,12 +45,14 @@ struct GraphView: View {
 
 
     var body: some View {
-        Spacer()
-        dateSelectors
-        chartView
-        dataTypeSelectors
-            .padding(.top)
-        Spacer()
+        VStack{
+            Spacer()
+            dateSelectors
+            chartView
+            dataTypeSelectors
+                .padding(.top)
+            Spacer()
+        }.padding()
     }
 
     var dataTypeSelectors: some View {
@@ -116,7 +118,7 @@ struct GraphView: View {
 
         }
         .chartYAxisLabel("Reaction in ms")
-//        .chartXScale(domain: startDate...endDate)
+        .chartXScale(domain: startDate...endDate)
         .aspectRatio(1 ,contentMode: .fit)
         .padding()
     }

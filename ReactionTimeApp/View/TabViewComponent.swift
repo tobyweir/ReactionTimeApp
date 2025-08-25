@@ -21,7 +21,7 @@ struct TabViewComponent: View {
                 TestView(model: model)
             }
             Tab("Graph", systemImage: "chart.bar.xaxis", value: 2) {
-
+                GraphView(model: model)
             }
             Tab("Profile", systemImage: "person.crop.circle", value: 3) {
 
