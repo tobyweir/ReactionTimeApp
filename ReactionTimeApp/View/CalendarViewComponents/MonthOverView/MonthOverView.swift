@@ -149,6 +149,10 @@ extension Date {
         return Calendar.current.date(byAdding: .day, value: 1, to: self)!
     }
 
+    func getPreviousDay () -> Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self)!
+    }
+
    func getYearAsInt (from date: Date) -> Int {
        let result = date.formatted(Date.FormatStyle().year(.defaultDigits))
        return Int(result)!
