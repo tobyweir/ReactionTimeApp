@@ -154,13 +154,15 @@ struct DayOverView: View {
                     resultItemView(result: result)
                         .listRowBackground(Rectangle().foregroundColor(index % 2 == 0 ? Color(hex: "#000080") : Color(hex: "#E30B5C")).padding(.vertical, 1))
                         .foregroundStyle(.white)
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                model.resultStore.delete(result)
-                            } label: {
-                                Label("Delete", systemImage: "trash.fill")
-                            }
-                        }
+//                        .swipeActions {
+//                            Button(role: .destructive) {
+//                                if (results.count > 1) {
+//                                    model.resultStore.delete(result)
+//                                }
+//                            } label: {
+//                                Label("Delete", systemImage: "trash.fill")
+//                            }
+//                        }
                 }
             }
         }
