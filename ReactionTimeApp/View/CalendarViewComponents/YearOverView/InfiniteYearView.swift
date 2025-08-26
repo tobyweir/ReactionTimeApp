@@ -46,6 +46,7 @@ struct InfiniteYearView: View {
                 .scrollPosition(id: Binding($currYear), anchor: .center)
                 .onAppear {
                     scrollProxy.scrollTo(currDate.getYearAsInt())
+                    wasDayOverViewDisplayed = false
                     if (arrayInitComplete == false) {
                         print("expanding years!")
                         expandYearsUp(by: 10)

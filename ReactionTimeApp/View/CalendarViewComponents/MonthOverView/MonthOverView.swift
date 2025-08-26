@@ -29,7 +29,11 @@ struct MonthOverView: View {
     }
 
     var monthViewAspectRatio : Double {
-        UIDevice.isIPad ? 1/1.65 : 1/2
+        UIDevice.isIPad ? 1/2 : 1/2
+    }
+
+    var montViewContentMode: ContentMode {
+        UIDevice.isIPad ? .fill : .fill
     }
 
     var currMonthString: String {
@@ -45,7 +49,7 @@ struct MonthOverView: View {
             header
                 .scaleEffect(CGSize(width: headerWidth, height: 1.0))
             InfiniteMonthView2(monthId: $currMonth , model: model, startDate: startDate, dayOverViewStatus: $wasdayOverViewDisplayed)
-                .aspectRatio(monthViewAspectRatio, contentMode: .fill)
+                .aspectRatio(monthViewAspectRatio, contentMode: montViewContentMode)
                 .onAppear {
                     isNavTitleAccurate = true
                 }

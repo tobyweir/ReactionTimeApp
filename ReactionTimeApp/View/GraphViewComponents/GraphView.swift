@@ -90,9 +90,12 @@ struct GraphView: View {
     }
 
     var dateSelectors: some View {
-        HStack {
+        HStack (spacing: 0){
+            Spacer()
             startDatePicker
+            Spacer()
             endDatePicker
+            Spacer()
         }
     }
 
