@@ -7,63 +7,63 @@
 
 import SwiftUI
 
-struct InfiniteMonthView: View {
-    @State  var months: [Date]
-    @Binding var monthId: Date
-    let model : Controller
-
-    init (monthId: Binding<Date> , model : Controller ) {
-        self._monthId = monthId
-        self.model = model
-        months = [monthId.wrappedValue]
-    }
-
-    var body: some View {
-            ScrollView (.vertical , showsIndicators: false){
-                LazyVStack {
-                    ForEach (months , id: \.self) { month in
-                        MonthView(start: month, model: model)
-//                            .onAppear {
-//                                if (month == months[1]) {
-//                                    months.insert(months.first!.getPreviousMonth(), at: 0)
-//                                } else if (month == months[months.count - 2]) {
-//                                    months.append(months.last!.getNextMonth())
-//                                }
-//                            }
-                    }
-                }
-                .onAppear(perform: initMonths)
-                .scrollTargetLayout()
-            }
-            .scrollPosition(id: Binding($monthId), anchor: .center)
-            .onChange(of: monthId, initial: false) { oldValue, newValue  in
-                if (newValue == months[1]) {
-                    months.insert(months.first!.getPreviousMonth(), at: 0)
-                } else if (newValue == months[months.count - 2]) {
-                    months.append(months.last!.getNextMonth())
-                }
-
-            }
-    }
-
-    func initMonths () {
-        expandMonthsUp(by: 3)
-        expandMonthsDown(by: 3)
-    }
-
-    func expandMonthsUp(by count: Int) {
-        for _ in (0..<count) {
-            months.insert(months.first!.getPreviousMonth(), at: 0)
-        }
-    }
-
-    func expandMonthsDown(by count: Int) {
-        for _ in (0..<count) {
-            months.append(months.last!.getNextMonth())
-        }
-    }
-
-}
+//struct InfiniteMonthView: View {
+//    @State  var months: [Date]
+//    @Binding var monthId: Date
+//    let model : Controller
+//
+//    init (monthId: Binding<Date> , model : Controller ) {
+//        self._monthId = monthId
+//        self.model = model
+//        months = [monthId.wrappedValue]
+//    }
+//
+//    var body: some View {
+//            ScrollView (.vertical , showsIndicators: false){
+//                LazyVStack {
+//                    ForEach (months , id: \.self) { month in
+//                        MonthView(start: month, model: model, dayOverViewStatus: w)
+////                            .onAppear {
+////                                if (month == months[1]) {
+////                                    months.insert(months.first!.getPreviousMonth(), at: 0)
+////                                } else if (month == months[months.count - 2]) {
+////                                    months.append(months.last!.getNextMonth())
+////                                }
+////                            }
+//                    }
+//                }
+//                .onAppear(perform: initMonths)
+//                .scrollTargetLayout()
+//            }
+//            .scrollPosition(id: Binding($monthId), anchor: .center)
+//            .onChange(of: monthId, initial: false) { oldValue, newValue  in
+//                if (newValue == months[1]) {
+//                    months.insert(months.first!.getPreviousMonth(), at: 0)
+//                } else if (newValue == months[months.count - 2]) {
+//                    months.append(months.last!.getNextMonth())
+//                }
+//
+//            }
+//    }
+//
+//    func initMonths () {
+//        expandMonthsUp(by: 3)
+//        expandMonthsDown(by: 3)
+//    }
+//
+//    func expandMonthsUp(by count: Int) {
+//        for _ in (0..<count) {
+//            months.insert(months.first!.getPreviousMonth(), at: 0)
+//        }
+//    }
+//
+//    func expandMonthsDown(by count: Int) {
+//        for _ in (0..<count) {
+//            months.append(months.last!.getNextMonth())
+//        }
+//    }
+//
+//}
 
 //This second implementation of InfiniteMonthView follows the code found here https://stackoverflow.com/a/78686082
 //This seems to improve performance over my original implementation, not 100 percent sure what makes the difference, I think its to do with LazyVStack handling consistent sizes.
@@ -73,14 +73,16 @@ struct InfiniteMonthView2: View {
     let startDate: Date
     @State var months: [Date] = []
     @State var isInitComplete = false
+    @Binding var wasdayOverViewDisplayed: Bool
     var model: Controller
     @Binding var currMonth: Date
 
-    init (monthId currMonth : Binding<Date> , model: Controller, startDate: Date) {
+    init (monthId currMonth : Binding<Date> , model: Controller, startDate: Date, dayOverViewStatus: Binding<Bool>) {
         self.startDate = startDate
         self.months = [currMonth.wrappedValue]
         self._currMonth = currMonth
         self.model = model
+        self._wasdayOverViewDisplayed = dayOverViewStatus
     }
     var body: some View {
         GeometryReader { geometryProxy in
@@ -88,7 +90,7 @@ struct InfiniteMonthView2: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack {
                         ForEach(months, id: \.self) { month in
-                            MonthView(start: month, model: model)
+                            MonthView(start: month, model: model, dayOverViewStatus: $wasdayOverViewDisplayed)
                                 .id(month)
                                 .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
                             .onAppear {

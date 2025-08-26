@@ -11,6 +11,7 @@ import SwiftUI
 struct MonthOverView: View {
     @Binding var currMonth: Date
     @State var isNavTitleAccurate: Bool = false
+    @Binding var wasdayOverViewDisplayed: Bool
     var startDate: Date
     let model: Controller
     @Environment(\.colorScheme) var colorScheme
@@ -43,14 +44,17 @@ struct MonthOverView: View {
 
             header
                 .scaleEffect(CGSize(width: headerWidth, height: 1.0))
-            InfiniteMonthView2(monthId: $currMonth , model: model, startDate: startDate)
+            InfiniteMonthView2(monthId: $currMonth , model: model, startDate: startDate, dayOverViewStatus: $wasdayOverViewDisplayed)
                 .aspectRatio(monthViewAspectRatio, contentMode: .fill)
                 .onAppear {
                     isNavTitleAccurate = true
                 }
         }
         .onAppear {
-            currMonth = startDate
+            if (wasdayOverViewDisplayed == false) {
+                currMonth = startDate
+            }
+            wasdayOverViewDisplayed = false
         }
         .navigationTitle("\(isNavTitleAccurate == true ? currMonth.formatted(Date.FormatStyle().month(.wide)) : startDate.formatted(Date.FormatStyle().month(.wide)))")
         .navigationBarTitleDisplayMode(.automatic)

@@ -12,6 +12,7 @@ struct DayOverView: View {
     let cornerRadius: CGFloat = 40
     let listColour1: Color = .gray
     let listColour2: Color = .white
+    @Binding var wasdayOverViewDisplayed: Bool
     var foregroundColour: Color {
         .gray.opacity(1)
     }
@@ -50,6 +51,9 @@ struct DayOverView: View {
                 infoBlocks
                     .padding(.vertical)
             }
+        }
+        .onAppear {
+            wasdayOverViewDisplayed = true
         }
         .padding(.horizontal)
     }

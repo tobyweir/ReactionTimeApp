@@ -82,7 +82,6 @@ struct SimpleResultData: Identifiable, Equatable {
     let value: Int
 
     init (type: ResultValueType ,results: [Result], date: Date) {
-        print(results.count)
         self.date = date
         self.type = type
         var tempValue = 1
