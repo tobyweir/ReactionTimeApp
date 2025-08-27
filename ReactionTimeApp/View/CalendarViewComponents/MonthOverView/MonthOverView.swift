@@ -11,6 +11,7 @@ import SwiftUI
 struct MonthOverView: View {
     @Binding var currMonth: Date
     @State var isNavTitleAccurate: Bool = false
+    @Binding var wasdayOverViewDisplayed: Bool
     var startDate: Date
     let model: Controller
     @Environment(\.colorScheme) var colorScheme
@@ -28,7 +29,11 @@ struct MonthOverView: View {
     }
 
     var monthViewAspectRatio : Double {
-        UIDevice.isIPad ? 1/1.65 : 1/2
+        UIDevice.isIPad ? 1/2 : 1/2
+    }
+
+    var montViewContentMode: ContentMode {
+        UIDevice.isIPad ? .fill : .fill
     }
 
     var currMonthString: String {
@@ -43,14 +48,17 @@ struct MonthOverView: View {
 
             header
                 .scaleEffect(CGSize(width: headerWidth, height: 1.0))
-            InfiniteMonthView2(monthId: $currMonth , model: model, startDate: startDate)
-                .aspectRatio(monthViewAspectRatio, contentMode: .fill)
+            InfiniteMonthView2(monthId: $currMonth , model: model, startDate: startDate, dayOverViewStatus: $wasdayOverViewDisplayed)
+                .aspectRatio(monthViewAspectRatio, contentMode: montViewContentMode)
                 .onAppear {
                     isNavTitleAccurate = true
                 }
         }
         .onAppear {
-            currMonth = startDate
+            if (wasdayOverViewDisplayed == false) {
+                currMonth = startDate
+            }
+            wasdayOverViewDisplayed = false
         }
         .navigationTitle("\(isNavTitleAccurate == true ? currMonth.formatted(Date.FormatStyle().month(.wide)) : startDate.formatted(Date.FormatStyle().month(.wide)))")
         .navigationBarTitleDisplayMode(.automatic)
@@ -133,12 +141,24 @@ extension Date {
 
    }
 
+    func getNextYear () -> Date {
+        return Calendar.current.date(byAdding: .year, value: 1, to: self)!
+    }
+
+    func getLastYear () -> Date {
+        return Calendar.current.date(byAdding: .year, value: -1, to: self)!
+    }
+
     func getNextWeek () -> Date {
         return Calendar.current.date(byAdding: .day, value: 7, to: self)!
     }
 
     func getNextDay () -> Date {
         return Calendar.current.date(byAdding: .day, value: 1, to: self)!
+    }
+
+    func getPreviousDay () -> Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self)!
     }
 
    func getYearAsInt (from date: Date) -> Int {

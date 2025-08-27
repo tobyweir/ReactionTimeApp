@@ -12,11 +12,13 @@ struct MonthView: View , Identifiable {
     let start: Date
     let model: Controller
     @State var weekViews: [WeekView]
+    @Binding var wasdayOverViewDisplayed: Bool
 
-    init(start: Date, model: Controller) {
+    init(start: Date, model: Controller, dayOverViewStatus: Binding<Bool>) {
         self.start = start
         self.model = model
-        self.weekViews = MonthView.createWeekViews(start: start, model: model)
+        self.weekViews = MonthView.createWeekViews(start: start, model: model, dayOverViewStatus: dayOverViewStatus)
+        self._wasdayOverViewDisplayed = dayOverViewStatus
     }
 
     var body: some View {
@@ -41,16 +43,16 @@ struct MonthView: View , Identifiable {
         return weekNum
     }
 
-    static func createWeekViews(start: Date , model: Controller) -> [WeekView] {
+    static func createWeekViews(start: Date , model: Controller, dayOverViewStatus: Binding<Bool>) -> [WeekView] {
         let monthDigits = start.formatted(Date.FormatStyle().month(.twoDigits))
-        var result: [WeekView] = [WeekView(start: start, model: model, monthDigits: monthDigits)]
+        var result: [WeekView] = [WeekView(start: start, model: model, monthDigits: monthDigits, dayOverViewStatus: dayOverViewStatus)]
         let currentWeekday = start.formatted(Date.FormatStyle().weekday(.oneDigit))
         let dayDifference: Int = 8 - Int(currentWeekday)!
         let secondWeek = start.addingTimeInterval(UsefulTimeIntervals.day.rawValue * Double (dayDifference) )
         var currDate: Date = secondWeek
 //        let weekNum = calculateWeekNum(for: secondWeek)
         for _ in 0..<5{
-            result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits))
+            result.append(WeekView(start: currDate, model: model, monthDigits: monthDigits, dayOverViewStatus: dayOverViewStatus))
             currDate = currDate.getNextWeek()
         }
         return result

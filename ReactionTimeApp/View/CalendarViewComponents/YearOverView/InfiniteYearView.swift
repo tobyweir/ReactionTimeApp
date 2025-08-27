@@ -11,6 +11,7 @@ struct InfiniteYearView: View {
     @Binding var currDate: Date
     @State var arrayInitComplete = false
     @State var years: [Int]
+    @State var wasDayOverViewDisplayed = false
     @Binding var currYear: Int
     let model: Controller
 
@@ -27,7 +28,7 @@ struct InfiniteYearView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack {
                         ForEach (years, id: \.self) { year in
-                            YearView(currDate: $currDate , year: year, model: model, currYear: $currYear)
+                            YearView(currDate: $currDate , year: year, model: model, currYear: $currYear, dayOverViewStatus: $wasDayOverViewDisplayed)
                                 .id(year)
                                 .frame(width: geometryProxy.size.width, height: geometryProxy.size.height)
                                 .onAppear {
@@ -45,6 +46,7 @@ struct InfiniteYearView: View {
                 .scrollPosition(id: Binding($currYear), anchor: .center)
                 .onAppear {
                     scrollProxy.scrollTo(currDate.getYearAsInt())
+                    wasDayOverViewDisplayed = false
                     if (arrayInitComplete == false) {
                         print("expanding years!")
                         expandYearsUp(by: 10)
