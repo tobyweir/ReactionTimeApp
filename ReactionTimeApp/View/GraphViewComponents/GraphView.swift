@@ -14,7 +14,7 @@ struct GraphView: View {
     let dataModel: ChartData
 //    @State var totalData: [(type: ResultValueType, data: [SimpleResultData])] = []
     @State var endDate: Date = Date.now
-    @State var startDate : Date = Date.createDummyDate(day: 1, month: 1, year: Date.now.getYearAsInt() - 1)
+    @State var startDate : Date = Date.now.getPreviousMonth()
 
 
     var finalData: [(type: ResultValueType, data: [SimpleResultData])] {
@@ -91,11 +91,13 @@ struct GraphView: View {
 
     var dateSelectors: some View {
         HStack (spacing: 0){
-            Spacer()
+            Spacer().frame(maxWidth: .infinity)
             startDatePicker
+//                .frame(maxWidth: 200)
             Spacer()
             endDatePicker
-            Spacer()
+//                .frame(maxWidth: 200)
+            Spacer().frame(maxWidth: .infinity)
         }
     }
 
