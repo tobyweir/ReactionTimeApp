@@ -13,8 +13,8 @@ struct DayOverView2: View {
     }
 
     var dataBox: some View {
-        GroupBox {
-
+        GroupBox(label: Label("Mean result" , systemImage: "brain.head.profile.fill")) {
+            
         }
     }
 
