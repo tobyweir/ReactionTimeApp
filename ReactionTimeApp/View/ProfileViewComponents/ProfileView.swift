@@ -13,10 +13,14 @@ struct ProfileView: View {
 
     var body: some View {
         VStack {
-            editButton
+            HStack {
+                Spacer()
+                editButton
+                    .padding(.horizontal , 25)
+            }
             profilePictureView
             profileUsernameView
-            acountStatsView
+            acountStatsList
         }
         .sheet(isPresented: $showEditSheet) {
             ProfileEditorView()
@@ -35,9 +39,12 @@ struct ProfileView: View {
     var profilePictureView: some View {
         HStack {
             Spacer()
-            Color.blue
-                .frame(maxWidth: 200, maxHeight: 200)
-                .aspectRatio(1 , contentMode: .fit)
+            ZStack{
+                Color.gray
+                    .frame(maxWidth: 200, maxHeight: 200)
+                    .aspectRatio(1 , contentMode: .fit)
+                Text("?").bold().font(.title)
+            }
             Spacer()
         }
     }
@@ -79,6 +86,28 @@ struct ProfileView: View {
                 Spacer()
             }
         }
+    }
+
+    var acountStatsList: some View {
+        List {
+            Section(header: Text("Acount Statistics").font(.title).bold()) {
+            }
+            Section(header: Text("Average Reaction Time"), footer: Text("The mean of all results recorded on the app")) {
+                Text("\(ChartData.calcMean(on: model.resultStore.results))ms")
+            }
+            Section(header: Text("Best Result"), footer: Text("The fastest reaction recorded on the app")) {
+                if (model.resultStore.results.count > 1) {
+                    Text("\(Int( model.resultStore.results.min(by: {$0.time < $1.time})!.time * 1000 ))ms")
+                } else {
+                    Text("~")
+                }
+            }
+            Section(header: Text("Result Count"), footer: Text("Total count of all results recorded on the app")) {
+                Text("\(model.resultStore.results.count)")
+            }
+        }
+        .scrollDisabled(true)
+        .listStyle(.grouped)
     }
 }
 
