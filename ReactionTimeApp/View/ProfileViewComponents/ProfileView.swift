@@ -93,7 +93,11 @@ struct ProfileView: View {
             Section(header: Text("Acount Statistics").font(.title).bold()) {
             }
             Section(header: Text("Average Reaction Time"), footer: Text("The mean of all results recorded on the app")) {
-                Text("\(ChartData.calcMean(on: model.resultStore.results))ms")
+                if (model.resultStore.results.count > 1) {
+                    Text("\(ChartData.calcMean(on: model.resultStore.results))ms")
+                } else {
+                    Text("~")
+                }
             }
             Section(header: Text("Best Result"), footer: Text("The fastest reaction recorded on the app")) {
                 if (model.resultStore.results.count > 1) {
