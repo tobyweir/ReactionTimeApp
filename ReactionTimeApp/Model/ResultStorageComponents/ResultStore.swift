@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUICore
+import UIKit
 
 //Object that mangages the apps Results,
 //Will load old results from file system when app is opened
@@ -19,6 +21,12 @@ struct ResultStore {
         }
     }
     let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResultsStore")
+
+    let storageImagePath: URL =
+    URL.documentsDirectory.appending(path: "ReactionResultsImage")
+
+    let storageUsernamePath: URL =
+    URL.documentsDirectory.appending(path: "ReactionResultsUsername")
 
     init () {
         var resultsFromFile: [Result] = []
@@ -121,5 +129,28 @@ struct ResultStore {
             print("Error saving results to file system: \(error)")
         }
     }
-	
+
+    @MainActor func saveImageToFile (image: Image) {
+        do {
+            let uiImage = ImageRenderer(content: image).uiImage?.pngData()
+
+            try uiImage?.write(to: storageImagePath)
+            print("trying to save image")
+        } catch {
+            print("Error saving results to file system: \(error)")
+        }
+    }
+
+    func loadImageFromFile () -> Image? {
+        do {
+            let data = try Data(contentsOf: storageImagePath)
+            guard let uiImage = UIImage(data: data as Data) else { return nil }
+            print("trying to load image")
+            return Image(uiImage: uiImage)
+        } catch {
+            print("Error loading results from file system: \(error)")
+        }
+        return nil
+    }
+
 }

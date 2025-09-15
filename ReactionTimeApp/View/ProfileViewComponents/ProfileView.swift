@@ -6,11 +6,18 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileView: View {
     let model: Controller
     @State var showEditSheet: Bool = false
+    @State var image: Image?
+    @State var username: String = ""
 
+    init (model: Controller) {
+        self.model = model
+        self.image = model.resultStore.loadImageFromFile()
+    }
     var body: some View {
         VStack {
             HStack {
@@ -18,12 +25,17 @@ struct ProfileView: View {
                 editButton
                     .padding(.horizontal , 25)
             }
-            profilePictureView
+            ZStack {
+                profilePictureView
+                image?
+                    .resizable()
+                    .frame(width: 200, height: 200)
+            }
             profileUsernameView
             acountStatsList
         }
         .sheet(isPresented: $showEditSheet) {
-            ProfileEditorView()
+            ProfileEditorView(model: model, avatarImage: $image, username: $username)
         }
 
     }
@@ -52,7 +64,7 @@ struct ProfileView: View {
     var profileUsernameView: some View {
         HStack {
             Spacer()
-            Text("Username")
+            Text("\(username == "" ? "Username" : username)")
             Spacer()
         }
     }
