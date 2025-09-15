@@ -34,9 +34,13 @@ struct ProfileView: View {
             profileUsernameView
             acountStatsList
         }
+        .onAppear {
+            image = model.resultStore.loadImageFromFile()
+        }
         .sheet(isPresented: $showEditSheet) {
             ProfileEditorView(model: model, avatarImage: $image, username: $username)
         }
+
 
     }
 

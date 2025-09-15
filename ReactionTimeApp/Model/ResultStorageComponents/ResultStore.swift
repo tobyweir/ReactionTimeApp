@@ -132,10 +132,8 @@ struct ResultStore {
 
     @MainActor func saveImageToFile (image: Image) {
         do {
-            let uiImage = ImageRenderer(content: image).uiImage?.pngData()
-
-            try uiImage?.write(to: storageImagePath)
-            print("trying to save image")
+            let uiImageData = ImageRenderer(content: image).uiImage?.jpegData(compressionQuality: 1.0)
+            try uiImageData?.write(to: storageImagePath)
         } catch {
             print("Error saving results to file system: \(error)")
         }
@@ -144,13 +142,13 @@ struct ResultStore {
     func loadImageFromFile () -> Image? {
         do {
             let data = try Data(contentsOf: storageImagePath)
-            guard let uiImage = UIImage(data: data as Data) else { return nil }
-            print("trying to load image")
+            guard let uiImage = UIImage(data: data) else { return nil }
             return Image(uiImage: uiImage)
         } catch {
             print("Error loading results from file system: \(error)")
         }
         return nil
+
     }
 
 }
