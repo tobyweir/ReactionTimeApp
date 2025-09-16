@@ -57,12 +57,6 @@ struct ResultStore {
 
     //Returning selections of filtered results
 
-    func getResults(between date: Date , and date2: Date) -> [Result] {
-        //Not implemented
-        //
-        []
-    }
-
     func getResults(on date: Date) -> [Result] {
         return results.filter { result in
             let resultDate = result.dateRecorded
