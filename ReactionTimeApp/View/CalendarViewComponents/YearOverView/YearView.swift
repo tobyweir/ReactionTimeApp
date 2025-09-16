@@ -81,8 +81,7 @@ struct MonthOfYearView: View {
                     .foregroundStyle(colourScheme == .dark ? .black : .white)
                 Circle()
                     .foregroundStyle(.green)
-                
-                    .scaleEffect(0.75)
+                    .scaleEffect(0.5)
                     .opacity(Result.resultCountToOpacity(resultCount))
                 Text("\(startDate.formatted(Date.FormatStyle().month(.abbreviated)))")
                     .font(.system(size: 20))

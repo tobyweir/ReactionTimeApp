@@ -13,10 +13,41 @@ struct DayOverView: View {
     let listColour1: Color = .gray
     let listColour2: Color = .white
     @Binding var wasdayOverViewDisplayed: Bool
+    @Environment(\.colorScheme) var colorScheme
     var foregroundColour: Color {
         .gray.opacity(1)
     }
 
+    var labelColour: Color {
+        .red
+    }
+    var gradient: MeshGradient {
+        if colorScheme != .dark {
+            MeshGradient(width: 3, height: 2, points: [
+                .init(0, 0), .init(0.5, 0), .init(1, 0),
+                .init(0, 1), .init (0.5, 1), .init(1, 1)
+            ], colors: [
+                .white, .blue.opacity(0.3), .blue,
+                .white, .blue.opacity(0.3), .blue,
+            ])
+        } else {
+            MeshGradient(width: 3, height: 2, points: [
+                .init(0, 0), .init(0.5, 0), .init(1, 0),
+                .init(0, 1), .init (0.5, 1), .init(1, 1)
+            ], colors: [
+                .black, .blue.opacity(0.3), .blue,
+                .black, .blue.opacity(0.3), .blue,
+            ])
+        }
+    }
+
+    var boxBackgroundColour: Color {
+        .gray
+    }
+
+    var boxTextColour: Color {
+        .black
+    }
     var backgroundColour: Color {
         .red.opacity(1)
     }
@@ -52,6 +83,7 @@ struct DayOverView: View {
                     .padding(.vertical)
             }
         }
+        .background(gradient.aspectRatio(contentMode: .fill).ignoresSafeArea())
         .onAppear {
             wasdayOverViewDisplayed = true
         }
@@ -77,22 +109,17 @@ struct DayOverView: View {
         GeometryReader { proxy in
                 VStack {
                     HStack {
-                        dayAverageBlock
-                            .frame(width: proxy.size.width * 0.55)
-                        resultCountBlock
-                            .frame(width: proxy.size.width * 0.45)
+                        dataBox
+                        countBox
                     }
                     HStack {
-                        animalGradeBlock
-                            .frame(width: proxy.size.width * 0.25)
-                        bestResultOfTheDayBlock
-                            .frame(width: proxy.size.width * 0.75)
+                        dataBox2
                     }
+                    animalGradeBox
                     HStack {
-                        scrollableResultsBlock
-                            .frame(width: proxy.size.width, height: proxy.size.height *  0.4)
+                        resultsBox
                     }
-                }
+                }.backgroundStyle(Material.thin)
         }
     }
 
@@ -228,7 +255,7 @@ struct DayOverView: View {
                     Spacer()
                 }
                 Spacer()
-                Text("\(Int( (bestResult ?? 0.0) * 1000) )ms")
+                Text("\(Int((bestResult ?? 1) * 1000))ms")
                     .foregroundStyle(.white)
                     .font(.system(size: 30, weight: .bold, design: .rounded))
                 Spacer()
@@ -242,6 +269,53 @@ struct DayOverView: View {
             count += result.time
         }
         return count / Double(results.count)
+    }
+
+    var dataBox: some View {
+        GroupBox(label: Label("Mean Result" , systemImage: "brain.head.profile.fill").foregroundStyle(.red)) {
+            Text("\(Int(resultAverage * 1000))ms")
+                .font(.title)
+//                .foregroundStyle(boxTextColour)
+        }
+    }
+
+    var countBox: some View {
+        GroupBox(label: Label("Result Count", systemImage: "square.stack.3d.down.right").foregroundStyle(.blue)) {
+            Text("\(results.count)")
+                .font(.title)
+//                .foregroundStyle(boxTextColour)
+
+        }
+    }
+
+    var animalGradeBox: some View {
+        GroupBox (label: Label("Grade", systemImage: "hare.fill").foregroundStyle(.green)){
+            Text("\(Result.getAnimalGrade(for: resultAverage  ))")
+                .font(.title)
+
+        }
+    }
+
+    var resultsBox: some View {
+        GroupBox (label: Label("Results" , systemImage: "list.bullet.clipboard.fill").foregroundStyle(.purple)) {
+            List {
+                Section (header: HStack {Text("Result").foregroundStyle(colorScheme == .dark ? .white : .black); Spacer(); Text("Date Recorded").foregroundStyle(colorScheme == .dark ? .white : .black)}){
+                    ForEach(Array(results.enumerated()), id: \.offset) { index , result in
+                        resultItemView(result: result)
+//                            .listRowBackground(Rectangle().foregroundColor(index % 2 == 0 ? Color(hex: "#2C4C3B") : Color(hex: "#306844")).padding(.vertical, 1))
+//                            .foregroundStyle(.white)
+                    }
+                }
+            }.scrollContentBackground(.hidden)
+
+        }
+    }
+
+    var dataBox2: some View {
+        GroupBox (label: Label("Best Result" , systemImage: "trophy.fill").foregroundStyle(.yellow)){
+            Text("\(Int((bestResult ?? 0.0) * 1000))ms")
+                .font(.title)
+        }
     }
 
 }

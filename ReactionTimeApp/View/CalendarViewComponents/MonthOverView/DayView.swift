@@ -45,6 +45,10 @@ struct DayView: View , Identifiable {
         }
     }
 
+    var resultViewOpacity: Double {
+        Result.resultCountToOpacity(results.count)
+    }
+
     var foregroundColour: Color {
         if isWeekend == true {
             Color.gray
@@ -100,7 +104,7 @@ struct DayView: View , Identifiable {
         Circle()
             .aspectRatio(contentMode: .fit)
             .foregroundStyle(resultViewColor)
-            .opacity(Result.resultCountToOpacity(results.count))
+            .opacity(resultViewOpacity)
             .scaleEffect(CGSize(width: 0.75, height: 0.75), anchor: .center)
     }
 

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUICore
+import UIKit
 
 //Object that mangages the apps Results,
 //Will load old results from file system when app is opened
@@ -19,6 +21,12 @@ struct ResultStore {
         }
     }
     let storageFilePath: URL = URL.documentsDirectory.appending(path: "ReactionResultsStore")
+
+    let storageImagePath: URL =
+    URL.documentsDirectory.appending(path: "ReactionResultsImage")
+
+    let storageUsernamePath: URL =
+    URL.documentsDirectory.appending(path: "ReactionResultsUsername")
 
     init () {
         var resultsFromFile: [Result] = []
@@ -48,12 +56,6 @@ struct ResultStore {
     }
 
     //Returning selections of filtered results
-
-    func getResults(between date: Date , and date2: Date) -> [Result] {
-        //Not implemented
-        //
-        []
-    }
 
     func getResults(on date: Date) -> [Result] {
         return results.filter { result in
@@ -121,5 +123,46 @@ struct ResultStore {
             print("Error saving results to file system: \(error)")
         }
     }
-	
+
+    func saveUsernameToFile (username: String) {
+        do {
+            let data = try JSONEncoder().encode(username)
+            try data.write(to: storageUsernamePath)
+        } catch {
+            print("Error saving results to file system: \(error)")
+        }
+    }
+
+    func loadUsernameToFile () -> String {
+        do {
+            let data = try Data(contentsOf: storageUsernamePath)
+            let username = try JSONDecoder().decode(String.self, from: data)
+            return username
+        } catch {
+            print("Error saving results to file system: \(error)")
+            return ""
+        }
+    }
+
+    @MainActor func saveImageToFile (image: Image) {
+        do {
+            let uiImageData = ImageRenderer(content: image).uiImage?.jpegData(compressionQuality: 1.0)
+            try uiImageData?.write(to: storageImagePath)
+        } catch {
+            print("Error saving results to file system: \(error)")
+        }
+    }
+
+    func loadImageFromFile () -> Image? {
+        do {
+            let data = try Data(contentsOf: storageImagePath)
+            guard let uiImage = UIImage(data: data) else { return nil }
+            return Image(uiImage: uiImage)
+        } catch {
+            print("Error loading results from file system: \(error)")
+        }
+        return nil
+
+    }
+
 }

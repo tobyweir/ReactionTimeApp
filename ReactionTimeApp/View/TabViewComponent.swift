@@ -24,7 +24,7 @@ struct TabViewComponent: View {
                 GraphView(model: model)
             }
             Tab("Profile", systemImage: "person.crop.circle", value: 3) {
-
+                ProfileView(model: model)
             }
         }
         .tint(tabSelectionColor)

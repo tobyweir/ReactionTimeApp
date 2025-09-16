@@ -10,11 +10,14 @@ import Charts
 struct ChartData {
     let model: Controller
 
+    var totalResults: [Result] {
+        model.resultStore.results
+    }
     func getResultData(type: ResultValueType, from startDate: Date, to endDate: Date = Date.now) -> [SimpleResultData] {
         var data: [SimpleResultData] = []
         var resultDictionary: [String : [Result]] = [:]
-        for result in model.resultStore.results {
-            if (result.dateRecorded > startDate && result.dateRecorded < endDate) {
+        for result in totalResults {
+            if (result.dateRecorded >= startDate && result.dateRecorded < endDate) {
                 let resultDateString = result.dateRecorded.formatted(Date.FormatStyle().day().month().year())
                 resultDictionary[resultDateString] = (resultDictionary[resultDateString] ?? []) + [result]
             }
@@ -29,19 +32,6 @@ struct ChartData {
 
         }
         return data.sorted(by: {$0.date < $1.date})
-    }
-
-    func addFakeData() {
-        for _ in 0..<Int.random(in: 10..<50) {
-            let day = Int.random(in: 1..<28)
-            let month = Int.random(in: 1..<13)
-            let year = Int.random(in: 2000..<2025)
-            let date = Date.createDummyDate(day: day, month: month, year: year)
-            for _ in 10..<25 {
-                let time = Double.random(in: 0.150..<0.500)
-                model.resultStore.add(Result(time: time, dateRecorded: date))
-            }
-        }
     }
 
     static func calcMean(on results: [Result]) -> Int {

@@ -43,11 +43,11 @@ struct Result: Codable, Identifiable {
     //for use in view elements to communicate how many results took place on that day/month without using a number
     static func resultCountToOpacity (_ resultCount: Int) -> Double {
         switch (resultCount) {
-        case _ where resultCount < 10:
+        case _ where resultCount < 1:
             0
-        case _ where resultCount < 20:
+        case _ where resultCount < 10:
             0.35
-        case _ where resultCount < 40:
+        case _ where resultCount < 20:
             0.7
         default:
             1

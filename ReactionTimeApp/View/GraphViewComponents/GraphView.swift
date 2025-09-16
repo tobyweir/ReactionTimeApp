@@ -13,11 +13,12 @@ struct GraphView: View {
     let model: Controller
     let dataModel: ChartData
 //    @State var totalData: [(type: ResultValueType, data: [SimpleResultData])] = []
-    @State var endDate: Date = Date.now
-    @State var startDate : Date = Date.createDummyDate(day: 1, month: 1, year: Date.now.getYearAsInt() - 1)
+    @State var endDate: Date = Date.now.getNextDay()
+    @State var startDate : Date = Date.now.getPreviousMonth()
 
+    @State var finalData: [(type: ResultValueType, data: [SimpleResultData])] = []
 
-    var finalData: [(type: ResultValueType, data: [SimpleResultData])] {
+    func getFinalData () -> [(type: ResultValueType, data: [SimpleResultData])] {
         var totalData: [(type: ResultValueType, data: [SimpleResultData])] = []
         totalData.append((.mean , dataModel.getResultData(type: .mean, from: startDate, to: endDate)))
         totalData.append((.mode , dataModel.getResultData(type: .mode, from: startDate, to: endDate)))
@@ -49,6 +50,15 @@ struct GraphView: View {
             Spacer()
             dateSelectors
             chartView
+                .onAppear {
+                    finalData = getFinalData()
+                }
+                .onChange(of: startDate) {
+                    finalData = getFinalData()
+                }
+                .onChange(of: endDate) {
+                    finalData = getFinalData()
+                }
             dataTypeSelectors
                 .padding(.top)
             Spacer()
@@ -91,11 +101,12 @@ struct GraphView: View {
 
     var dateSelectors: some View {
         HStack (spacing: 0){
-            Spacer()
+
             startDatePicker
+//                .frame(maxWidth: 200)
             Spacer()
             endDatePicker
-            Spacer()
+//                .frame(maxWidth: 200)
         }
     }
 
@@ -105,7 +116,7 @@ struct GraphView: View {
     }
 
     var endDatePicker: some View {
-        let closedDateRange = startDate.getNextDay()...Date.now
+        let closedDateRange = startDate.getNextDay()...Date.now.getNextDay()
         return DatePicker ("To:", selection: $endDate,in: closedDateRange, displayedComponents: [.date])
     }
 
