@@ -13,10 +13,10 @@ struct ProfileView: View {
     @State var showEditSheet: Bool = false
     @State var image: Image?
     @State var username: String = ""
+    @Environment(\.colorScheme) var colorScheme
 
     init (model: Controller) {
         self.model = model
-        self.image = model.resultStore.loadImageFromFile()
     }
     var body: some View {
         VStack {
@@ -36,6 +36,7 @@ struct ProfileView: View {
         }
         .onAppear {
             image = model.resultStore.loadImageFromFile()
+            username = model.resultStore.loadUsernameToFile()
         }
         .sheet(isPresented: $showEditSheet) {
             ProfileEditorView(model: model, avatarImage: $image, username: $username)
@@ -69,6 +70,7 @@ struct ProfileView: View {
         HStack {
             Spacer()
             Text("\(username == "" ? "Username" : username)")
+                .foregroundStyle(username == "" ? .gray : colorScheme == .dark ? .white : .black)
             Spacer()
         }
     }

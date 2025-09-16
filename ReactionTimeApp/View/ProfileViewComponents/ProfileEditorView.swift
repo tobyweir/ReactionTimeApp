@@ -56,6 +56,9 @@ struct ProfileEditorView: View {
             .formStyle(.automatic)
 
                 }
+        .onChange(of: username) {
+            model.resultStore.saveUsernameToFile(username: username)
+        }
         .onChange(of: avatarItem) {
             Task {
                 if let loaded = try? await avatarItem?.loadTransferable(type: Image.self) {

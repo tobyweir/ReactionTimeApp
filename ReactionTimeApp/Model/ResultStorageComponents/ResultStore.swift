@@ -130,6 +130,26 @@ struct ResultStore {
         }
     }
 
+    func saveUsernameToFile (username: String) {
+        do {
+            let data = try JSONEncoder().encode(username)
+            try data.write(to: storageUsernamePath)
+        } catch {
+            print("Error saving results to file system: \(error)")
+        }
+    }
+
+    func loadUsernameToFile () -> String {
+        do {
+            let data = try Data(contentsOf: storageUsernamePath)
+            let username = try JSONDecoder().decode(String.self, from: data)
+            return username
+        } catch {
+            print("Error saving results to file system: \(error)")
+            return ""
+        }
+    }
+
     @MainActor func saveImageToFile (image: Image) {
         do {
             let uiImageData = ImageRenderer(content: image).uiImage?.jpegData(compressionQuality: 1.0)
