@@ -41,10 +41,13 @@ struct ProfileEditorView: View {
                         displayPhotosPicker = true
                     }
                 avatarImage?
-
                     .resizable()
-            }
                     .frame(width: 200, height: 200)
+                    .onTapGesture {
+                        displayPhotosPicker = true
+                    }
+
+            }
             Form {
                 Section {
                     TextField("Username" , text: $username)
