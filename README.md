@@ -19,9 +19,9 @@ A session is five taps: wait for the screen to change, tap as fast as you can, a
 - **Five-attempt test sessions** with a randomised wait (0.4–7.0s) before each prompt, so the timing can't be anticipated.
 - **False start detection** — tapping before the prompt appears voids the attempt and restarts it, keeping the results already banked in that session.
 - **Session average** calculated at the end of the five attempts, with the option to save the whole session to your history.
-- **Animal grading** — each time maps to an animal from a housefly down to a rock, as a quicker read than a number.
-- **Calendar history** that drills from year, to month, to a single day's results, with day and month cells shaded by how many attempts were recorded.
-- **Graph view** over a chosen date range, plotting mean, mode, median, max and min as individually toggleable series.
+- **Animal grading** — each time maps to an animal from a housefly down to a rock.
+- **Calendar history** that goes from year, to month, to a single day's results, with day and month cells shaded by how many attempts were recorded.
+- **Graph view** over a chosen date range, plotting mean, mode, median, max and min as individually toggle-able series.
 - **Local profile** — username and profile image stored on device.
 
 ## How the timing works
@@ -87,14 +87,3 @@ open ReactionTimeApp.xcodeproj
 Select a simulator or a connected device and run. There are no third-party dependencies and no configuration to set up.
 
 For real measurements, run on a device rather than the simulator — simulator input latency is not representative.
-
-## Roadmap
-
-- Custom date range filtering on the graph view (`getResults(between:and:)` is stubbed)
-- Configurable session length, currently fixed at five attempts
-- Export of results to CSV
-- Unit test coverage for the session state machine and the store's filtering
-
-## Author
-
-Built by [Toby Weir](https://github.com/tobyweir).
