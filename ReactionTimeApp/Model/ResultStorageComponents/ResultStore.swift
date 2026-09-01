@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 import UIKit
 
 //Object that mangages the apps Results,
